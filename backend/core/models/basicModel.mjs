@@ -8,6 +8,8 @@ async function getGroqChatCompletion(msg) {
         content: msg,
       },
     ],
+
+    temperature: 0.1,
     model: "llama3-8b-8192",
   });
 }
