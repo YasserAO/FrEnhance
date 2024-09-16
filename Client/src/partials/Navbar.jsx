@@ -4,9 +4,20 @@ import SignIn from "./Buttons/singIn";
 import SignUp from "./Buttons/singUp";
 import LogoutButton from "./Buttons/logout";
 
-const NavBar = ({ isLogged = false }) => {
+const NavBar = ({ isLogged = true, auth }) => {
   const [toggleMenu, setToggleMenu] = useState(false);
-  return (
+  const navigation = auth ? (
+    <header className="relative flex h-[60px] w-full flex-wrap content-center justify-between bg-sky-400 sm:px-3 md:px-[10%]">
+      <div
+        onClick={() => {
+          window.location.href = "/";
+        }}
+        className="h-fit w-fit cursor-pointer select-none rounded-3xl bg-white px-2 py-1 font-semibold"
+      >
+        FrenchEnhance
+      </div>
+    </header>
+  ) : (
     <header className="relative flex h-[60px] w-full flex-wrap content-center justify-between bg-sky-400 sm:px-3 md:px-[10%]">
       <div
         onClick={() => {
@@ -76,59 +87,63 @@ const NavBar = ({ isLogged = false }) => {
           className={`block h-[2px] w-7 bg-white ${toggleMenu && `-translate-y-[6px] -rotate-45`} transition-all duration-200`}
         ></span>
       </div>
+
+      {/* Mobile Navigation Menu */}
+
       <AnimatePresence>
         {toggleMenu && (
-          <motion.ul
+          <motion.div
             initial={{ width: 0 }}
             animate={{ width: `100%` }}
             exit={{ width: 0 }}
-            className={`b absolute right-0 flex h-screen w-full max-w-[300px] flex-col overflow-hidden bg-[#f1f6f736] pt-[60px] sm:hidden`}
+            className={`b absolute right-0 flex h-screen w-full max-w-[300px] flex-col overflow-hidden bg-slate-800 pt-[60px] sm:hidden`}
           >
-            <div className="flex h-12 justify-between bg-slate-600 px-10">
-              <div className="h-10 w-10 rounded-full bg-white"></div>
-              <div className="flex content-center gap-2">
-                <div
-                  onClick={() => {
-                    setToggleMenu((prev) => !prev);
-                  }}
-                  className="w-fit rounded-md bg-green-200 px-2 py-1 text-gray-900"
-                >
-                  Login
+            {isLogged ? (
+              <div className="flex h-12 items-center justify-between px-10">
+                <div className="flex items-center gap-1">
+                  <div className="h-8 w-8 rounded-full bg-gray-300"></div>
+                  <p className="text-white">Username</p>
                 </div>
-                <div className="w-fit rounded-md bg-green-200 px-2 py-1 text-gray-900">
-                  Register
-                </div>
+                <LogoutButton></LogoutButton>
               </div>
-            </div>
-            <li
-              className="h-11 bg-sky-500 text-xl"
-              onClick={() => {
-                window.location.href = "/";
-              }}
-            >
-              Home
-            </li>
-            <li
-              className="h-11 bg-sky-500 text-xl"
-              onClick={() => {
-                window.location.href = "/";
-              }}
-            >
-              Dashboard
-            </li>
-            <li
-              className="h-11 bg-sky-500 text-xl"
-              onClick={() => {
-                window.location.href = "/";
-              }}
-            >
-              Generate
-            </li>
-          </motion.ul>
+            ) : (
+              <div className="flex h-12 items-center justify-center gap-4 bg-slate-600 px-10">
+                <SignIn></SignIn>
+                <SignUp></SignUp>
+              </div>
+            )}
+            <ul className="flex h-full flex-col gap-4 px-5 py-10 text-xl text-white">
+              <li
+                className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
+                onClick={() => {
+                  window.location.href = "/";
+                }}
+              >
+                Home
+              </li>
+              <li
+                className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
+                onClick={() => {
+                  window.location.href = "/dashboard";
+                }}
+              >
+                Dashboard
+              </li>
+              <li
+                className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
+                onClick={() => {
+                  window.location.href = "/generate";
+                }}
+              >
+                Generate
+              </li>
+            </ul>
+          </motion.div>
         )}
       </AnimatePresence>
     </header>
   );
+  return navigation;
 };
 
 export default NavBar;

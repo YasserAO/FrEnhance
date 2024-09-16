@@ -1,5 +1,11 @@
+import NavBar from "../partials/Navbar";
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return (
+    <>
+      <NavBar></NavBar>
+      <div>DashBord</div>
+    </>
+  );
 };
 
 export default Dashboard;
