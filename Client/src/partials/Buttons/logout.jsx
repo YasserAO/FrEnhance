@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IoIosLogOut } from "react-icons/io";
 
 export default function LogoutButton() {
   const [loading, setLoading] = useState(false);
@@ -28,9 +29,9 @@ export default function LogoutButton() {
       onClick={() => {
         handleLogout();
       }}
-      className={`rounded-md bg-red-500 px-2 py-1 text-white transition-all duration-150 hover:scale-105 active:bg-red-900 disabled:bg-red-100`}
+      className={`rounded-md bg-red-500 px-3 py-2 text-white transition-all duration-150 hover:bg-red-600 active:bg-red-900 disabled:bg-red-200`}
     >
-      {loading ? `Loginout...` : `Logout`}
+      <IoIosLogOut />
     </button>
   );
 }

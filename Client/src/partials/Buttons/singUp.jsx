@@ -4,12 +4,12 @@ export default function SignUp() {
   };
   return (
     <button
-      className={`rounded-md bg-gray-400 px-2 py-1 font-semibold`}
+      className={`rounded-md bg-sky-100 px-2 py-1 font-semibold text-gray-600`}
       onClick={() => {
         handleSignUp();
       }}
     >
-      SignUp
+      Register
     </button>
   );
 }

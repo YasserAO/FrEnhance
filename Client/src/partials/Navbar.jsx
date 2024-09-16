@@ -3,11 +3,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import SignIn from "./Buttons/singIn";
 import SignUp from "./Buttons/singUp";
 import LogoutButton from "./Buttons/logout";
+import LogoAvatar from "./Buttons/LogoAvatar";
 
-const NavBar = ({ isLogged = true, auth }) => {
+const NavBar = ({ isLogged, auth }) => {
+  const [UserForm, setUserForm] = useState({
+    username: "Krenix",
+    user: "Yasser AO",
+    email: "email@gm.co",
+  });
   const [toggleMenu, setToggleMenu] = useState(false);
   const navigation = auth ? (
-    <header className="relative flex h-[60px] w-full flex-wrap content-center justify-between bg-sky-400 sm:px-3 md:px-[10%]">
+    <header className="relative flex h-[60px] w-full flex-wrap content-center justify-between bg-sky-800 sm:px-3 md:px-[10%]">
       <div
         onClick={() => {
           window.location.href = "/";
@@ -18,7 +24,7 @@ const NavBar = ({ isLogged = true, auth }) => {
       </div>
     </header>
   ) : (
-    <header className="relative flex h-[60px] w-full flex-wrap content-center justify-between bg-sky-400 sm:px-3 md:px-[10%]">
+    <header className="relative flex h-[60px] w-full flex-wrap content-center justify-between bg-sky-800 sm:px-3 md:px-[10%]">
       <div
         onClick={() => {
           window.location.href = "/";
@@ -29,7 +35,7 @@ const NavBar = ({ isLogged = true, auth }) => {
       </div>
       <ul className="hidden w-fit gap-2 sm:flex">
         <li
-          className="w-fit cursor-pointer select-none rounded-lg bg-slate-500 px-1 py-1 text-white active:bg-slate-950"
+          className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
           onClick={() => {
             window.location.href = "/";
           }}
@@ -37,23 +43,31 @@ const NavBar = ({ isLogged = true, auth }) => {
           Home
         </li>
         <li
-          className="w-fit cursor-pointer select-none rounded-lg bg-slate-500 px-1 py-1 text-white active:bg-slate-950"
+          className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
           onClick={() => {
-            window.location.href = "/";
+            window.location.href = "/dashboard";
           }}
         >
           Dashboard
         </li>
         <li
-          className="w-fit cursor-pointer select-none rounded-lg bg-slate-500 px-1 py-1 text-white active:bg-slate-950"
+          className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
           onClick={() => {
-            window.location.href = "/";
+            window.location.href = "/generate";
           }}
         >
           Generate
         </li>
       </ul>
       {isLogged ? (
+        <div className="hidden gap-3 sm:flex">
+          <div className="flex h-fit items-center gap-1">
+            <LogoAvatar user={UserForm.user}></LogoAvatar>
+            <p className="font-semibold text-white">{UserForm.user}</p>
+          </div>
+          <LogoutButton></LogoutButton>
+        </div>
+      ) : (
         <ul className="hidden gap-3 sm:flex">
           <li>
             <SignIn></SignIn>
@@ -62,14 +76,6 @@ const NavBar = ({ isLogged = true, auth }) => {
             <SignUp></SignUp>
           </li>
         </ul>
-      ) : (
-        <div className="hidden gap-3 sm:flex">
-          <div className="flex h-fit items-center gap-1">
-            <div className="h-8 w-8 rounded-full bg-gray-300"></div>
-            <p>Username</p>
-          </div>
-          <LogoutButton></LogoutButton>
-        </div>
       )}
       <div
         onClick={() => {
@@ -101,8 +107,8 @@ const NavBar = ({ isLogged = true, auth }) => {
             {isLogged ? (
               <div className="flex h-12 items-center justify-between px-10">
                 <div className="flex items-center gap-1">
-                  <div className="h-8 w-8 rounded-full bg-gray-300"></div>
-                  <p className="text-white">Username</p>
+                  <LogoAvatar user={UserForm.user}></LogoAvatar>
+                  <p className="text-white">{UserForm.user}</p>
                 </div>
                 <LogoutButton></LogoutButton>
               </div>

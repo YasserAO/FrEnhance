@@ -5,12 +5,12 @@ export default function SignIn() {
 
   return (
     <button
-      className={`rounded-md bg-gray-400 px-2 py-1 font-semibold`}
+      className={`active rounded-md px-2 py-1 font-semibold text-white underline-offset-4 hover:underline active:underline`}
       onClick={() => {
         handleSignIn();
       }}
     >
-      SignIn
+      Login
     </button>
   );
 }
