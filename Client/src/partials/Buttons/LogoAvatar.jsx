@@ -1,5 +1,5 @@
 import propTypes from "prop-types";
-const LogoAvatar = ({ user }) => {
+const LogoAvatar = ({ user, setMenuDropDown }) => {
   const FChars = user
     .split(" ")
     .map((word) => word.charAt(0))
@@ -7,7 +7,14 @@ const LogoAvatar = ({ user }) => {
 
   const imgSRC = `https://avatar.oxro.io/avatar.svg?name=${FChars[0]} + ${FChars[1]}&background=078559&color=000&caps=1`;
   return (
-    <div className="h-8 w-8 overflow-hidden rounded-full bg-gray-300">
+    <div
+      onClick={() => {
+        if (setMenuDropDown) {
+          setMenuDropDown((prev) => !prev);
+        }
+      }}
+      className="h-8 w-8 overflow-hidden rounded-full shadow-sm"
+    >
       <img src={imgSRC} alt="user" />
     </div>
   );
@@ -15,6 +22,7 @@ const LogoAvatar = ({ user }) => {
 
 LogoAvatar.propTypes = {
   user: propTypes.string,
+  setMenuDropDown: propTypes.func,
 };
 
 export default LogoAvatar;

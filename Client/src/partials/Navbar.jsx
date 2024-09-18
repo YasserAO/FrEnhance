@@ -4,13 +4,15 @@ import SignIn from "./Buttons/singIn";
 import SignUp from "./Buttons/singUp";
 import LogoutButton from "./Buttons/logout";
 import LogoAvatar from "./Buttons/LogoAvatar";
+import UserDropDownMenu from "./menus/userDropDown";
 
-const NavBar = ({ isLogged, auth }) => {
+const NavBar = ({ isLogged = true, auth }) => {
   const [UserForm, setUserForm] = useState({
     username: "Krenix",
     user: "Yasser AO",
     email: "email@gm.co",
   });
+  const [menuDropDown, setMenuDropDown] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
   const navigation = auth ? (
     <header className="relative flex h-[60px] w-full flex-wrap content-center justify-between bg-sky-800 sm:px-3 md:px-[10%]">
@@ -60,12 +62,14 @@ const NavBar = ({ isLogged, auth }) => {
         </li>
       </ul>
       {isLogged ? (
-        <div className="hidden gap-3 sm:flex">
-          <div className="flex h-fit items-center gap-1">
-            <LogoAvatar user={UserForm.user}></LogoAvatar>
-            <p className="font-semibold text-white">{UserForm.user}</p>
-          </div>
-          <LogoutButton></LogoutButton>
+        <div className="hidden h-fit items-center gap-1 sm:flex">
+          <LogoAvatar
+            user={UserForm.user}
+            setMenuDropDown={setMenuDropDown}
+          ></LogoAvatar>
+          <AnimatePresence>
+            {menuDropDown && <UserDropDownMenu UserForm={UserForm} />}
+          </AnimatePresence>
         </div>
       ) : (
         <ul className="hidden gap-3 sm:flex">
