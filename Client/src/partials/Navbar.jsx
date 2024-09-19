@@ -1,19 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SignIn from "./Buttons/singIn";
 import SignUp from "./Buttons/singUp";
 import LogoutButton from "./Buttons/logout";
 import LogoAvatar from "./Buttons/LogoAvatar";
 import UserDropDownMenu from "./menus/userDropDown";
+import { statusForm } from "../forms/statusForm.mjs";
 
-const NavBar = ({ isLogged = true, auth }) => {
+const NavBar = ({ auth }) => {
   const [UserForm, setUserForm] = useState({
-    username: "Krenix",
-    user: "Yasser AO",
-    email: "email@gm.co",
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    id: "",
   });
+  const [isLogged, setIsLogged] = useState();
   const [menuDropDown, setMenuDropDown] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
+  const getUserStatus = async () => {
+    const data = await statusForm();
+    if (data.status == 200) {
+      setUserForm(data.User);
+      setIsLogged(data.isAuthenticated);
+    } else {
+      console.log("2000");
+    }
+  };
+  useEffect(() => {
+    getUserStatus();
+  }, []);
+
   const navigation = auth ? (
     <header className="relative flex h-[60px] w-full flex-wrap content-center justify-between bg-sky-800 sm:px-3 md:px-[10%]">
       <div
@@ -64,7 +81,7 @@ const NavBar = ({ isLogged = true, auth }) => {
       {isLogged ? (
         <div className="hidden h-fit items-center gap-1 sm:flex">
           <LogoAvatar
-            user={UserForm.user}
+            user={UserForm.firstName + " " + UserForm.lastName}
             setMenuDropDown={setMenuDropDown}
           ></LogoAvatar>
           <AnimatePresence>
@@ -111,8 +128,12 @@ const NavBar = ({ isLogged = true, auth }) => {
             {isLogged ? (
               <div className="flex h-12 items-center justify-between px-10">
                 <div className="flex items-center gap-1">
-                  <LogoAvatar user={UserForm.user}></LogoAvatar>
-                  <p className="text-white">{UserForm.user}</p>
+                  <LogoAvatar
+                    user={UserForm.firstName + " " + UserForm.lastName}
+                  ></LogoAvatar>
+                  <p className="text-white">
+                    {UserForm.firstName + " " + UserForm.lastName}
+                  </p>
                 </div>
                 <LogoutButton></LogoutButton>
               </div>
@@ -153,6 +174,7 @@ const NavBar = ({ isLogged = true, auth }) => {
       </AnimatePresence>
     </header>
   );
+
   return navigation;
 };
 

@@ -3,6 +3,7 @@ import { CiUser } from "react-icons/ci";
 import { RiLockPasswordFill } from "react-icons/ri";
 import NavBar from "../partials/Navbar";
 import { motion } from "framer-motion";
+import { loginForm } from "../forms/loginForm.mjs";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -13,36 +14,23 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const LoginSend = await fetch("/api/user/auth", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
-      });
-      const data = await LoginSend.json();
-      if (LoginSend.ok) {
-        setReserror(false);
-        setTimeout(() => {
-          setMessage(data.msg);
-        }, 500);
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 2000);
-      } else {
-        setTimeout(() => {
-          setMessage(data.msg);
-        }, 300);
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
-      }
-    } catch (error) {
-      console.log(error);
+
+    const data = await loginForm(username, password);
+    if (data.status == 200) {
+      setReserror(false);
+      setTimeout(() => {
+        setMessage(data.msg);
+      }, 500);
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        setMessage(data.msg);
+      }, 300);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
 
@@ -119,7 +107,7 @@ function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="flex h-8 w-20 flex-wrap content-center justify-center rounded-md bg-gray-600 text-white transition-all duration-150 disabled:bg-gray-500"
+              className="flex h-8 w-20 flex-wrap content-center justify-center rounded-md bg-sky-700 text-white transition-all duration-150 disabled:bg-sky-900"
             >
               {loading ? "Loading..." : "Login"}
             </button>

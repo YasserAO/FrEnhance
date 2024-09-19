@@ -11,7 +11,9 @@ const UserDropDownMenu = ({ UserForm }) => {
       transition={{ duration: 0.15, opacity: { duration: 0.1 } }}
       className="absolute right-[10%] top-full w-full max-w-56 translate-x-16 translate-y-2 overflow-hidden rounded-lg bg-slate-600 px-5 py-10"
     >
-      <p className="font-semibold text-white">{UserForm.user}</p>
+      <p className="font-semibold text-white">
+        {UserForm.firstName + " " + UserForm.lastName}
+      </p>
       <p className="font-semibold text-white">
         Email: <span className="text-sm text-gray-100">{UserForm.email}</span>
       </p>

@@ -9,6 +9,7 @@ router.post("/api/generate/text", async (req, res) => {
   const myMessage = textOnlyTemplate(level, theme);
   const jsonResponse = await chatCompletion(myMessage, 0);
   if (!jsonResponse) return res.status(200).send({ msg: "No response" });
+  console.log("\n\n\n" + Object.keys(jsonResponse)[0]);
   return res.status(200).send(jsonResponse);
 });
 

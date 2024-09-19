@@ -1,4 +1,4 @@
-import baiscModel from "./models/basicModel.mjs";
+import baiscModel from "../connection/basicModel.mjs";
 
 const ChatModels = [baiscModel];
 

@@ -15,6 +15,7 @@ const textOnlyTemplate = (level, theme) => {
 -no additional info
 -french only
 -family friendly
+
 `,
     user: `please generate  a text with a title in french language 
 content: 
@@ -24,8 +25,10 @@ content:
 -type : text
 -length : ${niveau[level - 1].words}
 response formt : 
-{"title":<titre>,
-"text":<text>}
+{
+  title:<titre>,
+  text:<text>
+}
 `,
   };
 };
