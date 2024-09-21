@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import LogoutButton from "../Buttons/logout";
 import { motion } from "framer-motion";
 
-const UserDropDownMenu = ({ UserForm }) => {
+const UserDropDownMenu = ({ userForm }) => {
   return (
     <motion.div
       initial={{ height: 0, opacity: 0 }}
@@ -12,10 +12,10 @@ const UserDropDownMenu = ({ UserForm }) => {
       className="absolute right-[10%] top-full w-full max-w-56 translate-x-16 translate-y-2 overflow-hidden rounded-lg bg-slate-600 px-5 py-10"
     >
       <p className="font-semibold text-white">
-        {UserForm.firstName + " " + UserForm.lastName}
+        {userForm.firstName + " " + userForm.lastName}
       </p>
       <p className="font-semibold text-white">
-        Email: <span className="text-sm text-gray-100">{UserForm.email}</span>
+        Email: <span className="text-sm text-gray-100">{userForm.email}</span>
       </p>
       <div className="absolute bottom-0 right-1/2 mb-2 flex translate-x-1/2 items-center gap-2">
         <p className="text-white">Disconnect</p>
@@ -26,9 +26,11 @@ const UserDropDownMenu = ({ UserForm }) => {
 };
 
 UserDropDownMenu.propTypes = {
-  UserForm: PropTypes.shape({
+  userForm: PropTypes.shape({
     user: PropTypes.string,
     email: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
   }),
 };
 

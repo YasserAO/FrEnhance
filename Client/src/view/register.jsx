@@ -71,7 +71,7 @@ function Register() {
 
   return (
     <>
-      <div className={`h-screen bg-slate-200`}>
+      <div className="flex h-screen flex-col bg-amber-200">
         <NavBar auth={true}></NavBar>
 
         <motion.form
@@ -89,7 +89,7 @@ function Register() {
             },
           }}
           onSubmit={handleSubmit}
-          className="mx-auto mt-40 flex w-full max-w-80 flex-col rounded-md bg-gray-100 p-4 shadow-lg"
+          className="mx-auto mt-40 flex w-full max-w-80 flex-col rounded-md bg-white p-4 shadow-lg"
         >
           <h1 className="mx-auto mb-3 w-fit text-2xl font-bold text-slate-800">
             Sign Up

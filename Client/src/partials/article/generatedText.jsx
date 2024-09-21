@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { motion, AnimatePresence } from "framer-motion";
 
 import fetchText from "../../forms/textGenerate.mjs";
+import { AuthContext } from "../../authProvider";
 
 const GeneratedTextContainer = () => {
   const [textTheme, setTextTheme] = useState("");
@@ -9,6 +12,7 @@ const GeneratedTextContainer = () => {
   const [level, setLevel] = useState("");
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const { isLogged } = useContext(AuthContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -25,34 +29,13 @@ const GeneratedTextContainer = () => {
 
   return (
     <>
-      <div>
-        <form className="h-[200px] w-full bg-slate-500" onSubmit={handleSubmit}>
-          <input
-            className="mb-2 h-10 rounded-lg bg-gray-900 pl-2 text-white placeholder:text-gray-700"
-            type="text"
-            placeholder="Theme"
-            value={textTheme}
-            onChange={(e) => {
-              setTextTheme(e.target.value);
-            }}
-          />
-          <input
-            className="mb-2 h-10 rounded-lg bg-gray-900 pl-2 text-white placeholder:text-gray-700"
-            type="number"
-            placeholder="Difficulty"
-            value={level}
-            onChange={(e) => {
-              setLevel(e.target.value);
-            }}
-          />
-          <button>Submit</button>
-        </form>
-      </div>
-      <div>
-        <h1>{title}</h1>
-        <p>{text}</p>
-        <h2>Answers</h2>
-        <ul></ul>
+      <div
+        className={`pt-5 ${isLogged ? `opacity-100` : `opacity-0`} transition-all duration-1000`}
+      >
+        <div className="mx-auto flex h-12 w-fit items-center rounded-3xl bg-gray-900 px-4">
+          <h1 className="text-center text-4xl text-white">Generate the text</h1>
+        </div>
+        <p></p>
       </div>
     </>
   );

@@ -36,7 +36,7 @@ function Login() {
 
   return (
     <>
-      <div className={`h-screen bg-slate-200`}>
+      <div className="flex h-screen flex-col bg-amber-200">
         <NavBar auth={true}></NavBar>
         <motion.form
           initial={{
@@ -53,7 +53,7 @@ function Login() {
             },
           }}
           onSubmit={handleSubmit}
-          className="mx-auto mt-40 flex w-full max-w-80 flex-col rounded-md bg-gray-100 p-4 shadow-lg"
+          className="mx-auto mt-40 flex w-full max-w-80 flex-col rounded-md bg-white p-4 shadow-lg"
         >
           <h1 className="mx-auto mb-3 w-fit text-2xl font-bold text-slate-800">
             Login
@@ -91,6 +91,7 @@ function Login() {
           >
             <RiLockPasswordFill></RiLockPasswordFill>
             <input
+              autoComplete="on"
               type="password"
               disabled={loading}
               className="text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"

@@ -1,11 +1,11 @@
 import propTypes from "prop-types";
-const LogoAvatar = ({ user, setMenuDropDown }) => {
+const LogoAvatar = ({ user, setMenuDropDown, color }) => {
   const FChars = user
     .split(" ")
     .map((word) => word.charAt(0))
     .join("");
 
-  const imgSRC = `https://avatar.oxro.io/avatar.svg?name=${FChars[0]} + ${FChars[1]}&background=078559&color=000&caps=1`;
+  const imgSRC = `https://avatar.oxro.io/avatar.svg?name=${FChars[0]} + ${FChars[1]}&background=${color}&color=000&caps=1`;
   return (
     <div
       onClick={() => {
@@ -23,6 +23,7 @@ const LogoAvatar = ({ user, setMenuDropDown }) => {
 LogoAvatar.propTypes = {
   user: propTypes.string,
   setMenuDropDown: propTypes.func,
+  color: propTypes.string,
 };
 
 export default LogoAvatar;

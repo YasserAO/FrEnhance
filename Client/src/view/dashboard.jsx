@@ -1,10 +1,13 @@
-import NavBar from "../partials/Navbar";
+import { useContext } from "react";
+import { AuthContext } from "../authProvider";
+
 const Dashboard = () => {
+  const { userForm, isLogged } = useContext(AuthContext);
+  if (isLogged == null) return <div>Loading</div>;
   return (
-    <>
-      <NavBar></NavBar>
-      <div>DashBord</div>
-    </>
+    <div className="flex h-screen flex-col bg-amber-200">
+      <h1>Dashbord</h1>
+    </div>
   );
 };
 

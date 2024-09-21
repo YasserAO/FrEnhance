@@ -1,38 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../authProvider";
 import { motion, AnimatePresence } from "framer-motion";
 import SignIn from "./Buttons/singIn";
 import SignUp from "./Buttons/singUp";
 import LogoutButton from "./Buttons/logout";
 import LogoAvatar from "./Buttons/LogoAvatar";
 import UserDropDownMenu from "./menus/userDropDown";
-import { statusForm } from "../forms/statusForm.mjs";
+import { MdDashboardCustomize } from "react-icons/md";
 
 const NavBar = ({ auth }) => {
-  const [UserForm, setUserForm] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    id: "",
-  });
-  const [isLogged, setIsLogged] = useState();
+  const { userForm, isLogged } = useContext(AuthContext);
   const [menuDropDown, setMenuDropDown] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
-  const getUserStatus = async () => {
-    const data = await statusForm();
-    if (data.status == 200) {
-      setUserForm(data.User);
-      setIsLogged(data.isAuthenticated);
-    } else {
-      console.log("2000");
-    }
-  };
-  useEffect(() => {
-    getUserStatus();
-  }, []);
-
-  const navigation = auth ? (
-    <header className="relative flex h-[60px] w-full flex-wrap content-center justify-between bg-sky-800 sm:px-3 md:px-[10%]">
+  const LogoHeaderOnly = () => (
+    <header className="relative flex h-full max-h-[60px] w-full items-center justify-between bg-sky-800 px-3 sm:px-3 md:px-[10%]">
       <div
         onClick={() => {
           window.location.href = "/";
@@ -42,8 +23,11 @@ const NavBar = ({ auth }) => {
         FrenchEnhance
       </div>
     </header>
+  );
+  const navigation = auth ? (
+    LogoHeaderOnly()
   ) : (
-    <header className="relative flex h-[60px] w-full flex-wrap content-center justify-between bg-sky-800 sm:px-3 md:px-[10%]">
+    <header className="relative flex h-full max-h-[60px] w-full items-center justify-between bg-sky-800 px-3 sm:px-3 md:px-[10%]">
       <div
         onClick={() => {
           window.location.href = "/";
@@ -52,7 +36,7 @@ const NavBar = ({ auth }) => {
       >
         FrenchEnhance
       </div>
-      <ul className="hidden w-fit gap-2 sm:flex">
+      <ul className="hidden w-1/2 gap-2 sm:flex">
         <li
           className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
           onClick={() => {
@@ -64,40 +48,77 @@ const NavBar = ({ auth }) => {
         <li
           className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
           onClick={() => {
-            window.location.href = "/dashboard";
+            window.location.href = "/features";
           }}
         >
-          Dashboard
+          Features
         </li>
         <li
           className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
           onClick={() => {
-            window.location.href = "/generate";
+            window.location.href = "/about";
           }}
         >
-          Generate
+          About
+        </li>
+        <li
+          className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
+          onClick={() => {
+            window.location.href = "/contact";
+          }}
+        >
+          Contact
         </li>
       </ul>
-      {isLogged ? (
-        <div className="hidden h-fit items-center gap-1 sm:flex">
-          <LogoAvatar
-            user={UserForm.firstName + " " + UserForm.lastName}
-            setMenuDropDown={setMenuDropDown}
-          ></LogoAvatar>
-          <AnimatePresence>
-            {menuDropDown && <UserDropDownMenu UserForm={UserForm} />}
-          </AnimatePresence>
-        </div>
-      ) : (
-        <ul className="hidden gap-3 sm:flex">
-          <li>
-            <SignIn></SignIn>
-          </li>
-          <li>
-            <SignUp></SignUp>
-          </li>
-        </ul>
-      )}
+      <div className="flex min-w-[150px] justify-end">
+        {isLogged == null ? (
+          <></>
+        ) : isLogged ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.1 }}
+            className="hidden h-fit items-center gap-2 sm:flex"
+          >
+            <div
+              onClick={() => {
+                window.location.href = "/dashboard";
+              }}
+              className="flex h-8 cursor-pointer select-none items-center gap-1 rounded-sm bg-[#f8e8c581] px-1"
+            >
+              <p className="font-semibold text-white">Dashboard</p>
+              <MdDashboardCustomize
+                size={"1.5rem"}
+                color="#fff"
+              ></MdDashboardCustomize>
+            </div>
+            <LogoAvatar
+              user={userForm.firstName + " " + userForm.lastName}
+              setMenuDropDown={setMenuDropDown}
+              color={"229999"}
+            ></LogoAvatar>
+
+            <AnimatePresence>
+              {menuDropDown && <UserDropDownMenu userForm={userForm} />}
+            </AnimatePresence>
+          </motion.div>
+        ) : (
+          <motion.ul
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.1 }}
+            className="hidden gap-3 sm:flex"
+          >
+            <li>
+              <SignIn></SignIn>
+            </li>
+            <li>
+              <SignUp></SignUp>
+            </li>
+          </motion.ul>
+        )}
+      </div>
+
       <div
         onClick={() => {
           setToggleMenu((prev) => !prev);
@@ -123,16 +144,16 @@ const NavBar = ({ auth }) => {
             initial={{ width: 0 }}
             animate={{ width: `100%` }}
             exit={{ width: 0 }}
-            className={`b absolute right-0 flex h-screen w-full max-w-[300px] flex-col overflow-hidden bg-slate-800 pt-[60px] sm:hidden`}
+            className={`b absolute right-0 top-0 flex h-screen w-full max-w-[300px] flex-col overflow-hidden bg-slate-800 pt-[60px] sm:hidden`}
           >
             {isLogged ? (
               <div className="flex h-12 items-center justify-between px-10">
                 <div className="flex items-center gap-1">
                   <LogoAvatar
-                    user={UserForm.firstName + " " + UserForm.lastName}
+                    user={userForm.firstName + " " + userForm.lastName}
                   ></LogoAvatar>
                   <p className="text-white">
-                    {UserForm.firstName + " " + UserForm.lastName}
+                    {userForm.firstName + " " + userForm.lastName}
                   </p>
                 </div>
                 <LogoutButton></LogoutButton>
@@ -155,18 +176,26 @@ const NavBar = ({ auth }) => {
               <li
                 className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
                 onClick={() => {
-                  window.location.href = "/dashboard";
+                  window.location.href = "/features";
                 }}
               >
-                Dashboard
+                Features
               </li>
               <li
                 className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
                 onClick={() => {
-                  window.location.href = "/generate";
+                  window.location.href = "/about";
                 }}
               >
-                Generate
+                About
+              </li>
+              <li
+                className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
+                onClick={() => {
+                  window.location.href = "/contact";
+                }}
+              >
+                Contact Us
               </li>
             </ul>
           </motion.div>
