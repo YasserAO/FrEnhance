@@ -1,11 +1,10 @@
-import propTypes from "prop-types";
-const LogoAvatar = ({ user, setMenuDropDown, color }) => {
-  const FChars = user
-    .split(" ")
-    .map((word) => word.charAt(0))
-    .join("");
+import { useContext } from "react";
+import { AuthContext } from "../../authProvider";
+import PropTypes from "prop-types";
 
-  const imgSRC = `https://avatar.oxro.io/avatar.svg?name=${FChars[0]} + ${FChars[1]}&background=${color}&color=000&caps=1`;
+const LogoAvatar = ({ setMenuDropDown }) => {
+  const { userForm } = useContext(AuthContext);
+
   return (
     <div
       onClick={() => {
@@ -15,15 +14,12 @@ const LogoAvatar = ({ user, setMenuDropDown, color }) => {
       }}
       className="h-8 w-8 overflow-hidden rounded-full shadow-sm"
     >
-      <img src={imgSRC} alt="user" />
+      <img src={userForm.Avatar} alt="user" />
     </div>
   );
 };
 
 LogoAvatar.propTypes = {
-  user: propTypes.string,
-  setMenuDropDown: propTypes.func,
-  color: propTypes.string,
+  setMenuDropDown: PropTypes.func,
 };
-
 export default LogoAvatar;

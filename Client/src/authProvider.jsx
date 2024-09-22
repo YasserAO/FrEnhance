@@ -1,11 +1,19 @@
 import { createContext, useState, useEffect, useMemo } from "react";
 import { statusForm } from "./forms/statusForm.mjs";
+import PropTypes from "prop-types";
 
 // Create the AuthContext
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [userForm, setUserForm] = useState(null);
+  const [userForm, setUserForm] = useState({
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "messi@gmail.com",
+    id: "66eef74903ad9cd2630547f1",
+    Avatar: "",
+  });
   const [isLogged, setIsLogged] = useState(null);
 
   useEffect(() => {
@@ -31,11 +39,13 @@ export const AuthProvider = ({ children }) => {
     [userForm, isLogged],
   );
 
-  useEffect(() => {
-    console.log(userForm);
-  }, [userForm]);
+  useEffect(() => {}, [userForm]);
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node,
 };

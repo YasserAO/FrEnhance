@@ -23,6 +23,10 @@ const UserRegistration = new mongoose.Schema({
     type: String,
     required: true,
   },
+  pfp: {
+    type: String,
+    required: true,
+  },
 });
 
 export const UserModel = mongoose.model("User", UserRegistration);

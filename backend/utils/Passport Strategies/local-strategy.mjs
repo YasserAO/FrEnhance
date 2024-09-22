@@ -16,6 +16,7 @@ passport.deserializeUser(async (id, done) => {
       username: findUser.username,
       email: findUser.email,
       id: findUser._id,
+      Avatar: findUser.pfp,
     };
 
     done(null, LoggedUser);

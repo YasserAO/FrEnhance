@@ -7,6 +7,8 @@ import LogoutButton from "./Buttons/logout";
 import LogoAvatar from "./Buttons/LogoAvatar";
 import UserDropDownMenu from "./menus/userDropDown";
 import { MdDashboardCustomize } from "react-icons/md";
+import { Logo } from "./Buttons/Logo";
+import { BurgerMenu } from "./Buttons/menuButton";
 
 const NavBar = ({ auth }) => {
   const { userForm, isLogged } = useContext(AuthContext);
@@ -14,28 +16,14 @@ const NavBar = ({ auth }) => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const LogoHeaderOnly = () => (
     <header className="relative flex h-full max-h-[60px] w-full items-center justify-between bg-sky-800 px-3 sm:px-3 md:px-[10%]">
-      <div
-        onClick={() => {
-          window.location.href = "/";
-        }}
-        className="h-fit w-fit cursor-pointer select-none rounded-3xl bg-white px-2 py-1 font-semibold"
-      >
-        FrenchEnhance
-      </div>
+      <Logo></Logo>
     </header>
   );
   const navigation = auth ? (
     LogoHeaderOnly()
   ) : (
     <header className="relative flex h-full max-h-[60px] w-full items-center justify-between bg-sky-800 px-3 sm:px-3 md:px-[10%]">
-      <div
-        onClick={() => {
-          window.location.href = "/";
-        }}
-        className="h-fit w-fit cursor-pointer select-none rounded-3xl bg-white px-2 py-1 font-semibold"
-      >
-        FrenchEnhance
-      </div>
+      <Logo></Logo>
       <ul className="hidden w-1/2 gap-2 sm:flex">
         <li
           className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
@@ -92,11 +80,7 @@ const NavBar = ({ auth }) => {
                 color="#fff"
               ></MdDashboardCustomize>
             </div>
-            <LogoAvatar
-              user={userForm.firstName + " " + userForm.lastName}
-              setMenuDropDown={setMenuDropDown}
-              color={"229999"}
-            ></LogoAvatar>
+            <LogoAvatar setMenuDropDown={setMenuDropDown}></LogoAvatar>
 
             <AnimatePresence>
               {menuDropDown && <UserDropDownMenu userForm={userForm} />}
@@ -119,22 +103,10 @@ const NavBar = ({ auth }) => {
         )}
       </div>
 
-      <div
-        onClick={() => {
-          setToggleMenu((prev) => !prev);
-        }}
-        className={`absolute right-3 top-1/2 z-50 flex -translate-y-1/2 cursor-pointer flex-col gap-1 rounded-sm border border-white p-1 active:bg-[#3a3a3a3a] sm:hidden`}
-      >
-        <span
-          className={`block h-[2px] w-7 bg-white ${toggleMenu && `translate-y-[6px] rotate-45`} transition-all duration-200`}
-        ></span>
-        <span
-          className={`block h-[2px] w-7 bg-white ${toggleMenu && `opacity-0`} transition-all duration-200`}
-        ></span>
-        <span
-          className={`block h-[2px] w-7 bg-white ${toggleMenu && `-translate-y-[6px] -rotate-45`} transition-all duration-200`}
-        ></span>
-      </div>
+      <BurgerMenu
+        setToggleMenu={setToggleMenu}
+        toggleMenu={toggleMenu}
+      ></BurgerMenu>
 
       {/* Mobile Navigation Menu */}
 
@@ -147,16 +119,30 @@ const NavBar = ({ auth }) => {
             className={`b absolute right-0 top-0 flex h-screen w-full max-w-[300px] flex-col overflow-hidden bg-slate-800 pt-[60px] sm:hidden`}
           >
             {isLogged ? (
-              <div className="flex h-12 items-center justify-between px-10">
-                <div className="flex items-center gap-1">
-                  <LogoAvatar
-                    user={userForm.firstName + " " + userForm.lastName}
-                  ></LogoAvatar>
-                  <p className="text-white">
-                    {userForm.firstName + " " + userForm.lastName}
-                  </p>
+              <div className="flex flex-col items-start justify-start gap-2 px-10">
+                <div className="flex h-12 w-full items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <LogoAvatar
+                      user={userForm.firstName + " " + userForm.lastName}
+                    ></LogoAvatar>
+                    <p className="text-white">
+                      {userForm.firstName + " " + userForm.lastName}
+                    </p>
+                  </div>
+                  <LogoutButton></LogoutButton>
                 </div>
-                <LogoutButton></LogoutButton>
+                <div
+                  onClick={() => {
+                    window.location.href = "/dashboard";
+                  }}
+                  className="flex h-8 w-fit cursor-pointer select-none items-center gap-1 rounded-sm bg-[#f8e8c581]"
+                >
+                  <p className="font-semibold text-white">Dashboard</p>
+                  <MdDashboardCustomize
+                    size={"1.5rem"}
+                    color="#fff"
+                  ></MdDashboardCustomize>
+                </div>
               </div>
             ) : (
               <div className="flex h-12 items-center justify-center gap-4 bg-slate-600 px-10">
