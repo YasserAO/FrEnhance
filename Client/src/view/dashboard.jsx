@@ -20,9 +20,7 @@ const Dashboard = () => {
 
       <DNavBar></DNavBar>
 
-      <div>
-        <CreateAText></CreateAText>
-      </div>
+      <CreateAText></CreateAText>
     </div>
   );
 };

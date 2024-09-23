@@ -1,4 +1,4 @@
-const fetchText = async (level, theme) => {
+const fetchText = async (theme, level) => {
   const responseAPI = await fetch("/api/generate/text", {
     method: "POST",
     headers: {
