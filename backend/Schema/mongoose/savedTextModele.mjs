@@ -1,0 +1,26 @@
+import mongoose from "mongoose";
+
+const TextRegistration = new mongoose.Schema({
+  access: {
+    user: {
+      type: mongoose.Schema.Types.String,
+      required: true,
+    },
+  },
+  title: {
+    type: mongoose.Schema.Types.String,
+    required: true,
+  },
+  text: {
+    type: mongoose.Schema.Types.String,
+    required: true,
+  },
+  questions: {
+    type: mongoose.Schema.Types.String,
+  },
+  answers: {
+    type: mongoose.Schema.Types.String,
+  },
+});
+
+export const UserModel = mongoose.model("texts", TextRegistration);

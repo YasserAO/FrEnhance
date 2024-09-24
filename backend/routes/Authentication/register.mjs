@@ -1,21 +1,18 @@
 import express from "express";
-import { validationResult, matchedData, checkSchema } from "express-validator";
+import { matchedData, checkSchema } from "express-validator";
 import { UserModel } from "../../Schema/mongoose/userModele.mjs";
 import { hashpassword } from "../../utils/func/helper.mjs";
 import { registrationSchema } from "../../Schema/validation/RegisterSchema.mjs";
 import { LogoAvatar } from "../../utils/func/avatarCreator.mjs";
+import { validResult } from "../../middleware/validResults.mjs";
 
 const router = express.Router();
 
 router.post(
   "/api/user/reg",
   checkSchema(registrationSchema),
+  validResult,
   async (request, response) => {
-    const result = validationResult(request);
-    if (!result.isEmpty())
-      return setTimeout(() => {
-        return response.status(400).send(result.array());
-      }, 3000);
     let UserData = matchedData(request);
     UserData.password = hashpassword(UserData.password);
     UserData = { ...UserData, pfp: LogoAvatar(UserData) };
