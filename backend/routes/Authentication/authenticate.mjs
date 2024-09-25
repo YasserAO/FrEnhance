@@ -29,6 +29,9 @@ router.post("/api/user/auth", (req, res, next) => {
 router.post("/api/user/auth/logout", isLoggedIn, (request, response) => {
   request.logout((err) => {
     if (err) return response.sendStatus(401).send({ msg: "Error Occured" });
+    request.session.destroy((err) => {
+      if (err) console.log(err);
+    });
     return response.status(200).send({ msg: "LoggedOut Successfully" });
   });
 });

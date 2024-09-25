@@ -24,9 +24,9 @@ MyPlainText:
 content: 
 -theme : ${theme}
 -title : anything related to ${theme}
--level : ${niveau[level - 1].nv}
+-level : ${niveau[level].nv}
 -type : text
--length : ${niveau[level - 1].words}
+-length : ${niveau[level].words}
 
 
 `,

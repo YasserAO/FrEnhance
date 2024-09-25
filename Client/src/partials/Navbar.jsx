@@ -22,7 +22,7 @@ const NavBar = ({ auth }) => {
   const navigation = auth ? (
     LogoHeaderOnly()
   ) : (
-    <header className="relative flex h-full max-h-[60px] w-full items-center justify-between bg-sky-800 px-3 sm:px-3 md:px-[10%]">
+    <header className="sticky top-0 flex h-full max-h-[60px] w-full items-center justify-between bg-sky-800 px-3 sm:relative sm:px-3 md:px-[10%]">
       <Logo></Logo>
       <ul className="hidden w-1/2 gap-2 sm:flex">
         <li
@@ -119,8 +119,21 @@ const NavBar = ({ auth }) => {
             className={`b absolute right-0 top-0 flex h-screen w-full max-w-[300px] flex-col overflow-hidden bg-slate-800 pt-[60px] sm:hidden`}
           >
             {isLogged ? (
-              <div className="flex flex-col items-start justify-start gap-2 px-10">
-                <div className="flex h-12 w-full items-center justify-between">
+              <>
+                <div
+                  onClick={() => {
+                    window.location.href = "/dashboard";
+                  }}
+                  className="mx-auto flex w-fit cursor-pointer select-none items-center gap-1 rounded-md bg-[#f8e8c581] px-3 py-2"
+                >
+                  <p className="font-semibold text-white">Dashboard</p>
+                  <MdDashboardCustomize
+                    size={"1.5rem"}
+                    color="#fff"
+                  ></MdDashboardCustomize>
+                </div>
+
+                <div className="absolute bottom-0 flex h-12 w-full -translate-y-1/2 items-center justify-center gap-3">
                   <div className="flex items-center gap-1">
                     <LogoAvatar
                       user={userForm.firstName + " " + userForm.lastName}
@@ -131,19 +144,7 @@ const NavBar = ({ auth }) => {
                   </div>
                   <LogoutButton></LogoutButton>
                 </div>
-                <div
-                  onClick={() => {
-                    window.location.href = "/dashboard";
-                  }}
-                  className="flex h-8 w-fit cursor-pointer select-none items-center gap-1 rounded-sm bg-[#f8e8c581]"
-                >
-                  <p className="font-semibold text-white">Dashboard</p>
-                  <MdDashboardCustomize
-                    size={"1.5rem"}
-                    color="#fff"
-                  ></MdDashboardCustomize>
-                </div>
-              </div>
+              </>
             ) : (
               <div className="flex h-12 items-center justify-center gap-4 bg-slate-600 px-10">
                 <SignIn></SignIn>

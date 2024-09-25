@@ -1,7 +1,7 @@
 export const textGenSchema = {
   level: {
     isInt: {
-      options: { min: 1, max: 3 },
+      options: { min: 0, max: 2 },
       errorMessage: "Difficulty must be between 1 and 3",
     },
   },

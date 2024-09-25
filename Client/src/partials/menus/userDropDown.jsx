@@ -9,7 +9,7 @@ const UserDropDownMenu = ({ userForm }) => {
       animate={{ height: "200px", opacity: 1 }}
       exit={{ height: 0, opacity: 0 }}
       transition={{ duration: 0.15, opacity: { duration: 0.1 } }}
-      className="absolute right-[10%] top-full w-full max-w-56 translate-x-16 translate-y-2 overflow-hidden rounded-lg bg-slate-600 px-5 py-10"
+      className="absolute right-[10%] top-full z-50 w-full max-w-56 translate-x-16 translate-y-2 overflow-hidden rounded-lg bg-slate-600 px-5 py-10"
     >
       <p className="font-semibold text-white">
         {userForm.firstName + " " + userForm.lastName}

@@ -23,4 +23,4 @@ const TextRegistration = new mongoose.Schema({
   },
 });
 
-export const UserModel = mongoose.model("texts", TextRegistration);
+export const TextModel = mongoose.model("texts", TextRegistration);
