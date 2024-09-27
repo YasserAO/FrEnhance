@@ -5,7 +5,8 @@ import { FaAnglesUp } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 export const TextLabels = () => {
   const [myTexts, setMyTexts] = useState([]);
-  const [showMore, setShowMore] = useState(4);
+
+  const [showMore, setShowMore] = useState(2);
   const getTexts = async () => {
     let texts;
     try {
@@ -19,17 +20,24 @@ export const TextLabels = () => {
   };
   useEffect(() => {
     getTexts();
+    setTimeout(() => {
+      if (myTexts.length < 2) setShowMore(1);
+      console.log(myTexts.length);
+    }, 5000);
   }, []);
 
   return (
     <div>
-      <div className="mb-2 flex">
+      <div className="mb-2 flex justify-center">
         <button
           onClick={() => setShowMore((prev) => prev - 1)}
-          className={`mx-auto block rounded-sm bg-gray-900 px-2 py-1 text-white ${showMore < 3 && `pointer-events-none opacity-0`}`}
+          className={`mx-auto block rounded-sm bg-gray-900 px-2 py-1 text-white ${showMore <= 2 && `pointer-events-none opacity-0`}`}
         >
           <FaAnglesUp></FaAnglesUp>
         </button>
+        <p className="w-20 select-none text-center font-semibold text-white transition">
+          {showMore} / {myTexts.length}
+        </p>
         <button
           onClick={() => setShowMore((prev) => prev + 1)}
           className={`mx-auto block rotate-180 rounded-sm bg-gray-900 px-2 py-1 text-white ${showMore == myTexts.length && `pointer-events-none opacity-0`}`}
@@ -37,7 +45,7 @@ export const TextLabels = () => {
           <FaAnglesUp></FaAnglesUp>
         </button>
       </div>
-      <div className="max-h-[500px] overflow-hidden overflow-y-auto">
+      <div className="max-h-[600px] overflow-hidden overflow-y-auto">
         <AnimatePresence>
           {myTexts
             .map((element, index) => (

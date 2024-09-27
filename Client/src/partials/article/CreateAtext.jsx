@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CreateAtextButton } from "../Buttons/CreateAtextButton";
+import { TextToolButton } from "../Buttons/TextToolButton";
 import fetchText from "../../forms/textGenerate.mjs";
 import SpinLoad from "../icons/spindLoader";
 import { motion } from "framer-motion";
@@ -25,6 +25,7 @@ export const CreateAText = ({ dashMode, setDashMode }) => {
     if (!(data.status == 200)) {
       console.log(data.content);
       setTextLoading(false);
+
       return;
     }
     setEmptyField(false);
@@ -38,23 +39,20 @@ export const CreateAText = ({ dashMode, setDashMode }) => {
     setEmptyField(true);
   };
 
-  if (dashMode !== 2) {
+  if (![2, 3].includes(dashMode)) {
     return (
-      <>
-        <CreateAtextButton
+      <div className={`${toggleForm && `col-span-2`}`}>
+        <TextToolButton
+          type={1}
           toggleForm={toggleForm}
           setToggleForm={setToggleForm}
           setDashMode={setDashMode}
-        ></CreateAtextButton>
+        ></TextToolButton>
 
         {toggleForm && dashMode == 1 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="pt-5"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <form
-              className="mx-4 mb-5 h-fit rounded-md border-2 border-gray-400 bg-gray-50 px-2 py-5 shadow-sm"
+              className={`mx-4 mb-5 rounded-md border-2 border-gray-400 bg-gray-50 px-2 py-5 shadow-sm transition-all duration-100`}
               onSubmit={handleSubmit}
             >
               <div className="flex flex-col items-center justify-center gap-5 sm:flex-row md:justify-center">
@@ -161,7 +159,7 @@ export const CreateAText = ({ dashMode, setDashMode }) => {
             )}
           </motion.div>
         )}
-      </>
+      </div>
     );
   }
 };

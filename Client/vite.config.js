@@ -12,5 +12,7 @@ export default defineConfig({
         secure: false,
       },
     },
+    port: 8080,
+    host: true,
   },
 });

@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { TextToolButton } from "../Buttons/TextToolButton";
-export const EditAText = ({ dashMode, setDashMode }) => {
+import PropTypes from "prop-types";
+export const InsertAtext = ({ dashMode, setDashMode }) => {
   const [toggleForm, setToggleForm] = useState(false);
 
-  if (![1, 3].includes(dashMode)) {
+  if (![1, 2].includes(dashMode)) {
     return (
-      <div>
+      <div className="col-span-2">
         <TextToolButton
-          type={2}
+          type={3}
           toggleForm={toggleForm}
           setToggleForm={setToggleForm}
           setDashMode={setDashMode}
         ></TextToolButton>
-        {toggleForm && dashMode == 2 && (
+        {toggleForm && dashMode == 3 && (
           <div>
-            <h1>Text Editing Here</h1>
+            <h1>Inserting Text here</h1>
             <button
               onClick={() => {
                 setDashMode(0);
@@ -29,4 +30,9 @@ export const EditAText = ({ dashMode, setDashMode }) => {
       </div>
     );
   }
+};
+
+InsertAtext.propTypes = {
+  dashMode: PropTypes.any,
+  setDashMode: PropTypes.func,
 };
