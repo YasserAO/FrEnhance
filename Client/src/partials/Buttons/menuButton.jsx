@@ -7,7 +7,7 @@ export function BurgerMenu({ setToggleMenu, toggleMenu, d }) {
         onClick={() => {
           setToggleMenu((prev) => !prev);
         }}
-        className={`absolute right-3 top-1/2 z-[100] flex -translate-y-1/2 cursor-pointer flex-col gap-1 rounded-sm border border-black p-1 active:bg-[#3a3a3a3a] sm:hidden`}
+        className={`absolute right-3 top-1/2 z-[100] flex -translate-y-1/2 cursor-pointer flex-col gap-1 rounded-sm border border-black p-1 active:bg-[#3a3a3a3a] md:hidden`}
       >
         <span
           className={`block h-[2px] w-7 bg-black ${toggleMenu && `translate-y-[6px] rotate-45`} transition-all duration-200`}

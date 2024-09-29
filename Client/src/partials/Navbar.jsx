@@ -116,7 +116,7 @@ const NavBar = ({ auth }) => {
             initial={{ width: 0 }}
             animate={{ width: `100%` }}
             exit={{ width: 0 }}
-            className={`b absolute right-0 top-0 flex h-screen w-full max-w-[300px] flex-col overflow-hidden bg-slate-800 pt-[60px] sm:hidden`}
+            className={`b absolute right-0 top-0 flex h-svh w-full max-w-[300px] flex-col overflow-hidden bg-slate-800 pt-[60px] sm:hidden`}
           >
             {isLogged ? (
               <>

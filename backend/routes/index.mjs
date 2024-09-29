@@ -7,6 +7,7 @@ import authenticate from "./Authentication/authenticate.mjs";
 import userStatus from "./Authentication/userStatus.mjs";
 import SaveText from "./upload/SaveText.mjs";
 import LoadText from "./download/getText.mjs";
+import DeleteText from "./upload/DeleteText.mjs";
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use(GenQuestion);
 router.use(GenCorrection);
 router.use(SaveText);
 router.use(LoadText);
+router.use(DeleteText);
 
 export default router;

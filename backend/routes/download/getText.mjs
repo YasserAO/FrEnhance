@@ -18,10 +18,10 @@ router.get("/api/text", isLoggedIn, validResult, async (request, response) => {
   }
   if (myText.length == 0)
     return response.status(200).send({ status: 204, msg: "No Text saved" });
-  const textArray = myText.map((element, index) => ({
+  const textArray = myText.map((element) => ({
     title: element.title,
     text: element.text,
-    id: index,
+    id: element._id,
   }));
 
   return response.status(200).send({ status: 200, content: textArray });

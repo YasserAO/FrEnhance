@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn {
+  @apply h-8 w-16 rounded-md text-white shadow-md;
+}
