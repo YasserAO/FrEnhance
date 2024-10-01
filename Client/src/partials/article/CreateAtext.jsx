@@ -7,7 +7,7 @@ import { DifficultyMenu } from "../menus/DifficultyMenu";
 import { SaveText } from "../Buttons/SaveText";
 import PropTypes from "prop-types";
 
-export const CreateAText = ({ dashMode, setDashMode }) => {
+export const CreateAText = ({ dashMode, setDashMode, setDbupdateToggle }) => {
   const [myText, setText] = useState({
     title: "",
     text: "",
@@ -146,7 +146,10 @@ export const CreateAText = ({ dashMode, setDashMode }) => {
             </div>
             {!emptyField && (
               <div className="mt-2 flex justify-center gap-3">
-                <SaveText text={myText}></SaveText>
+                <SaveText
+                  setDbupdateToggle={setDbupdateToggle}
+                  text={myText}
+                ></SaveText>
                 <button
                   onClick={() => {
                     DeleteText();

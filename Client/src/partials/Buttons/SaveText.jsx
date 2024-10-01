@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { textSaveForm } from "../../forms/textSave.mjs";
 
-export const SaveText = ({ text }) => {
+export const SaveText = ({ text, setDbupdateToggle }) => {
   const handleclick = async (e) => {
     e.target.disabled = true;
     let savedText;
@@ -10,7 +10,10 @@ export const SaveText = ({ text }) => {
     } catch (err) {
       console.log(err);
     }
-    if (savedText.status == 200) return;
+    if (savedText.status == 200) {
+      setDbupdateToggle((prev) => !prev);
+      return;
+    }
     console.log(savedText.msg);
     e.target.disabled = false;
   };

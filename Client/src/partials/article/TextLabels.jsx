@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import PropTypes from "prop-types";
 import { AuthContext } from "../../authProvider";
 export const TextLabels = ({
+  emptyText,
   setDisplayShowMore,
   displayShowMore,
   showMore,
@@ -49,26 +50,30 @@ export const TextLabels = ({
         )}
         <div className="max-h-[600px] overflow-hidden overflow-y-auto">
           <AnimatePresence>
-            {myTexts
-              .map((element, index) => (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  key={index}
-                  onClick={() => {
-                    handleTextInHand(index);
-                    setReadMode(true);
-                  }}
-                  className={`mb-3 cursor-pointer select-none overflow-hidden rounded-sm px-1 py-1 ${readMode ? (labelInHand == index ? `bg-white` : `bg-slate-500`) : `bg-slate-400`} transition-all duration-150`}
-                >
-                  <h2 className="font-semibold">
-                    {extract(element.title, 2)}...
-                  </h2>
-                  <p className="text-sm">{extract(element.text, 5)}...</p>
-                </motion.div>
-              ))
-              .filter((element, index) => index < showMore)}
+            {emptyText ? (
+              <p>Your list is Empty please Generate a text</p>
+            ) : (
+              myTexts
+                .map((element, index) => (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    key={index}
+                    onClick={() => {
+                      handleTextInHand(index);
+                      setReadMode(true);
+                    }}
+                    className={`mb-3 cursor-pointer select-none overflow-hidden rounded-sm px-1 py-1 ${readMode ? (labelInHand == index ? `bg-white` : `bg-slate-500`) : `bg-slate-400`} transition-all duration-150`}
+                  >
+                    <h2 className="font-semibold">
+                      {extract(element.title, 2)}...
+                    </h2>
+                    <p className="text-sm">{extract(element.text, 5)}...</p>
+                  </motion.div>
+                ))
+                .filter((element, index) => index < showMore)
+            )}
           </AnimatePresence>
         </div>
       </div>

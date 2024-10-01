@@ -1,4 +1,4 @@
-export const textForm = async () => {
+export const deleteTextForm = async (id) => {
   try {
     const statusRequest = await fetch("/api/text/delete", {
       method: "DELETE",
@@ -12,6 +12,6 @@ export const textForm = async () => {
     const Resp = statusRequest.json();
     return Resp;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
