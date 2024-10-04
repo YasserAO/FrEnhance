@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordFill } from "react-icons/ri";
-import NavBar from "../partials/Navbar";
-import { motion } from "framer-motion";
-import { loginForm } from "../forms/loginForm.mjs";
+import { NavLink, Navigate } from "react-router-dom";
 
-function Login() {
+import { motion } from "framer-motion";
+import { loginForm } from "../../forms/loginForm.mjs";
+export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -37,7 +37,6 @@ function Login() {
   return (
     <>
       <div className="flex h-screen flex-col bg-amber-200">
-        <NavBar auth={true}></NavBar>
         <motion.form
           initial={{
             opacity: 0,
@@ -112,17 +111,15 @@ function Login() {
             >
               {loading ? "Loading..." : "Login"}
             </button>
-            <a
-              href="/register"
+            <NavLink
+              to="/auth/register"
               className="font-semibold text-blue-500 underline"
             >
               Sign up
-            </a>
+            </NavLink>
           </div>
         </motion.form>
       </div>
     </>
   );
-}
-
-export default Login;
+};

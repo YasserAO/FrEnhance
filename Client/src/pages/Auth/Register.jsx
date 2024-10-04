@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import NavBar from "../partials/Navbar";
+import { Navigate, NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CiUser } from "react-icons/ci";
 import { MdAlternateEmail } from "react-icons/md";
@@ -7,7 +7,7 @@ import { RiLockPasswordFill } from "react-icons/ri";
 
 import { useNavigate } from "react-router-dom";
 
-function Register() {
+export const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -72,8 +72,6 @@ function Register() {
   return (
     <>
       <div className="flex h-screen flex-col bg-amber-200">
-        <NavBar auth={true}></NavBar>
-
         <motion.form
           initial={{
             opacity: 0,
@@ -195,14 +193,15 @@ function Register() {
             >
               {loading ? "Loading..." : "Sign Up"}
             </button>
-            <a href="/login" className="font-semibold text-blue-500 underline">
+            <NavLink
+              to="/auth/login"
+              className="font-semibold text-blue-500 underline"
+            >
               Login
-            </a>
+            </NavLink>
           </div>
         </motion.form>
       </div>
     </>
   );
-}
-
-export default Register;
+};

@@ -1,18 +1,20 @@
 import PropTypes from "prop-types";
 import NavBar from "../partials/Navbar";
+import { Outlet } from "react-router-dom";
 
-const MainPage = ({ children }) => {
+export const MainPage = () => {
   console.log(import.meta.env.VITE_API_URL);
   return (
-    <div className="flex h-svh flex-col bg-amber-100">
+    <>
       <NavBar></NavBar>
-      {children}
-    </div>
+
+      <main>
+        <Outlet></Outlet>
+      </main>
+    </>
   );
 };
 
 MainPage.propTypes = {
   children: PropTypes.node,
 };
-
-export default MainPage;

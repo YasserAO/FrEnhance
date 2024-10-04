@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import LogoutButton from "./Buttons/logout";
 import { BurgerMenu } from "./Buttons/menuButton";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const DNavBar = ({ children }) => {
   const [menuDropDown, setMenuDropDown] = useState(false);
@@ -21,12 +22,12 @@ const DNavBar = ({ children }) => {
       {/* Desktop Nav */}
       <div className="hidden w-full items-center md:flex">
         <div className="w-full select-none pl-5">
-          <a
+          <Link
             className="font-semibold underline-offset-2 hover:underline active:underline"
-            href="/"
+            to="/"
           >
             Home
-          </a>
+          </Link>
         </div>
         <div className="">
           <LogoAvatar setMenuDropDown={setMenuDropDown}></LogoAvatar>

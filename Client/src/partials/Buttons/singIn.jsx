@@ -1,16 +1,11 @@
+import { NavLink } from "react-router-dom";
 export default function SignIn() {
-  const handleSignIn = () => {
-    window.location.href = "/login";
-  };
-
   return (
-    <button
+    <NavLink
+      to="/auth/login"
       className={`active rounded-md px-2 py-1 font-semibold text-white underline-offset-4 hover:underline active:underline`}
-      onClick={() => {
-        handleSignIn();
-      }}
     >
       Login
-    </button>
+    </NavLink>
   );
 }

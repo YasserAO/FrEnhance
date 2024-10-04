@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../authProvider";
-import DNavBar from "../partials/DNavBar";
-import { CreateAText } from "../partials/article/CreateAtext";
-import { TextLabels } from "../partials/article/TextLabels";
-import { EditAText } from "../partials/article/EditAText";
-import { InsertAtext } from "../partials/article/InsertText";
-import { TextReadMode } from "../partials/article/TextReadMode";
-import { textForm } from "../forms/textGetForm.mjs";
+import { AuthContext } from "../../authProvider";
+import DNavBar from "../../partials/DNavBar";
+import { CreateAText } from "../../partials/article/CreateAtext";
+import { TextLabels } from "../../partials/article/TextLabels";
+import { EditAText } from "../../partials/article/EditAText";
+import { InsertAtext } from "../../partials/article/InsertText";
+import { TextReadMode } from "../../partials/article/TextReadMode";
+import { textForm } from "../../forms/textGetForm.mjs";
 const Dashboard = () => {
   const { isLogged } = useContext(AuthContext);
   const [dashMode, setDashMode] = useState(0);
