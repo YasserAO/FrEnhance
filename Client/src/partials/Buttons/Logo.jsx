@@ -12,13 +12,11 @@ export const Logo = () => {
 
 export const LogoDash = () => {
   return (
-    <div
-      onClick={() => {
-        window.location.href = "/dashboard";
-      }}
+    <NavLink
+      to="/dashboard"
       className="h-fit w-fit cursor-pointer select-none rounded-3xl bg-white px-2 py-1 font-semibold"
     >
       FrenchEnhance
-    </div>
+    </NavLink>
   );
 };

@@ -1,34 +1,76 @@
 import { FaAnglesUp } from "react-icons/fa6";
 import PropTypes from "prop-types";
-import { MdDeleteOutline } from "react-icons/md";
 import { motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { DeleteText } from "../Buttons/DeleteText";
 
 export const TextReadMode = () => {
-  const { myTexts, emptyText } = useOutletContext();
+  const { myTexts, emptyText, setDbupdateToggle } = useOutletContext();
   const navigate = useNavigate();
   const { id } = useParams();
+  const [myIndex, setMyIndex] = useState();
+
+  useEffect(() => {
+    const Index = myTexts
+      .map((element, index) => ({
+        id: element.id,
+        idx: index,
+      }))
+      .filter((element) => element.id === id)[0];
+    setMyIndex(Index);
+  }, [myTexts, id]);
+
+  const handleURL = (theID) => {
+    return `/dashboard/readmode/${theID}`;
+  };
+
+  const handlePrev = () => {
+    if (myIndex.idx == 0) {
+      navigate(handleURL(myTexts[myTexts.length - 1].id));
+      return;
+    }
+    navigate(handleURL(myTexts[myIndex.idx - 1].id));
+  };
+  const handleNext = () => {
+    if (myIndex.idx == myTexts.length - 1) {
+      navigate(handleURL(myTexts[0].id));
+      return;
+    }
+    navigate(handleURL(myTexts[myIndex.idx + 1].id));
+  };
+
   const Text = myTexts.filter((element) => element.id === id)[0];
-  
-  if (myTexts.length == 0) {
-    if (emptyText) return <div>Empty Field</div>;
-    else return <div>Loading</div>;
-  }
-  if (!Text)
+
+  if (!Text || emptyText)
     return (
-      <div>
-        <h1 className="font-semibold">Text Not Found</h1>
-        <Link to="/dashboard" className="btn bg-purple-400">
-          Return To Dashboard
-        </Link>
+      <div className="z-1 h-full p-3">
+        <motion.div className="flex h-14 items-center justify-between rounded-md bg-white pl-3 pr-5 font-semibold text-green-700">
+          <motion.h1
+            key={id + 1}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            Text Was deleted Successfully
+          </motion.h1>
+        </motion.div>
+        <button
+          onClick={() => {
+            navigate("/dashboard");
+          }}
+          to="/dashboard"
+          className="mx-auto mt-2 block rounded-sm bg-slate-800 px-2 py-2 text-white shadow-md"
+        >
+          Go back to Dashboard
+        </button>
       </div>
     );
+
   return (
     <div className="z-1 h-fit p-3">
-      <motion.div className="flex h-14 items-center justify-between rounded-md bg-white py-1 pl-3 pr-5 font-semibold">
+      <motion.div className="flex h-14 items-center justify-between rounded-md bg-white pl-3 pr-5 font-semibold">
         <motion.h1
           key={id + 1}
           initial={{ opacity: 0 }}
@@ -36,9 +78,7 @@ export const TextReadMode = () => {
         >
           {Text.title}
         </motion.h1>
-        <button className={`hover:scale-105 active:scale-95`}>
-          <MdDeleteOutline color="red" size={"1.5rem"} />
-        </button>
+        <DeleteText setDbupdateToggle={setDbupdateToggle} id={id}></DeleteText>
       </motion.div>
       <div className="mt-2 h-[450px] overflow-y-auto rounded-md bg-white px-4 py-4 sm:h-[600px]">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -53,16 +93,16 @@ export const TextReadMode = () => {
       <div className="mt-2 flex justify-center gap-8">
         <button className="btn bg-sky-500">Edit</button>
         <div className="flex gap-7">
-          <button className="-rotate-90">
+          <button onClick={handlePrev} className="-rotate-90">
             <FaAnglesUp></FaAnglesUp>
           </button>
-          <button className="rotate-90">
+          <button onClick={handleNext} className="rotate-90">
             <FaAnglesUp></FaAnglesUp>
           </button>
         </div>
         <button
           onClick={() => {
-            navigate("/dashboard");
+            navigate(-1);
           }}
           className="btn bg-red-600"
         >

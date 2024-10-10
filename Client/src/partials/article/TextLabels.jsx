@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { extract } from "../../utils/textExtract.mjs";
 import { FaAnglesUp } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 export const TextLabels = ({
   emptyText,
   displayShowMore,
   showMore,
   setShowMore,
-
+  readMode,
   myTexts,
 }) => {
   const navigate = useNavigate();
@@ -43,7 +43,9 @@ export const TextLabels = ({
         <div className="max-h-[600px] overflow-hidden overflow-y-auto">
           <AnimatePresence>
             {emptyText ? (
-              <p>Your list is Empty please Generate a text</p>
+              <p className="text-center text-base font-semibold text-gray-500">
+                Your list is Empty please Generate a text
+              </p>
             ) : (
               myTexts
                 .map((element, index) => (
@@ -58,15 +60,36 @@ export const TextLabels = ({
                     className={`g-slate-400 mb-3 cursor-pointer select-none overflow-hidden rounded-sm bg-slate-400 px-1 py-1 transition-all duration-150`}
                   >
                     <h2 className="font-semibold">
-                      {extract(element.title, 2)}...
+                      {extract(element.title, readMode ? 30 : 5)}
                     </h2>
-                    <p className="text-sm">{extract(element.text, 5)}...</p>
+                    <p className="text-sm">
+                      {extract(element.text, readMode ? 50 : 5)}
+                    </p>
                   </motion.div>
                 ))
                 .filter((element, index) => index < showMore)
             )}
           </AnimatePresence>
         </div>
+        {readMode ? (
+          <button
+            onClick={() => {
+              navigate(-1);
+            }}
+            className="btn absolute bottom-4 right-1/2 mx-auto block translate-x-1/2 bg-red-500 py-1"
+          >
+            Exit
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              navigate("readmode");
+            }}
+            className="btn absolute bottom-4 right-1/2 mx-auto block translate-x-1/2 bg-slate-900 py-1"
+          >
+            ReadAll
+          </button>
+        )}
       </div>
     </>
   );
