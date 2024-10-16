@@ -21,7 +21,7 @@ import { NotFound } from "./layouts/NotFound";
 
 // Dashboard
 import { MainDashboard } from "./pages/dashboard/mainDashboard";
-import { CreateAText } from "./pages/dashboard/CreateAText";
+import { CreateAText, EditedTextLoader } from "./pages/dashboard/CreateAText";
 import { TextReadMode } from "./partials/article/TextReadMode";
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,7 +39,11 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/dashboard" element={<DashBoard />}>
         <Route index element={<MainDashboard />}></Route>
-        <Route path="create" element={<CreateAText />}></Route>
+        <Route
+          path="create"
+          loader={EditedTextLoader}
+          element={<CreateAText />}
+        ></Route>
         <Route path="edit" element={<CreateAText />}></Route>
         <Route path="insert" element={<CreateAText />}></Route>
         <Route path="readmode">

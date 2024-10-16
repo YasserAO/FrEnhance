@@ -52,30 +52,32 @@ const DNavBar = ({ children }) => {
             exit={{ width: 0 }}
             className={`b absolute right-0 top-0 z-50 flex h-svh w-full max-w-[300px] flex-col overflow-hidden bg-gray-600 pt-[60px] md:hidden`}
           >
-            <div className="flex flex-col items-start justify-start gap-2 px-10">
-              <div className="flex h-12 w-full items-center justify-between">
-                <div className="flex items-center gap-1">
-                  <LogoAvatar
-                    user={userForm.firstName + " " + userForm.lastName}
-                  ></LogoAvatar>
-                  <p className="text-white">
-                    {userForm.firstName + " " + userForm.lastName}
-                  </p>
+            <div className="min-w-[300px]">
+              <div className="flex flex-col items-start justify-start gap-2 px-10">
+                <div className="flex h-12 w-full items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <LogoAvatar
+                      user={userForm.firstName + " " + userForm.lastName}
+                    ></LogoAvatar>
+                    <p className="text-white">
+                      {userForm.firstName + " " + userForm.lastName}
+                    </p>
+                  </div>
+                  <LogoutButton></LogoutButton>
                 </div>
-                <LogoutButton></LogoutButton>
               </div>
+              {children}
+              <ul className="flexflex-col gap-4 px-5 py-10 text-xl text-white">
+                <li
+                  className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
+                  onClick={() => {
+                    window.location.href = "/";
+                  }}
+                >
+                  Home
+                </li>
+              </ul>
             </div>
-            {children}
-            <ul className="flexflex-col gap-4 px-5 py-10 text-xl text-white">
-              <li
-                className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
-                onClick={() => {
-                  window.location.href = "/";
-                }}
-              >
-                Home
-              </li>
-            </ul>
           </motion.div>
         )}
       </AnimatePresence>

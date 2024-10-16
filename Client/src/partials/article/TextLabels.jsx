@@ -14,8 +14,6 @@ export const TextLabels = ({
   myTexts,
 }) => {
   const navigate = useNavigate();
-  const [mobileShowMore, setMobileShowMore] = useState(0);
-  const [textMenuToggle, setTextMenuToggle] = useState(false);
 
   return (
     <>
@@ -43,9 +41,14 @@ export const TextLabels = ({
         <div className="max-h-[600px] overflow-hidden overflow-y-auto">
           <AnimatePresence>
             {emptyText ? (
-              <p className="text-center text-base font-semibold text-gray-500">
+              <motion.p
+                initial={{ opacity: 0, height: "0px" }}
+                animate={{ opacity: 1, height: "50px" }}
+                exit={{ opacity: 0, height: "0px" }}
+                className="overflow-hidden text-center text-base font-semibold text-gray-500"
+              >
                 Your list is Empty please Generate a text
-              </p>
+              </motion.p>
             ) : (
               myTexts
                 .map((element, index) => (

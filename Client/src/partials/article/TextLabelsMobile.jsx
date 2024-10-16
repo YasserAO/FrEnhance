@@ -3,9 +3,11 @@ import { extract } from "../../utils/textExtract.mjs";
 import { FaAnglesUp } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-export const TextLabelsMobile = ({ myTexts }) => {
+import { useNavigate } from "react-router-dom";
+export const TextLabelsMobile = ({ emptyText, readMode, myTexts }) => {
   const [mobileShowMore, setMobileShowMore] = useState(0);
   const [textMenuToggle, setTextMenuToggle] = useState(false);
+  const navigate = useNavigate();
   return (
     <div className="select-none md:hidden">
       <div className="mb-2 mt-5 flex flex-col justify-center gap-1">
@@ -41,22 +43,31 @@ export const TextLabelsMobile = ({ myTexts }) => {
         className={`min-h-0 overflow-hidden overflow-y-auto px-3 transition-all ${textMenuToggle ? `max-h-[300px]` : `max-h-0`} `}
       >
         <AnimatePresence>
-          {myTexts
-            .map((element, index) => (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                key={index}
-                className={`mb-3 cursor-pointer select-none overflow-hidden rounded-sm bg-slate-400 px-1 py-1 transition-all duration-150`}
-              >
-                <h2 className="font-semibold">
-                  {extract(element.title, 2)}...
-                </h2>
-                <p className="text-sm">{extract(element.text, 5)}...</p>
-              </motion.div>
-            ))
-            .filter((element, index) => index < mobileShowMore)}
+          {emptyText ? (
+            <p className="text-center text-base font-semibold text-gray-500">
+              Your list is Empty please Generate a text
+            </p>
+          ) : (
+            myTexts
+              .map((element, index) => (
+                <motion.div
+                  onClick={() => {
+                    navigate("readmode/" + element.id);
+                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  key={index}
+                  className={`mb-3 cursor-pointer select-none overflow-hidden rounded-sm bg-slate-400 px-1 py-1 transition-all duration-150`}
+                >
+                  <h2 className="font-semibold">
+                    {extract(element.title, 2)}...
+                  </h2>
+                  <p className="text-sm">{extract(element.text, 5)}...</p>
+                </motion.div>
+              ))
+              .filter((element, index) => index < mobileShowMore)
+          )}
         </AnimatePresence>
       </div>
     </div>

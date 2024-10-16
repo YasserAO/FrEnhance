@@ -56,14 +56,18 @@ export const DashBoard = () => {
       <LoadingScreen isLogged></LoadingScreen>
 
       <DNavBar>
-        <TextLabelsMobile emptyText myTexts={myTexts}></TextLabelsMobile>
+        <TextLabelsMobile
+          readMode={readMode}
+          emptyText={emptyText}
+          myTexts={myTexts}
+        ></TextLabelsMobile>
       </DNavBar>
 
       <main
         className={`relative flex flex-grow flex-col bg-amber-100 sm:px-3 sm:py-4 sm:pb-5 md:flex-row md:gap-[2.5%] md:px-[2.5%] md:py-10 lg:px-[5%] xl:px-[10%]`}
       >
         <div
-          className={`${!readMode && `hidden`} relative min-h-full flex-[1] overflow-hidden rounded-lg bg-gray-700 px-3 py-6 transition-all duration-200 md:block`}
+          className={`${!readMode && `hidden`} relative min-h-full flex-[1] rounded-lg bg-gray-700 px-3 py-6 shadow-md shadow-gray-600 transition-all duration-200 md:block`}
         >
           <h2 className="mb-6 select-none rounded-lg bg-slate-900 py-3 text-center font-semibold text-white">
             My Recent texts
@@ -78,7 +82,7 @@ export const DashBoard = () => {
           ></TextLabels>
         </div>
         <div
-          className={`relative ${readMode ? `sm:flex-[0] lg:flex-[0]` : `sm:flex-[2] lg:flex-[2.5]`} flex flex-grow flex-col overflow-hidden transition-all duration-100`}
+          className={`relative ${readMode ? `sm:flex-[0] lg:flex-[0]` : `sm:flex-[2] lg:flex-[2.5]`} flex flex-grow flex-col transition-all duration-100`}
         >
           <Outlet
             context={{ myTexts, emptyText, setDbupdateToggle, dbupdateToggle }}

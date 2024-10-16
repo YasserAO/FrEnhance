@@ -24,9 +24,9 @@ export const SaveText = ({ text, setDbupdateToggle, dbupdateToggle }) => {
       onClick={(e) => {
         handleclick(e);
       }}
-      className="h-8 w-8 rounded-lg bg-green-600 p-1 font-semibold text-white shadow-sm transition-all duration-200 active:scale-95 active:bg-green-700 disabled:bg-green-300 disabled:active:scale-100"
+      className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 p-1 font-semibold text-white shadow-sm transition-all duration-200 active:scale-95 active:bg-green-700 disabled:bg-green-300 disabled:active:scale-100"
     >
-      <IoIosSave size={"100%"} />
+      <IoIosSave size={"1.5rem"} />
     </button>
   );
 };

@@ -102,7 +102,7 @@ export const TextReadMode = () => {
         </div>
         <button
           onClick={() => {
-            navigate(-1);
+            navigate("/dashboard");
           }}
           className="btn bg-red-600"
         >
