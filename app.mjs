@@ -22,13 +22,14 @@ app.use(express.json());
 
 app.use(
   session({
+    
     secret: process.env.SKEY,
     saveUninitialized: false,
     resave: false,
     cookie: {
       maxAge: 3600 * 24 * 1000,
     },
-    
+    SameSite:'None',
     secure: process.env.NODE_ENV === 'production',
     store: MongoStore.create({
       client: mongoose.connection.getClient(),
