@@ -18,16 +18,11 @@ router.get("/api/text/editedtext", isLoggedIn, async (request, response) => {
       message: "Error Happened while fetching",
     });
   }
-  if (!myText)
-    return response
-      .status(200)
-      .send({ status: 404, msg: "Text was not Found" });
-  if (Object.keys(myText).length === 0) {
-    console.log("Text was not found");
-    return response
-      .status(200)
-      .send({ status: 204, msg: "Text was not found" });
+  console.log(myText.title);
+  if (!myText.title || !myText.text) {
+    return response.status(200).send({ status: 404, msg: "No Text saved" });
   }
+
   console.log("Text was found");
   return response
     .status(200)

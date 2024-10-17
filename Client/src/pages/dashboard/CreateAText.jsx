@@ -16,7 +16,7 @@ export const EditedTextLoader = async () => {
     try {
       const response = await loadEditedText();
       if (!response) return null;
-      // console.log(response.status);
+      console.log(response.status);
       if (response.status == 200) return response.content;
       else if (response.status == 204) throw Error("Text Edit is Empty");
       else if (response.status == 404) throw Error("Text was not Found");
