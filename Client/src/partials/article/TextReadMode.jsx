@@ -38,7 +38,7 @@ export const TextReadMode = () => {
     if (!response) console.error("Error happened");
     if (response.status == 200) {
       console.log(response.msg);
-      navigate("/dashboard/create");
+      navigate("/dashboard/edit");
     }
   };
 

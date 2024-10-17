@@ -36,19 +36,23 @@ export const Register = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const RegRequest = await fetch("/api/user/reg", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
+      const RegRequest = await fetch(
+        import.meta.env.VITE_API_URL + "/api/user/reg",
+        {
+          credentials: "include",
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            username,
+            email,
+            password,
+          }),
         },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          username,
-          email,
-          password,
-        }),
-      });
+      );
 
       const res = await RegRequest.json();
       if (res) setMessage(res[0].msg);

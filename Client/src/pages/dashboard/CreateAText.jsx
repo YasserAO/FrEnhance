@@ -16,20 +16,18 @@ export const EditedTextLoader = async () => {
     try {
       const response = await loadEditedText();
       if (!response) return null;
+      // console.log(response.status);
       if (response.status == 200) return response.content;
+      else if (response.status == 204) throw Error("Text Edit is Empty");
       else if (response.status == 404) throw Error("Text was not Found");
       else if (response.status == 500) throw Error("Error Happened");
     } catch (err) {
-      console.error(err.message);
+      console.log(err.message);
       return null;
     }
   }
   const Content = await textHandler();
-  if (Content) {
-    console.log(Content);
-    return Content;
-  }
-  return null;
+  return Content;
 };
 
 export const CreateAText = () => {

@@ -39,13 +39,13 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/dashboard" element={<DashBoard />}>
         <Route index element={<MainDashboard />}></Route>
+        <Route path="create" element={<CreateAText />}></Route>
         <Route
+          path="edit"
           loader={EditedTextLoader}
-          path="create"
           element={<CreateAText />}
         ></Route>
-        <Route path="edit" element={<CreateAText />}></Route>
-        <Route path="insert" element={<CreateAText />}></Route>
+        {/* <Route path="insert" element={<CreateAText />}></Route> */}
         <Route path="readmode">
           <Route path=":id" element={<TextReadMode />}></Route>
         </Route>
