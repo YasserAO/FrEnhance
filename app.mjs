@@ -28,8 +28,8 @@ app.use(
     resave: false,
     cookie: {
       
-      sameSite:"none",
-      secure: process.env.NODE_ENV == "production",
+      sameSite: 'none',
+      secure: true,
       maxAge: 3600 * 24 * 1000,
     },
     
