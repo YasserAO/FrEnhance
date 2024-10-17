@@ -11,7 +11,7 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 await DBConnect();
-app.set("trust proxy", 1)
+app.set("trust proxy", 1);
 const corsOptions = {
   origin: process.env.LOCALHOST,
   credentials: true,
@@ -22,18 +22,15 @@ app.use(express.json());
 
 app.use(
   session({
-    
     secret: process.env.SKEY,
     saveUninitialized: false,
     resave: false,
     cookie: {
-      
-      sameSite: 'none',
-      secure: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production",
       maxAge: 3600 * 24 * 1000,
     },
-    
-    
+
     store: MongoStore.create({
       client: mongoose.connection.getClient(),
     }),

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
+import { logoutForm } from "../../forms/logoutForm.mjs";
 
 export default function LogoutButton() {
   const [loading, setLoading] = useState(false);
@@ -7,17 +8,9 @@ export default function LogoutButton() {
   const handleLogout = async () => {
     try {
       setLoading(true);
-      const logoutAPI = await fetch(
-        import.meta.env.VITE_API_URL + "/api/user/auth/logout",
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-        },
-      );
-      const data = await logoutAPI.json();
-      console.log(data.msg);
+      const Response = await logoutForm();
+      const msg = await Response.msg;
+      console.log(msg);
       setTimeout(() => {
         window.location.href = "/";
       }, 1000);

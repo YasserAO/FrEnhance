@@ -26,12 +26,13 @@ router.post("/api/user/auth", (req, res, next) => {
   })(req, res, next); // Ensure to pass next for middleware handling
 });
 
-router.post("/api/user/auth/logout", isLoggedIn, (request, response) => {
+router.post("/api/user/auth/logout", (request, response) => {
   request.logout((err) => {
     if (err) return response.sendStatus(401).send({ msg: "Error Occured" });
     request.session.destroy((err) => {
       if (err) console.log(err);
     });
+    response.clearCookie("connect.sid");
     return response.status(200).send({ msg: "LoggedOut Successfully" });
   });
 });
