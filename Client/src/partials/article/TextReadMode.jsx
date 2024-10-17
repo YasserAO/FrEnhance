@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { DeleteText } from "../Buttons/DeleteText";
+import { SaveEditedText } from "../../forms/saveEditedText.mjs";
 
 export const TextReadMode = () => {
   const { myTexts, emptyText, setDbupdateToggle } = useOutletContext();
@@ -22,6 +23,24 @@ export const TextReadMode = () => {
       .filter((element) => element.id === id)[0];
     setMyIndex(Index);
   }, [myTexts, id]);
+
+  const handleEdit = async () => {
+    const setEditText = async () => {
+      try {
+        const response = await SaveEditedText(Text.title, Text.text);
+        return response;
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+
+    const response = await setEditText();
+    if (!response) console.error("Error happened");
+    if (response.status == 200) {
+      console.log(response.msg);
+      navigate("/dashboard/create");
+    }
+  };
 
   const handleURL = (theID) => {
     return `/dashboard/readmode/${theID}`;
@@ -91,7 +110,9 @@ export const TextReadMode = () => {
         </motion.div>
       </div>
       <div className="mt-2 flex justify-center gap-8">
-        <button className="btn bg-sky-500">Edit</button>
+        <button className="btn bg-sky-500" onClick={handleEdit}>
+          Edit
+        </button>
         <div className="flex gap-7">
           <button onClick={handlePrev} className="-rotate-90">
             <FaAnglesUp></FaAnglesUp>

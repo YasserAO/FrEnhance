@@ -15,6 +15,7 @@ export const EditedTextLoader = async () => {
   async function textHandler() {
     try {
       const response = await loadEditedText();
+      if (!response) return null;
       if (response.status == 200) return response.content;
       else if (response.status == 404) throw Error("Text was not Found");
       else if (response.status == 500) throw Error("Error Happened");
@@ -43,7 +44,6 @@ export const CreateAText = () => {
   const [theme, setTheme] = useState("");
   const [level, setLevel] = useState(1);
   const [emptyField, setEmptyField] = useState(true);
-  const levels = ["A", "B", "C"];
 
   useState(() => {
     if (content) {

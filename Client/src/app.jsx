@@ -40,8 +40,8 @@ const router = createBrowserRouter(
       <Route path="/dashboard" element={<DashBoard />}>
         <Route index element={<MainDashboard />}></Route>
         <Route
-          path="create"
           loader={EditedTextLoader}
+          path="create"
           element={<CreateAText />}
         ></Route>
         <Route path="edit" element={<CreateAText />}></Route>
