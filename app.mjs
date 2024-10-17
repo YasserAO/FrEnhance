@@ -27,10 +27,12 @@ app.use(
     saveUninitialized: false,
     resave: false,
     cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      sameSite:'None',
       maxAge: 3600 * 24 * 1000,
     },
-    SameSite:'None',
-    secure: process.env.NODE_ENV === 'production',
+    
+    
     store: MongoStore.create({
       client: mongoose.connection.getClient(),
     }),
