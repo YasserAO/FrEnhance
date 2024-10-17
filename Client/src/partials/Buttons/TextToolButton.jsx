@@ -2,15 +2,13 @@ import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { MdInsertDriveFile } from "react-icons/md";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-export const TextToolButton = ({
-  type,
-  toggleForm,
-  setToggleForm,
-  setDashMode,
-}) => {
+export const TextToolButton = ({ type }) => {
+  const navigate = useNavigate();
   const icons = [
     {
+      to: "create",
       text: "Create a Text",
       icon: (
         <MdOutlineCreateNewFolder
@@ -20,6 +18,7 @@ export const TextToolButton = ({
       ),
     },
     {
+      to: "edit",
       text: "Edit a Text",
       icon: (
         <CiEdit
@@ -29,7 +28,8 @@ export const TextToolButton = ({
       ),
     },
     {
-      text: "Edit a Text",
+      to: "insert",
+      text: "insert  A text",
       icon: (
         <MdInsertDriveFile
           size={"3rem"}
@@ -39,23 +39,20 @@ export const TextToolButton = ({
     },
   ];
   return (
-    !toggleForm && (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1 }}
-        onClick={() => {
-          setDashMode(type);
-          setToggleForm((prev) => !prev);
-        }}
-        className="group flex h-40 cursor-pointer select-none flex-col items-center justify-center overflow-hidden rounded-lg border-4 border-gray-300 sm:mt-5"
-      >
-        <h1 className="groupe-hov text-md select-none font-semibold text-gray-400">
-          {icons[type - 1].text}
-        </h1>
-        {icons[type - 1].icon}
-      </motion.div>
-    )
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.1 }}
+      onClick={() => {
+        navigate(icons[type - 1].to);
+      }}
+      className="group flex h-24 w-full cursor-pointer select-none flex-col items-center justify-center overflow-hidden rounded-lg border-4 border-gray-300"
+    >
+      <h1 className="text-md select-none font-semibold text-gray-400">
+        {icons[type - 1].text}
+      </h1>
+      {icons[type - 1].icon}
+    </motion.div>
   );
 };
 

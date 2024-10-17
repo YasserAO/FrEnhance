@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import { textSaveForm } from "../../forms/textSave.mjs";
+import { IoIosSave } from "react-icons/io";
 
-export const SaveText = ({ text }) => {
+export const SaveText = ({ text, setDbupdateToggle, dbupdateToggle }) => {
   const handleclick = async (e) => {
     e.target.disabled = true;
     let savedText;
@@ -10,7 +11,11 @@ export const SaveText = ({ text }) => {
     } catch (err) {
       console.log(err);
     }
-    if (savedText.status == 200) return;
+    if (savedText.status == 200) {
+      setDbupdateToggle((prev) => !prev);
+      console.log(dbupdateToggle);
+      return;
+    }
     console.log(savedText.msg);
     e.target.disabled = false;
   };
@@ -19,9 +24,9 @@ export const SaveText = ({ text }) => {
       onClick={(e) => {
         handleclick(e);
       }}
-      className="rounded-sm bg-green-600 px-5 py-1 font-semibold text-white shadow-sm transition-all duration-200 active:scale-95 active:bg-green-700 disabled:bg-green-300 disabled:active:scale-100"
+      className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 p-1 font-semibold text-white shadow-sm transition-all duration-200 active:scale-95 active:bg-green-700 disabled:bg-green-300 disabled:active:scale-100"
     >
-      Save
+      <IoIosSave size={"1.5rem"} />
     </button>
   );
 };
@@ -31,4 +36,6 @@ SaveText.propTypes = {
     title: PropTypes.string,
     text: PropTypes.string,
   }).isRequired,
+  setDbupdateToggle: PropTypes.func,
+  dbupdateToggle: PropTypes.bool,
 };

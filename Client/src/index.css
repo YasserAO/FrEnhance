@@ -5,3 +5,7 @@
 .btn {
   @apply h-8 w-16 rounded-md text-white shadow-md;
 }
+
+#root {
+  @apply flex min-h-svh flex-col;
+}

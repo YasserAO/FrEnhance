@@ -27,6 +27,14 @@ const UserRegistration = new mongoose.Schema({
     type: String,
     required: true,
   },
+  editText: {
+    title: {
+      type: String,
+    },
+    text: {
+      type: String,
+    },
+  },
 });
 
 export const UserModel = mongoose.model("User", UserRegistration);

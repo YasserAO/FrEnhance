@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../authProvider";
-import DNavBar from "../partials/DNavBar";
-import { CreateAText } from "../partials/article/CreateAtext";
-import { TextLabels } from "../partials/article/TextLabels";
-import { EditAText } from "../partials/article/EditAText";
-import { InsertAtext } from "../partials/article/InsertText";
-import { TextReadMode } from "../partials/article/TextReadMode";
-import { textForm } from "../forms/textGetForm.mjs";
+import { AuthContext } from "../../authProvider";
+import DNavBar from "../../partials/DNavBar";
+import { CreateAText } from "../../partials/article/CreateAtext";
+import { TextLabels } from "../../partials/article/TextLabels";
+import { EditAText } from "../../partials/article/EditAText";
+import { InsertAtext } from "../../partials/article/InsertText";
+import { TextReadMode } from "../../partials/article/TextReadMode";
+import { textForm } from "../../forms/textGetForm.mjs";
 const Dashboard = () => {
   const { isLogged } = useContext(AuthContext);
   const [dashMode, setDashMode] = useState(0);
@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [labelInHand, setLabelInHand] = useState();
   const [readMode, setReadMode] = useState(false);
   const [myTexts, setMyTexts] = useState([]);
+  const [emptyText, setEmptyText] = useState(false);
   const [showMore, setShowMore] = useState(4);
   const [displayShowMore, setDisplayShowMore] = useState(false);
   const [dbupdateToggle, setDbupdateToggle] = useState(false);
@@ -40,14 +41,17 @@ const Dashboard = () => {
         console.log(err);
       }
       if (texts.status == 200) {
+        setEmptyText(false);
         setMyTexts(texts.content);
-        if (texts.content.length < showMore) setShowMore(texts.content.length);
+        if (texts.content.length < 4) setShowMore(texts.content.length);
         console.log(texts);
         setDisplayShowMore(true);
-      } else console.log(texts);
+      } else if (texts.status == 204) {
+        setEmptyText(true);
+      }
     };
     getTexts();
-  }, []);
+  }, [dbupdateToggle]);
 
   return (
     <div
@@ -60,6 +64,7 @@ const Dashboard = () => {
       </div>
       <DNavBar>
         <TextLabels
+          emptyText={emptyText}
           displayShowMore={displayShowMore}
           setDisplayShowMore={setDisplayShowMore}
           showMore={showMore}
@@ -78,6 +83,7 @@ const Dashboard = () => {
             My Recent texts
           </h2>
           <TextLabels
+            emptyText={emptyText}
             displayShowMore={displayShowMore}
             setDisplayShowMore={setDisplayShowMore}
             showMore={showMore}
@@ -92,6 +98,9 @@ const Dashboard = () => {
         </div>
         {readMode ? (
           <TextReadMode
+            emptyText={emptyText}
+            dbupdateToggle={dbupdateToggle}
+            setDbupdateToggle={setDbupdateToggle}
             showMore
             setShowMore
             myTexts={myTexts}
@@ -103,6 +112,7 @@ const Dashboard = () => {
         ) : (
           <div className="grid h-fit grid-cols-2 gap-4 p-3 md:w-[70%]">
             <CreateAText
+              setDbupdateToggle={setDbupdateToggle}
               dashMode={dashMode}
               setDashMode={setDashMode}
             ></CreateAText>

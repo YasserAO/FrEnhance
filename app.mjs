@@ -6,10 +6,17 @@ import session from "express-session";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import passport from "passport";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 await DBConnect();
+
+const corsOptions = {
+  origin: process.env.LOCALHOST,
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use(express.json());
 

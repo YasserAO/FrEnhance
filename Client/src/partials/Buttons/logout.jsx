@@ -7,12 +7,15 @@ export default function LogoutButton() {
   const handleLogout = async () => {
     try {
       setLoading(true);
-      const logoutAPI = await fetch("/api/user/auth/logout", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
+      const logoutAPI = await fetch(
+        import.meta.env.VITE_API_URL + "/api/user/auth/logout",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
         },
-      });
+      );
       const data = await logoutAPI.json();
       console.log(data.msg);
       setTimeout(() => {

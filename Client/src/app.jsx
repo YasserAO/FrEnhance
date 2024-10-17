@@ -1,49 +1,60 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./view/mainPage";
-import Dashboard from "./view/dashboard";
-import Register from "./view/register";
-import Login from "./view/login";
-import About from "./partials/About";
-import Contact from "./partials/Contact";
-import Features from "./partials/Features";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Route,
+} from "react-router-dom";
 
+// Main Page
+import { MainPage } from "./layouts/MainPage";
+import { Home } from "./pages/home/Home";
+import About from "./pages/home/About";
+import Contact from "./pages/home/Contact";
+import Features from "./pages/home/Features";
+
+// Auth
+import { Auth } from "./layouts/Auth";
+import { Login } from "./pages/Auth/login";
+import { Register } from "./pages/Auth/register";
+import { DashBoard } from "./layouts/Dashboard";
+import { NotFound } from "./layouts/NotFound";
+
+// Dashboard
+import { MainDashboard } from "./pages/dashboard/mainDashboard";
+import { CreateAText, EditedTextLoader } from "./pages/dashboard/CreateAText";
+import { TextReadMode } from "./partials/article/TextReadMode";
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path="/" element={<MainPage></MainPage>}>
+        <Route index element={<Home />}></Route>
+        <Route path="about" element={<About />}></Route>
+        <Route path="contact" element={<Contact />}></Route>
+        <Route path="features" element={<Features />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
+      </Route>
+      <Route path="/auth" element={<Auth />}>
+        <Route index path="login" element={<Login></Login>}></Route>
+        <Route path="register" element={<Register></Register>}></Route>
+      </Route>
+      <Route path="/dashboard" element={<DashBoard />}>
+        <Route index element={<MainDashboard />}></Route>
+        <Route
+          path="create"
+          loader={EditedTextLoader}
+          element={<CreateAText />}
+        ></Route>
+        <Route path="edit" element={<CreateAText />}></Route>
+        <Route path="insert" element={<CreateAText />}></Route>
+        <Route path="readmode">
+          <Route path=":id" element={<TextReadMode />}></Route>
+        </Route>
+      </Route>
+    </>,
+  ),
+);
 const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<MainPage></MainPage>}></Route>
-        <Route
-          path="/features"
-          element={
-            <MainPage>
-              <Features></Features>
-            </MainPage>
-          }
-        ></Route>
-        <Route
-          path="/about"
-          element={
-            <MainPage>
-              <About></About>
-            </MainPage>
-          }
-        ></Route>
-        <Route
-          path="/contact"
-          element={
-            <MainPage>
-              <Contact></Contact>
-            </MainPage>
-          }
-        ></Route>
-
-        <Route path="/dashboard" element={<Dashboard />}></Route>
-
-        <Route path="/login" element={<Login></Login>}></Route>
-        <Route path="/register" element={<Register></Register>}></Route>
-      </Routes>
-    </Router>
-  );
+  return <RouterProvider router={router}></RouterProvider>;
 };
 
 export default App;
