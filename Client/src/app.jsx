@@ -14,7 +14,7 @@ import Features from "./pages/home/Features";
 
 // Auth
 import { Auth } from "./layouts/Auth";
-import { Login } from "./pages/Auth/login";
+import { Login } from "./pages/Auth/Login";
 import { Register } from "./pages/Auth/register";
 import { DashBoard } from "./layouts/Dashboard";
 import { NotFound } from "./layouts/NotFound";
