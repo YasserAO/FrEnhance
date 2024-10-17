@@ -11,7 +11,7 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 await DBConnect();
-
+app.set("trust proxy", 1)
 const corsOptions = {
   origin: process.env.LOCALHOST,
   credentials: true,
