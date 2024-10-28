@@ -14,10 +14,12 @@ router.use(authenticate);
 import GenText from "./Gen/GenText.mjs";
 import GenQuestion from "./Gen/GenQuestion.mjs";
 import GenCorrection from "./Gen/GenCorrection.mjs";
+import GenExplain from "./Gen/GenExplanation.mjs";
 
 router.use(GenText);
 router.use(GenQuestion);
 router.use(GenCorrection);
+router.use(GenExplain);
 
 // Downloads
 import EditGetText from "./download/EditTextGet.mjs";
