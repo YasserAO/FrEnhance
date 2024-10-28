@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import fetchText from "../../forms/textGenerate.mjs";
 import SpinLoad from "../../partials/icons/spindLoader";
 import { motion } from "framer-motion";
@@ -10,19 +10,23 @@ import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 import { IoSend } from "react-icons/io5";
 import { IoIosReturnLeft } from "react-icons/io";
 import { loadEditedText } from "../../forms/loadEditedText.mjs";
+import { Translate } from "../../partials/Buttons/Translate.jsx";
+import { outputFinder } from "../../utils/outputFinder.mjs";
+
+import { ExplainWindow } from "../../partials/article/ExplainWindow.jsx";
 
 export const EditedTextLoader = async () => {
   async function textHandler() {
     try {
       const response = await loadEditedText();
       if (!response) return null;
-      console.log(response.status);
+      // console.log(response.status);
       if (response.status == 200) return response.content;
       else if (response.status == 204) throw Error("Text Edit is Empty");
       else if (response.status == 404) throw Error("Text was not Found");
       else if (response.status == 500) throw Error("Error Happened");
     } catch (err) {
-      console.log(err.message);
+      console.error(err.message);
       return null;
     }
   }
@@ -38,10 +42,19 @@ export const CreateAText = () => {
     text: "",
   });
   const navigate = useNavigate();
+
+  // Loading conditions
   const [textLoading, setTextLoading] = useState(false);
+  const [emptyField, setEmptyField] = useState(true);
+
+  // Inputs
   const [theme, setTheme] = useState("");
   const [level, setLevel] = useState(1);
-  const [emptyField, setEmptyField] = useState(true);
+
+  // Translate and explain Menu
+  const [selectedText, setSelectedText] = useState("");
+  const [explainMenuToggle, setExplainMenuToggle] = useState(false);
+  const [anchor, setAnchor] = useState("");
 
   useState(() => {
     if (content) {
@@ -68,6 +81,33 @@ export const CreateAText = () => {
     setTextLoading(false);
     setEmptyField(false);
   };
+  useEffect(() => {
+    const selectionFunction = () => {
+      if (explainMenuToggle) return;
+      const output = document.getElementById("content");
+      const myAnchor = window.getSelection().anchorNode;
+      const selection = window.getSelection().toString().trim();
+      if (output.contains(myAnchor)) {
+        const myWords = outputFinder(
+          window.getSelection().anchorNode.textContent,
+          selection,
+        );
+
+        if (myWords == null || myWords.length > 3) {
+          setSelectedText("");
+        } else {
+          const myString = myWords.join(" ");
+          setSelectedText(myString.replace(/^,|,$/g, ""));
+          setAnchor(myAnchor.textContent);
+        }
+      } else setSelectedText("");
+    };
+
+    document.addEventListener("selectionchange", selectionFunction);
+    return () => {
+      document.removeEventListener("selectionchange", selectionFunction);
+    };
+  }, [explainMenuToggle]);
 
   return (
     <motion.div
@@ -75,8 +115,16 @@ export const CreateAText = () => {
       animate={{ opacity: 1 }}
       className="relative flex h-full flex-grow flex-col"
     >
+      {explainMenuToggle && (
+        <ExplainWindow
+          selectedText={selectedText}
+          setSelectedText={setSelectedText}
+          anchor={anchor}
+          setExplainMenuToggle={setExplainMenuToggle}
+        />
+      )}
       <div className="flex h-10 w-full gap-3 overflow-hidden bg-gray-100 px-2">
-        <div className="w-1/2">
+        <div className="w-1/3">
           <button
             onClick={() => {
               navigate("/dashboard");
@@ -85,9 +133,16 @@ export const CreateAText = () => {
             <IoIosReturnLeft size={"2.5rem"}></IoIosReturnLeft>
           </button>
         </div>
-
+        <div className="flex w-1/3 justify-center">
+          {selectedText.length >= 3 && (
+            <Translate
+              selectedText={selectedText}
+              setExplainMenuToggle={setExplainMenuToggle}
+            />
+          )}
+        </div>
         {!emptyField && (
-          <div className="flex w-1/2 items-center justify-end gap-3">
+          <div className="flex w-1/3 items-center justify-end gap-3">
             <SaveText
               dbupdateToggle={dbupdateToggle}
               setDbupdateToggle={setDbupdateToggle}
@@ -97,38 +152,39 @@ export const CreateAText = () => {
           </div>
         )}
       </div>
-      <h2
-        className={`hidden sm:flex ${emptyField ? `h-0` : `h-14 md:my-1`} items-center justify-center overflow-hidden border-b bg-white text-center font-semibold transition-all duration-150 md:rounded-md md:border-none`}
-      >
-        {myText.title}
-      </h2>
-      <div
-        className={`mb-20 overflow-y-auto bg-white ${emptyField ? `h-0` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[600px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
-        //
-      >
-        {!emptyField && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2 }}
-              className="px-3"
-            >
-              <h2
-                className={`flex sm:hidden sm:shadow-md ${emptyField ? `h-0` : `h-14 md:my-1`} items-center justify-center overflow-hidden border-b bg-white text-center font-semibold transition-all duration-150 md:rounded-md md:border-none`}
+      <div id="content">
+        <h2
+          className={`hidden sm:flex ${emptyField ? `h-0` : `h-14 md:my-1`} items-center justify-center overflow-hidden border-b bg-white text-center font-semibold transition-all duration-150 md:rounded-md md:border-none`}
+        >
+          {myText.title}
+        </h2>
+        <div
+          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
+          //
+        >
+          {!emptyField && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                className="px-3"
               >
-                {myText.title}
-              </h2>
-              {myText.text.split("\n").map((para, index) => (
-                <p className="mb-4" key={index}>
-                  <span className="inline-block w-4"></span> {para}
-                </p>
-              ))}
-            </motion.div>
-          </>
-        )}
+                <h2
+                  className={`flex sm:hidden ${emptyField ? `h-0` : `h-14 md:my-1`} items-center justify-center overflow-hidden border-b bg-white text-center font-semibold transition-all duration-150 md:rounded-md md:border-none`}
+                >
+                  {myText.title}
+                </h2>
+                {myText.text.split("\n").map((para, index) => (
+                  <p className="mb-4 selection:bg-amber-200" key={index}>
+                    <span className="inline-block w-4"></span> {para}
+                  </p>
+                ))}
+              </motion.div>
+            </>
+          )}
+        </div>
       </div>
-
       <form
         className={`absolute bottom-0 right-0 flex h-20 w-full flex-col justify-center border-t border-gray-400 bg-gray-100 px-3 shadow-md transition-all duration-100 sm:rounded-md sm:border-none sm:bg-gray-50`}
         onSubmit={handleSubmit}
@@ -148,7 +204,7 @@ export const CreateAText = () => {
               type="text"
               onChange={(e) => setTheme(e.target.value)}
             />
-            <div className="flex w-10 items-center justify-center overflow-hidden">
+            <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
               {textLoading ? (
                 <SpinLoad />
               ) : (

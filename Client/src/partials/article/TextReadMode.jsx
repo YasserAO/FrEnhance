@@ -37,7 +37,7 @@ export const TextReadMode = () => {
     const response = await setEditText();
     if (!response) console.error("Error happened");
     if (response.status == 200) {
-      console.log(response.msg);
+      // console.log(response.msg);
       navigate("/dashboard/edit");
     }
   };
@@ -99,7 +99,7 @@ export const TextReadMode = () => {
         </motion.h1>
         <DeleteText setDbupdateToggle={setDbupdateToggle} id={id}></DeleteText>
       </motion.div>
-      <div className="mt-2 h-[450px] overflow-y-auto rounded-md bg-white px-4 py-4 sm:h-[600px]">
+      <div className="mt-2 h-[calc(100svh-56px-56px-24px-8px-8px-32px)] overflow-y-auto rounded-md bg-white px-4 py-4 sm:h-[600px]">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           {Text.text.split("\n").map((txt, indx) => (
             <p key={indx} className="mb-3 last:mb-0">
