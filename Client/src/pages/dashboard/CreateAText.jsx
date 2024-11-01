@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import fetchText from "../../forms/textGenerate.mjs";
 import SpinLoad from "../../partials/icons/spindLoader";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { DifficultyMenu } from "../../partials/menus/DifficultyMenu";
 import { SaveText } from "../../partials/Buttons/SaveText";
 import { DeleteGen } from "../../partials/Buttons/DeleteGen.jsx";
@@ -115,14 +115,16 @@ export const CreateAText = () => {
       animate={{ opacity: 1 }}
       className="relative flex h-full flex-grow flex-col"
     >
-      {explainMenuToggle && (
-        <ExplainWindow
-          selectedText={selectedText}
-          setSelectedText={setSelectedText}
-          anchor={anchor}
-          setExplainMenuToggle={setExplainMenuToggle}
-        />
-      )}
+      <AnimatePresence>
+        {explainMenuToggle && (
+          <ExplainWindow
+            selectedText={selectedText}
+            setSelectedText={setSelectedText}
+            anchor={anchor}
+            setExplainMenuToggle={setExplainMenuToggle}
+          />
+        )}
+      </AnimatePresence>
       <div className="flex h-10 w-full gap-3 overflow-hidden bg-gray-100 px-2">
         <div className="w-1/3">
           <button

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import fetchExplain from "../../forms/explainWord.mjs";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import SpinLoad from "../icons/spindLoader";
 
 export const ExplainWindow = ({
   selectedText,
@@ -14,10 +15,12 @@ export const ExplainWindow = ({
   const [examples, setExamples] = useState([]);
 
   const handleExplanation = async () => {
+    setExplained(false);
+    setLoading(true);
     const fetchData = async () => {
       try {
         const data = await fetchExplain(selectedText, anchor);
-        return data;
+        return data.content;
       } catch (err) {
         console.error(err.message);
         return null;
@@ -32,9 +35,15 @@ export const ExplainWindow = ({
       setExamples(myData.examples);
       setExplained(true);
     }
+    setLoading(false);
   };
   return (
-    <div className="transpare fixed right-0 top-0 z-50 flex h-full w-full items-center justify-center rounded-md bg-slate-900 bg-opacity-30 backdrop-blur-sm sm:absolute">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="transpare fixed right-0 top-0 z-50 flex h-full w-full items-center justify-center rounded-md bg-slate-900 bg-opacity-30 backdrop-blur-sm sm:absolute"
+    >
       <div className="relative w-full max-w-80 rounded-md bg-white px-4 pb-16 sm:max-w-[500px]">
         <button
           onClick={() => {
@@ -46,8 +55,14 @@ export const ExplainWindow = ({
           <span className="absolute block h-1 w-full rotate-45 bg-black"></span>
           <span className="absolute block h-1 w-full -rotate-45 bg-black"></span>
         </button>
-        {explained ? (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+
+        {explained && (
+          <motion.div
+            initial={{ opacity: 0, maxHeight: 0 }}
+            animate={{ opacity: 1, maxHeight: 500 }}
+            exit={{ opacity: 0, maxHeight: 0 }}
+            className="overflow-hidden"
+          >
             <div className="mt-10">
               <h2 className="mb-2 text-center font-semibold">
                 Explanation of :{" "}
@@ -65,7 +80,7 @@ export const ExplainWindow = ({
                 {examples.map((element, index) => (
                   <li
                     className="text-md mx-auto mb-2 flex-grow rounded-md bg-slate-100 px-2 py-1 last:mb-0"
-                    key={index}
+                    key={index + 1}
                   >
                     {element}
                   </li>
@@ -73,21 +88,28 @@ export const ExplainWindow = ({
               </ul>
             </div>
           </motion.div>
-        ) : (
+        )}
+
+        {!explained && (
           <p className="text-md mx-auto mt-10 w-fit rounded-md bg-slate-100 px-2 py-1 font-semibold">
             {selectedText}
           </p>
         )}
-
         <div className="absolute bottom-2 right-1/2 flex translate-x-1/2 gap-2">
-          <button
-            onClick={() => {
-              handleExplanation();
-            }}
-            className="h-10 w-20 rounded-sm bg-sky-500 font-semibold text-white"
-          >
-            Explain
-          </button>
+          {loading ? (
+            <div className="h-10">
+              <SpinLoad />
+            </div>
+          ) : (
+            <button
+              onClick={() => {
+                handleExplanation();
+              }}
+              className="h-10 w-20 rounded-sm bg-sky-500 font-semibold text-white"
+            >
+              Explain
+            </button>
+          )}
           <button
             onClick={() => {
               setExplainMenuToggle(false);
@@ -99,6 +121,6 @@ export const ExplainWindow = ({
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

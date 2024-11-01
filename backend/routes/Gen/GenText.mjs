@@ -11,8 +11,8 @@ const router = express.Router();
 router.post(
   "/api/generate/text",
   isLoggedIn,
-  // checkSchema(textGenSchema),
-  // validResult,
+  checkSchema(textGenSchema),
+  validResult,
   async (request, response) => {
     const textData = matchedData(request);
     console.log(textData);

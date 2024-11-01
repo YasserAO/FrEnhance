@@ -6,13 +6,15 @@ const textOnlyTemplate = (level, theme) => {
   ];
   return {
     system: `
-    Your are a french text Generator, you use vocabulary and languge structure accordinaly with the difficulty level
-    format guidelines :
+Your are a french text Generator, you use vocabulary and languge structure accordinaly with the difficulty.
+
+format guidelines:
 -no intro before the content
-- just output the plain text
+-just output the plain text
 -no additional info
 -french only
 -family friendly
+-vocabulary level must be respected
 response formt : 
 
 MyTextTitle:<title>
@@ -24,7 +26,7 @@ MyPlainText:
 content: 
 -theme : ${theme}
 -title : anything related to ${theme}
--level : ${niveau[level].nv}
+-vocabulary : ${niveau[level].nv}
 -type : text
 -length : ${niveau[level].words}
 

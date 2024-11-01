@@ -24,7 +24,7 @@ json
 content: 
 -theme : ${theme}
 -title : anything related to ${theme}
--level : ${niveau[level - 1].nv}
+-vocabulary : ${niveau[level - 1].nv}
 -type : text
 -length : ${niveau[level - 1].words}
 

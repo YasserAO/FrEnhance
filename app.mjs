@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import passport from "passport";
 import cors from "cors";
+import { syntaxError } from "./backend/middleware/SyntaxError.mjs";
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
+app.use(syntaxError);
 
 app.use(
   session({
