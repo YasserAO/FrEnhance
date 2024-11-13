@@ -61,7 +61,7 @@ export const ExplainWindow = ({
             initial={{ opacity: 0, maxHeight: 0 }}
             animate={{ opacity: 1, maxHeight: 500 }}
             exit={{ opacity: 0, maxHeight: 0 }}
-            className="overflow-hidden"
+            className=""
           >
             <div className="mt-10">
               <h2 className="mb-2 text-center font-semibold">
@@ -75,8 +75,8 @@ export const ExplainWindow = ({
               </p>
             </div>
             <div>
-              <h2 className="my-2 font-semibold">Examples :</h2>
-              <ul className="max-h-72 list-inside list-disc overflow-y-auto py-2">
+              <h2 className="my-2 font-semibold ">Examples :</h2>
+              <ul className="max-h-52 list-inside list-disc overflow-y-auto py-2  ">
                 {examples.map((element, index) => (
                   <li
                     className="text-md mx-auto mb-2 flex-grow rounded-md bg-slate-100 px-2 py-1 last:mb-0"
@@ -101,16 +101,16 @@ export const ExplainWindow = ({
               <SpinLoad />
             </div>
           ) : (
-            <button
-              onClick={() => {
-                handleExplanation();
-              }}
-              className="h-10 w-20 rounded-sm bg-sky-500 font-semibold text-white"
-            >
-              Explain
-            </button>
+            !explained && <button
+            onClick={() => {
+              handleExplanation();
+            }}
+            className="h-10 w-20 rounded-sm bg-sky-500 font-semibold text-white"
+          >
+            Explain
+          </button>
           )}
-          <button
+          {!loading && <button
             onClick={() => {
               setExplainMenuToggle(false);
               setSelectedText("");
@@ -118,7 +118,8 @@ export const ExplainWindow = ({
             className="h-10 w-20 rounded-sm bg-red-500 font-semibold text-white active:scale-105 sm:hidden"
           >
             Exit
-          </button>
+          </button>}
+          
         </div>
       </div>
     </motion.div>

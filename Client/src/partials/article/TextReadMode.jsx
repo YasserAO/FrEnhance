@@ -1,6 +1,6 @@
 import { FaAnglesUp } from "react-icons/fa6";
 import PropTypes from "prop-types";
-import { motion } from "framer-motion";
+import { motion , AnimatePresence} from "framer-motion";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
@@ -8,11 +8,55 @@ import { useEffect, useState } from "react";
 import { DeleteText } from "../Buttons/DeleteText";
 import { SaveEditedText } from "../../forms/saveEditedText.mjs";
 
+// Translate Tools
+import { outputFinder } from "../../utils/outputFinder.mjs";
+import { Translate } from "../Buttons/Translate";
+import { ExplainWindow } from "./ExplainWindow";
+
+
+
+
+
 export const TextReadMode = () => {
   const { myTexts, emptyText, setDbupdateToggle } = useOutletContext();
   const navigate = useNavigate();
   const { id } = useParams();
   const [myIndex, setMyIndex] = useState();
+
+
+   // Translate and explain Menu
+  const [selectedText, setSelectedText] = useState("");
+  const [explainMenuToggle, setExplainMenuToggle] = useState(false);
+  const [anchor, setAnchor] = useState("");
+
+  // Explain UseEffect
+  useEffect(() => {
+    const selectionFunction = () => {
+      if (explainMenuToggle) return;
+      const output = document.getElementById("content");
+      const myAnchor = window.getSelection().anchorNode;
+      const selection = window.getSelection().toString().trim();
+      if (output.contains(myAnchor)) {
+        const myWords = outputFinder(
+          window.getSelection().anchorNode.textContent,
+          selection,
+        );
+
+        if (myWords == null || myWords.length > 3) {
+          setSelectedText("");
+        } else {
+          const myString = myWords.join(" ");
+          setSelectedText(myString.replace(/^,|,$/g, ""));
+          setAnchor(myAnchor.textContent);
+        }
+      } else setSelectedText("");
+    };
+
+    document.addEventListener("selectionchange", selectionFunction);
+    return () => {
+      document.removeEventListener("selectionchange", selectionFunction);
+    };
+  }, [explainMenuToggle]);
 
   useEffect(() => {
     const Index = myTexts
@@ -88,7 +132,18 @@ export const TextReadMode = () => {
     );
 
   return (
-    <div className="z-1 h-fit p-3">
+    <div className=" relative z-1 h-fit p-3" id="content">
+      <AnimatePresence>
+        {explainMenuToggle && (
+          <ExplainWindow
+            selectedText={selectedText}
+            setSelectedText={setSelectedText}
+            anchor={anchor}
+            setExplainMenuToggle={setExplainMenuToggle}
+          />
+        )}
+      </AnimatePresence>
+
       <motion.div className="flex h-14 items-center justify-between rounded-md bg-white pl-3 pr-5 font-semibold">
         <motion.h1
           key={id + 1}
@@ -97,7 +152,14 @@ export const TextReadMode = () => {
         >
           {Text.title}
         </motion.h1>
-        <DeleteText setDbupdateToggle={setDbupdateToggle} id={id}></DeleteText>
+        {selectedText.length >= 3 ? (
+            <Translate
+              selectedText={selectedText}
+              setExplainMenuToggle={setExplainMenuToggle}
+            />
+          ): <DeleteText setDbupdateToggle={setDbupdateToggle} id={id}></DeleteText>}
+        
+        
       </motion.div>
       <div className="mt-2 h-[calc(100svh-56px-56px-24px-8px-8px-32px)] overflow-y-auto rounded-md bg-white px-4 py-4 sm:h-[600px]">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
