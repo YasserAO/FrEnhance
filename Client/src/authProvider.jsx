@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     username: "",
     email: "messi@gmail.com",
     id: "66eef74903ad9cd2630547f1",
+    coins: "",
     Avatar: "",
   });
   const [isLogged, setIsLogged] = useState(null);

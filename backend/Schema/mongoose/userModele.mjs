@@ -27,12 +27,23 @@ const UserRegistration = new mongoose.Schema({
     type: String,
     required: true,
   },
+  coins: {
+    quantity: {
+      type: Number,
+    },
+    lastReset: {
+      type: Date,
+    },
+  },
   editText: {
     title: {
       type: String,
     },
     text: {
       type: String,
+    },
+    savebutton: {
+      type: Boolean,
     },
   },
 });

@@ -32,7 +32,7 @@ app.use(
       // httpOnly: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 3600 * 24 * 1000,
+      maxAge: 24 * 3600 * 1000,
     },
 
     store: MongoStore.create({

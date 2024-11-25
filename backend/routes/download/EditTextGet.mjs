@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get("/api/text/editedtext", isLoggedIn, async (request, response) => {
   const { user } = request;
-  console.log("This is an EditText Get REquest");
 
   let myText;
   try {
@@ -18,12 +17,10 @@ router.get("/api/text/editedtext", isLoggedIn, async (request, response) => {
       message: "Error Happened while fetching",
     });
   }
-  console.log(myText.title);
   if (!myText.title || !myText.text) {
     return response.status(200).send({ status: 404, msg: "No Text saved" });
   }
 
-  console.log("Text was found");
   return response
     .status(200)
     .send({ status: 200, msg: "Text was found", content: myText });

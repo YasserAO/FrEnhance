@@ -2,21 +2,30 @@ import PropTypes from "prop-types";
 import { textSaveForm } from "../../forms/textSave.mjs";
 import { IoIosSave } from "react-icons/io";
 
-export const SaveText = ({ text, setDbupdateToggle, dbupdateToggle }) => {
+export const SaveText = ({
+  text,
+  setDbupdateToggle,
+  dbupdateToggle,
+  disabledButton,
+  setDisabledButton,
+}) => {
   const handleclick = async (e) => {
+    setDisabledButton(true);
     e.target.disabled = true;
-    let savedText;
+
     try {
-      savedText = await textSaveForm(text.title, text.text);
+      const savedText = await textSaveForm(text.title, text.text, true);
+      if (savedText.status == 200) {
+        setDbupdateToggle((prev) => !prev);
+        console.log(savedText);
+        return;
+      }
+      console.log(savedText.msg);
     } catch (err) {
       console.log(err);
     }
-    if (savedText.status == 200) {
-      setDbupdateToggle((prev) => !prev);
-      console.log(dbupdateToggle);
-      return;
-    }
-    console.log(savedText.msg);
+
+    setDisabledButton(false);
     e.target.disabled = false;
   };
   return (
@@ -24,6 +33,7 @@ export const SaveText = ({ text, setDbupdateToggle, dbupdateToggle }) => {
       onClick={(e) => {
         handleclick(e);
       }}
+      disabled={disabledButton}
       className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 p-1 font-semibold text-white shadow-sm transition-all duration-200 active:scale-95 active:bg-green-700 disabled:bg-green-300 disabled:active:scale-100"
     >
       <IoIosSave size={"1.5rem"} />

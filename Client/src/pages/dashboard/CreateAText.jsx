@@ -19,6 +19,7 @@ export const EditedTextLoader = async () => {
   async function textHandler() {
     try {
       const response = await loadEditedText();
+      console.log(response);
       if (!response) return null;
       // console.log(response.status);
       if (response.status == 200) return response.content;
@@ -37,6 +38,9 @@ export const EditedTextLoader = async () => {
 export const CreateAText = () => {
   const content = useLoaderData();
   const { setDbupdateToggle, dbupdateToggle } = useOutletContext();
+  const [disabledButton, setDisabledButton] = useState(
+    content?.savebutton ?? false,
+  );
   const [myText, setMyText] = useState({
     title: "",
     text: "",
@@ -146,6 +150,8 @@ export const CreateAText = () => {
         {!emptyField && (
           <div className="flex w-1/3 items-center justify-end gap-3">
             <SaveText
+              disabledButton={disabledButton}
+              setDisabledButton={setDisabledButton}
               dbupdateToggle={dbupdateToggle}
               setDbupdateToggle={setDbupdateToggle}
               text={myText}

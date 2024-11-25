@@ -1,4 +1,4 @@
-export const textSaveForm = async (title, text) => {
+export const textSaveForm = async (title, text, savebutton) => {
   const responseAPI = await fetch(
     import.meta.env.VITE_API_URL + "/api/save/text",
     {
@@ -10,6 +10,7 @@ export const textSaveForm = async (title, text) => {
       body: JSON.stringify({
         title,
         text,
+        savebutton,
       }),
     },
   );

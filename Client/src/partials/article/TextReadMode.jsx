@@ -71,7 +71,7 @@ export const TextReadMode = () => {
   const handleEdit = async () => {
     const setEditText = async () => {
       try {
-        const response = await SaveEditedText(Text.title, Text.text);
+        const response = await SaveEditedText(Text.title, Text.text, true);
         return response;
       } catch (err) {
         console.error(err.message);
