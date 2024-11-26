@@ -9,4 +9,9 @@ export const textSaveSchema = {
       errorMessage: "text must at least has 200 letters",
     },
   },
+  savebutton:{
+    isBoolean:{
+      errorMessage:"SaveButton must be a boolean value"
+    }
+  }
 };

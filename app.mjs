@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import passport from "passport";
 import cors from "cors";
+import { syntaxError } from "./backend/middleware/SyntaxError.mjs";
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,8 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
+app.use(syntaxError);
+
 app.use(
   session({
     secret: process.env.SKEY,
@@ -29,7 +32,7 @@ app.use(
       // httpOnly: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 3600 * 24 * 1000,
+      maxAge: 24 * 3600 * 1000,
     },
 
     store: MongoStore.create({

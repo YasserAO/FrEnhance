@@ -20,7 +20,7 @@ const DNavBar = ({ children }) => {
       <LogoDash></LogoDash>
 
       {/* Desktop Nav */}
-      <div className="hidden w-full items-center md:flex">
+      <div className="hidden w-full items-center gap-4 md:flex">
         <div className="w-full select-none pl-5">
           <Link
             className="font-semibold underline-offset-2 hover:underline active:underline"
@@ -29,6 +29,14 @@ const DNavBar = ({ children }) => {
             Home
           </Link>
         </div>
+
+        {/* Coins score */}
+        <div className="flex w-16 items-center justify-center rounded-md bg-slate-800">
+          <p className="font-semibold text-purple-200">{userForm.coins}</p>
+          <img className="h-5 w-5" src="/diamondIcon.png" alt="coins" />
+        </div>
+
+        {/* DropMenu  */}
         <div className="">
           <LogoAvatar setMenuDropDown={setMenuDropDown}></LogoAvatar>
 

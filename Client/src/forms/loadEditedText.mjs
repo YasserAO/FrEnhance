@@ -15,6 +15,7 @@ export const loadEditedText = async () => {
       return null;
     }
     const Resp = editedResponse.json();
+    
     return Resp;
   } catch (err) {
     console.error(err);

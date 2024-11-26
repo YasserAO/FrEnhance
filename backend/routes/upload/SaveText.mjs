@@ -14,11 +14,13 @@ router.post(
   async (request, response) => {
     const { user } = request;
     const textData = matchedData(request);
+    console.log(textData);
 
     const createText = new TextModel({
       access: { user: user.username },
       title: textData.title,
       text: textData.text,
+      savebutton: textData.savebutton,
     });
     let Err;
     try {

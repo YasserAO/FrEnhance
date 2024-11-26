@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import fetchText from "../../forms/textGenerate.mjs";
 import SpinLoad from "../../partials/icons/spindLoader";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { DifficultyMenu } from "../../partials/menus/DifficultyMenu";
 import { SaveText } from "../../partials/Buttons/SaveText";
 import { DeleteGen } from "../../partials/Buttons/DeleteGen.jsx";
@@ -19,6 +19,7 @@ export const EditedTextLoader = async () => {
   async function textHandler() {
     try {
       const response = await loadEditedText();
+      console.log(response);
       if (!response) return null;
       // console.log(response.status);
       if (response.status == 200) return response.content;
@@ -37,6 +38,9 @@ export const EditedTextLoader = async () => {
 export const CreateAText = () => {
   const content = useLoaderData();
   const { setDbupdateToggle, dbupdateToggle } = useOutletContext();
+  const [disabledButton, setDisabledButton] = useState(
+    content?.savebutton ?? false,
+  );
   const [myText, setMyText] = useState({
     title: "",
     text: "",
@@ -115,14 +119,16 @@ export const CreateAText = () => {
       animate={{ opacity: 1 }}
       className="relative flex h-full flex-grow flex-col"
     >
-      {explainMenuToggle && (
-        <ExplainWindow
-          selectedText={selectedText}
-          setSelectedText={setSelectedText}
-          anchor={anchor}
-          setExplainMenuToggle={setExplainMenuToggle}
-        />
-      )}
+      <AnimatePresence>
+        {explainMenuToggle && (
+          <ExplainWindow
+            selectedText={selectedText}
+            setSelectedText={setSelectedText}
+            anchor={anchor}
+            setExplainMenuToggle={setExplainMenuToggle}
+          />
+        )}
+      </AnimatePresence>
       <div className="flex h-10 w-full gap-3 overflow-hidden bg-gray-100 px-2">
         <div className="w-1/3">
           <button
@@ -144,6 +150,8 @@ export const CreateAText = () => {
         {!emptyField && (
           <div className="flex w-1/3 items-center justify-end gap-3">
             <SaveText
+              disabledButton={disabledButton}
+              setDisabledButton={setDisabledButton}
               dbupdateToggle={dbupdateToggle}
               setDbupdateToggle={setDbupdateToggle}
               text={myText}

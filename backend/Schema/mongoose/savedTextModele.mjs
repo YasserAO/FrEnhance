@@ -15,6 +15,9 @@ const TextRegistration = new mongoose.Schema({
     type: mongoose.Schema.Types.String,
     required: true,
   },
+  savebutton:{
+    type:mongoose.Schema.Types.Boolean
+  },
   questions: {
     type: mongoose.Schema.Types.String,
   },
