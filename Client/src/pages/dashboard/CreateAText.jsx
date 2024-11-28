@@ -1,19 +1,28 @@
-import { useEffect, useState } from "react";
-import fetchText from "../../forms/textGenerate.mjs";
-import SpinLoad from "../../partials/icons/spindLoader";
+// React Tools // Animation libraries
+import PropTypes from "prop-types";
+import { useEffect, useState, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+
+// icons
+import SpinLoad from "../../partials/icons/spindLoader";
+import { IoSend } from "react-icons/io5";
+import { IoIosReturnLeft } from "react-icons/io";
+
+// Fetchers and updaters
+import fetchText from "../../forms/textGenerate.mjs";
+import { loadEditedText } from "../../forms/loadEditedText.mjs";
+import { AuthContext } from "../../authProvider.jsx";
+
+// Components
 import { DifficultyMenu } from "../../partials/menus/DifficultyMenu";
 import { SaveText } from "../../partials/Buttons/SaveText";
 import { DeleteGen } from "../../partials/Buttons/DeleteGen.jsx";
-import PropTypes from "prop-types";
-import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
-import { IoSend } from "react-icons/io5";
-import { IoIosReturnLeft } from "react-icons/io";
-import { loadEditedText } from "../../forms/loadEditedText.mjs";
 import { Translate } from "../../partials/Buttons/Translate.jsx";
-import { outputFinder } from "../../utils/outputFinder.mjs";
-
 import { ExplainWindow } from "../../partials/article/ExplainWindow.jsx";
+
+// Functions and utils
+import { outputFinder } from "../../utils/outputFinder.mjs";
 
 export const EditedTextLoader = async () => {
   async function textHandler() {
@@ -37,6 +46,7 @@ export const EditedTextLoader = async () => {
 
 export const CreateAText = () => {
   const content = useLoaderData();
+  const { fetchCoins, config } = useContext(AuthContext);
   const { setDbupdateToggle, dbupdateToggle } = useOutletContext();
   const [disabledButton, setDisabledButton] = useState(
     content?.savebutton ?? false,
@@ -78,12 +88,14 @@ export const CreateAText = () => {
 
       return;
     }
+    fetchCoins();
     setEmptyField(false);
     const text = JSON.parse(data.content);
     setMyText(text);
 
     setTextLoading(false);
     setEmptyField(false);
+    fetchCoins();
   };
   useEffect(() => {
     const selectionFunction = () => {
@@ -202,6 +214,7 @@ export const CreateAText = () => {
             <DifficultyMenu
               selectedIndex={level}
               setSelectedIndex={setLevel}
+              config={config.textGeneration}
             ></DifficultyMenu>
 
             <textarea

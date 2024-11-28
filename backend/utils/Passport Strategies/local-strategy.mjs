@@ -17,7 +17,6 @@ passport.deserializeUser(async (id, done) => {
       email: findUser.email,
       id: findUser._id,
       Avatar: findUser.pfp,
-      coins: findUser.coins.quantity,
     };
 
     done(null, LoggedUser);

@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useMemo } from "react";
 import { statusForm } from "./forms/statusForm.mjs";
 import PropTypes from "prop-types";
+import { coinsForm } from "./forms/coinsForm.mjs";
 
 // Create the AuthContext
 export const AuthContext = createContext();
@@ -15,7 +16,18 @@ export const AuthProvider = ({ children }) => {
     coins: "",
     Avatar: "",
   });
+  const [config, setConfig] = useState({});
+  const [coins, setCoins] = useState({});
   const [isLogged, setIsLogged] = useState(null);
+
+  const fetchCoins = async () => {
+    const data = await coinsForm();
+    if (data.status === 200) {
+      setCoins(data.coins);
+    } else {
+      console.error(data.msg);
+    }
+  };
 
   useEffect(() => {
     // Fetch user status only on initial load
@@ -23,6 +35,8 @@ export const AuthProvider = ({ children }) => {
       const data = await statusForm();
       if (data.status === 200) {
         setUserForm(data.User);
+        setConfig(data.config);
+
         setIsLogged(data.isAuthenticated);
       } else {
         setIsLogged(false);
@@ -30,14 +44,18 @@ export const AuthProvider = ({ children }) => {
     };
 
     fetchUserStatus();
+    fetchCoins();
   }, []); // Empty dependency array ensures this runs only once
 
   const contextValue = useMemo(
     () => ({
       userForm,
       isLogged,
+      coins,
+      fetchCoins,
+      config,
     }),
-    [userForm, isLogged],
+    [userForm, isLogged, fetchCoins, config],
   );
 
   useEffect(() => {}, [userForm]);
