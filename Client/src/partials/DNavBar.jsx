@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 const DNavBar = ({ children }) => {
   const [menuDropDown, setMenuDropDown] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
-  const { userForm } = useContext(AuthContext);
+  const { userForm, coins } = useContext(AuthContext);
   return (
     <header
       className={`sticky top-0 z-40 flex h-14 items-center justify-between border-b border-gray-100 bg-gray-100 px-3 shadow-sm sm:relative sm:px-3 md:px-[10%]`}
@@ -32,7 +32,7 @@ const DNavBar = ({ children }) => {
 
         {/* Coins score */}
         <div className="flex w-16 items-center justify-center rounded-md bg-slate-800">
-          <p className="font-semibold text-purple-200">{userForm.coins}</p>
+          <p className="font-semibold text-purple-200">{coins.quantity}</p>
           <img className="h-5 w-5" src="/diamondIcon.png" alt="coins" />
         </div>
 

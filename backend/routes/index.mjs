@@ -5,10 +5,12 @@ const router = express.Router();
 import register from "./Authentication/register.mjs";
 import authenticate from "./Authentication/authenticate.mjs";
 import userStatus from "./Authentication/userStatus.mjs";
+import CoinsStatus from "./Authentication/coinStatus.mjs";
 
 router.use(register);
 router.use(userStatus);
 router.use(authenticate);
+router.use(CoinsStatus);
 
 // Gen
 import GenText from "./Gen/GenText.mjs";
