@@ -20,7 +20,7 @@ const DNavBar = ({ children }) => {
       <LogoDash></LogoDash>
 
       {/* Desktop Nav */}
-      <div className="hidden w-full items-center gap-4 md:flex">
+      <div className="hidden w-full items-center md:flex">
         <div className="w-full select-none pl-5">
           <Link
             className="font-semibold underline-offset-2 hover:underline active:underline"
@@ -30,19 +30,27 @@ const DNavBar = ({ children }) => {
           </Link>
         </div>
 
-        {/* Coins score */}
-        <div className="flex w-16 items-center justify-center rounded-md bg-slate-800">
-          <p className="font-semibold text-purple-200">{coins.quantity}</p>
-          <img className="h-5 w-5" src="/diamondIcon.png" alt="coins" />
-        </div>
+        <div className="flex w-full justify-end gap-1">
+          {/* Coins score */}
+          <div className="flex items-center rounded-md bg-slate-800">
+            <p className="w-fit font-semibold text-purple-200">
+              {coins.quantity}
+            </p>
+            <img
+              className="inline-block h-5 w-5"
+              src="/diamondIcon.png"
+              alt="coins"
+            />
+          </div>
 
-        {/* DropMenu  */}
-        <div className="">
-          <LogoAvatar setMenuDropDown={setMenuDropDown}></LogoAvatar>
+          {/* DropMenu  */}
+          <div className="">
+            <LogoAvatar setMenuDropDown={setMenuDropDown}></LogoAvatar>
 
-          <AnimatePresence>
-            {menuDropDown && <UserDropDownMenu userForm={userForm} />}
-          </AnimatePresence>
+            <AnimatePresence>
+              {menuDropDown && <UserDropDownMenu userForm={userForm} />}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
 
@@ -62,6 +70,16 @@ const DNavBar = ({ children }) => {
           >
             <div className="min-w-[300px]">
               <div className="flex flex-col items-start justify-start gap-2 px-10">
+                <div className="flex items-center rounded-md bg-slate-800">
+                  <p className="w-fit font-semibold text-purple-200">
+                    {coins.quantity}
+                  </p>
+                  <img
+                    className="inline-block h-5 w-5"
+                    src="/diamondIcon.png"
+                    alt="coins"
+                  />
+                </div>
                 <div className="flex h-12 w-full items-center justify-between">
                   <div className="flex items-center gap-1">
                     <LogoAvatar

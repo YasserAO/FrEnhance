@@ -92,7 +92,7 @@ export const CreateAText = () => {
     setEmptyField(false);
     const text = JSON.parse(data.content);
     setMyText(text);
-
+    setDisabledButton(false);
     setTextLoading(false);
     setEmptyField(false);
     fetchCoins();

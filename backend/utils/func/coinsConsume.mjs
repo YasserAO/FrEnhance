@@ -2,7 +2,7 @@ import configFile from '../../Config/CoinsConfig.json' with {type: 'json'}
 import { UserModel } from '../../Schema/mongoose/userModele.mjs'
 
 
-export const coinsConsume = async (id,type) =>{
+export const coinsConsume = async (id,type=3) =>{
     const findUser = async (id) =>{
         try{
             const user = await UserModel.findById(id)
@@ -19,14 +19,17 @@ export const coinsConsume = async (id,type) =>{
     }
 
 
-    const cost = configFile.GenerateText
+    const GenCost = configFile.GenerateText
+    const ExpCost = configFile.Explain
     let consume
     if(type==0) {
-        consume = cost.basic
+        consume = GenCost.basic
     }else if(type==1){
-        consume = cost.medium
+        consume = GenCost.medium
     }else if(type==2){
-        consume = cost.Advanced
+        consume = GenCost.Advanced
+    }else if(type=3){
+        consume = ExpCost
     }
 
     if(consume > User.coins.quantity){

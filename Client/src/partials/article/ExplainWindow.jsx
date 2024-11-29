@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import fetchExplain from "../../forms/explainWord.mjs";
 import { motion, AnimatePresence } from "framer-motion";
 import SpinLoad from "../icons/spindLoader";
+import { AuthContext } from "../../authProvider";
 
 export const ExplainWindow = ({
   selectedText,
@@ -9,6 +10,8 @@ export const ExplainWindow = ({
   setSelectedText,
   setExplainMenuToggle,
 }) => {
+  const { fetchCoins, config } = useContext(AuthContext);
+  const explainCost = config.explain;
   const [explained, setExplained] = useState(false);
   const [loading, setLoading] = useState(false);
   const [explanation, setExplanation] = useState("");
@@ -31,6 +34,7 @@ export const ExplainWindow = ({
     if (myData == null) {
       console.log("No Data");
     } else {
+      fetchCoins();
       setExplanation(myData.explanation);
       setExamples(myData.examples);
       setExplained(true);
@@ -65,18 +69,19 @@ export const ExplainWindow = ({
           >
             <div className="mt-10">
               <h2 className="mb-2 text-center font-semibold">
-                Explanation of :{" "}
+                Explanation of :
                 <span className="rounded-md bg-gray-200 px-1 py-1">
                   {selectedText}
                 </span>
               </h2>
+
               <p className="text-md mx-auto w-fit rounded-md bg-slate-100 px-2 py-1">
                 {explanation}
               </p>
             </div>
             <div>
-              <h2 className="my-2 font-semibold ">Examples :</h2>
-              <ul className="max-h-52 list-inside list-disc overflow-y-auto py-2  ">
+              <h2 className="my-2 font-semibold">Examples :</h2>
+              <ul className="max-h-52 list-inside list-disc overflow-y-auto py-2">
                 {examples.map((element, index) => (
                   <li
                     className="text-md mx-auto mb-2 flex-grow rounded-md bg-slate-100 px-2 py-1 last:mb-0"
@@ -101,25 +106,36 @@ export const ExplainWindow = ({
               <SpinLoad />
             </div>
           ) : (
-            !explained && <button
-            onClick={() => {
-              handleExplanation();
-            }}
-            className="h-10 w-20 rounded-sm bg-sky-500 font-semibold text-white"
-          >
-            Explain
-          </button>
+            !explained && (
+              <button
+                onClick={() => {
+                  handleExplanation();
+                }}
+                className="flex h-10 items-center gap-2 rounded-sm bg-sky-500 px-4 font-semibold text-white"
+              >
+                <p>Explain</p>
+                <div className="flex items-center">
+                  <img
+                    className="block h-3 w-full"
+                    src="/diamondIcon.png"
+                    alt=""
+                  />
+                  <p className="w-full">{explainCost}</p>
+                </div>
+              </button>
+            )
           )}
-          {!loading && <button
-            onClick={() => {
-              setExplainMenuToggle(false);
-              setSelectedText("");
-            }}
-            className="h-10 w-20 rounded-sm bg-red-500 font-semibold text-white active:scale-105 sm:hidden"
-          >
-            Exit
-          </button>}
-          
+          {!loading && (
+            <button
+              onClick={() => {
+                setExplainMenuToggle(false);
+                setSelectedText("");
+              }}
+              className="h-10 w-20 rounded-sm bg-red-500 font-semibold text-white active:scale-105 sm:hidden"
+            >
+              Exit
+            </button>
+          )}
         </div>
       </div>
     </motion.div>
