@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "��#\u0000 \u0000F\u0000r\u0000E\u0000n\u0000h\u0000a\u0000n\u0000c\u0000e\u0000\r\u0000 \u0000",
   "main": "app.mjs",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --ignore Client app.mjs"
@@ -24,6 +25,7 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "prettier": "^3.4.1"
   }
 }
