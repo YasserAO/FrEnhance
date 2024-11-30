@@ -10,7 +10,7 @@ const router = express.Router();
 router.get(
   "/api/user/auth/status",
   isLoggedIn,
-  DailyCoinReset,
+  
   (request, response) => {
     const User = request.user;
     // console.log(User.id);

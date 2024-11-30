@@ -20,27 +20,22 @@ router.get(
     try{
         const user = await UserModel.findById(User.id)
         coins = user.coins
-    
-       
-
-    } catch(err){
-        console.error('Error Finding and setting up Coins',err.message)
-        
-    }
-    if(!coins){
-      return response.status(200).send({
-        status:400,
-        msg:'Error Fetching coins'
-        
-    })
-      }
-      else{
         return response.status(200).send({
           status:200,
           msg:"Coins Details",
           coins
       })
-      }
+          
+
+    } catch(err){
+        console.error('Error Finding and setting up Coins',err.message)
+        return response.status(200).send({
+          status:400,
+          msg:'Error Fetching coins'
+          
+      })
+        }
+        
     }
     
    
