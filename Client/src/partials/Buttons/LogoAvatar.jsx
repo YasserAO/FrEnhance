@@ -12,9 +12,9 @@ const LogoAvatar = ({ setMenuDropDown }) => {
           setMenuDropDown((prev) => !prev);
         }
       }}
-      className="flex h-8 w-8 items-center overflow-hidden rounded-full shadow-sm"
+      className="flex h-10 w-10 items-center overflow-hidden rounded-full shadow-sm"
     >
-      <img src={userForm.Avatar} alt="user" />
+      <img className="w-full" src={userForm.Avatar} alt="user" />
     </div>
   );
 };

@@ -15,9 +15,7 @@ export const textGenSchema = {
         if (value.trim().length < 10) {
           throw new Error("Theme must be at least 10 characters long");
         }
-        if (value.trim().length > 100) {
-          throw new Error("Theme must be less than 30 characters");
-        }
+
         return true; // Indicates successful validation
       },
     },

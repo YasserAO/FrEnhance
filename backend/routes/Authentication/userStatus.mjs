@@ -1,16 +1,15 @@
 import express from "express";
 import { isLoggedIn } from "../../middleware/isLoggedinCheck.mjs";
-import { DailyCoinReset } from "../../middleware/coins/DailyCoinReset.mjs";
-import configFile from "../../Config/CoinsConfig.json" with {type:'json'}
+import configFile from "../../Config/CoinsConfig.json" with { type: "json" };
 
-const textGeneration = Object.values(configFile.GenerateText)
-const explain = configFile.Explain
+const textGeneration = Object.values(configFile.GenerateText);
+const explain = configFile.Explain;
 const router = express.Router();
 
 router.get(
   "/api/user/auth/status",
   isLoggedIn,
-  
+
   (request, response) => {
     const User = request.user;
     // console.log(User.id);
@@ -19,9 +18,9 @@ router.get(
       msg: "User is Logged",
       isAuthenticated: true,
       User,
-      config:{
+      config: {
         textGeneration,
-        explain
+        explain,
       },
       status: 200,
     });

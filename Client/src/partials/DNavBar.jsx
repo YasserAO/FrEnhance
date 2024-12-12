@@ -70,39 +70,38 @@ const DNavBar = ({ children }) => {
           >
             <div className="min-w-[300px]">
               <div className="flex flex-col items-start justify-start gap-2 px-10">
-                <div className="flex items-center rounded-md bg-slate-800">
-                  <p className="w-fit font-semibold text-purple-200">
-                    {coins.quantity}
-                  </p>
-                  <img
-                    className="inline-block h-5 w-5"
-                    src="/diamondIcon.png"
-                    alt="coins"
-                  />
-                </div>
-                <div className="flex h-12 w-full items-center justify-between">
-                  <div className="flex items-center gap-1">
-                    <LogoAvatar
-                      user={userForm.firstName + " " + userForm.lastName}
-                    ></LogoAvatar>
-                    <p className="text-white">
-                      {userForm.firstName + " " + userForm.lastName}
+                <div className="flex items-center">
+                  <LogoAvatar
+                    user={userForm.firstName + " " + userForm.lastName}
+                  ></LogoAvatar>
+
+                  <div className="ml-2 flex w-3/4 flex-col justify-start gap-1">
+                    <p className="h-6 w-full rounded-md bg-slate-500 text-white">
+                      {userForm.firstName}{" "}
+                      <span className="uppercase">{userForm.lastName}</span>
                     </p>
+                    <div className="flex h-6 w-fit items-center rounded-md bg-slate-800 px-2">
+                      <p className="w-fit font-semibold text-purple-200">
+                        {coins.quantity}
+                      </p>
+                      <img
+                        className="inline-block h-5 w-5"
+                        src="/diamondIcon.png"
+                        alt="coins"
+                      />
+                    </div>
                   </div>
-                  <LogoutButton></LogoutButton>
                 </div>
               </div>
               {children}
-              <ul className="flexflex-col gap-4 px-5 py-10 text-xl text-white">
-                <li
+              <div className="flex flex-col gap-4 px-5 py-10 text-xl text-white">
+                <Link
+                  to="/"
                   className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
-                  onClick={() => {
-                    window.location.href = "/";
-                  }}
                 >
                   Home
-                </li>
-              </ul>
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}
