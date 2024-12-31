@@ -3,7 +3,8 @@ import {
   createRoutesFromElements,
   RouterProvider,
   Route,
-} from "react-router-dom";
+  Navigate,
+} from "react-router";
 
 // Main Page
 import { MainPage } from "./layouts/MainPage";
@@ -31,6 +32,8 @@ const router = createBrowserRouter(
         <Route path="about" element={<About />}></Route>
         <Route path="contact" element={<Contact />}></Route>
         <Route path="features" element={<Features />}></Route>
+        <Route path="home" element={<Navigate to="/" replace />}></Route>
+
         <Route path="*" element={<NotFound />}></Route>
       </Route>
       <Route path="/auth" element={<Auth />}>

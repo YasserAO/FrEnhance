@@ -16,14 +16,14 @@ const NavBar = ({ auth }) => {
   const [menuDropDown, setMenuDropDown] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
   const LogoHeaderOnly = () => (
-    <header className="relative flex h-[60px] w-full items-center justify-between bg-sky-800 px-3 sm:px-3 md:px-[10%]">
+    <header className="relative flex h-[60px] w-full items-center justify-between bg-sky-900 px-3 sm:px-3 md:px-[10%]">
       <Logo></Logo>
     </header>
   );
   const navigation = auth ? (
     LogoHeaderOnly()
   ) : (
-    <header className="sticky top-0 flex h-[60px] w-full items-center justify-between bg-sky-800 px-3 sm:relative sm:px-3 md:px-[10%]">
+    <header className="sticky top-0 z-50 flex h-[60px] w-full items-center justify-between bg-sky-900 px-3 sm:relative sm:px-3 md:px-[10%]">
       <Logo></Logo>
 
       <nav className="hidden w-1/2 gap-2 sm:flex">
