@@ -50,6 +50,7 @@ export const Home = () => {
           <p className="text-center text-white lg:text-xl">{content.desc}</p>
         </div>
         <Link
+          draggable={false}
           to={"/dashboard"}
           className="z-10 rounded-md bg-amber-300 px-2 py-2 font-semibold transition-all duration-100 active:scale-95"
         >

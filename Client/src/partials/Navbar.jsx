@@ -26,7 +26,7 @@ const NavBar = ({ auth }) => {
     <header className="sticky top-0 z-50 flex h-[60px] w-full items-center justify-between bg-sky-900 px-3 sm:relative sm:px-3 md:px-[10%]">
       <Logo></Logo>
 
-      <nav className="hidden w-1/2 gap-2 sm:flex">
+      <nav draggable={false} className="hidden w-1/2 gap-2 sm:flex">
         <NavLink
           to="/"
           className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
@@ -141,7 +141,10 @@ const NavBar = ({ auth }) => {
                 <SignUp></SignUp>
               </div>
             )}
-            <div className="flex h-full flex-col gap-4 px-5 py-10 text-xl text-white">
+            <div
+              draggable={false}
+              className="flex h-full flex-col gap-4 px-5 py-10 text-xl text-white"
+            >
               <NavLink
                 to="/"
                 className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"

@@ -8,7 +8,7 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="absolute bottom-0 w-full translate-y-full bg-gray-800 px-3 pb-5 pt-10 md:px-[10%]">
+    <footer className="w-full bg-gray-800 px-3 pb-5 pt-10 md:px-[10%]">
       <div className="mx-auto mb-3 flex w-fit flex-wrap gap-2 font-semibold text-gray-400 md:gap-10 lg:gap-20">
         {content.links.map((element, index) => (
           <Link key={index + Math.random()} to={`/${content.linkUrl[index]}`}>

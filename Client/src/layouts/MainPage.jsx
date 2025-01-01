@@ -8,7 +8,7 @@ export const MainPage = () => {
     <>
       <NavBar></NavBar>
 
-      <main>
+      <main className="flex-1 bg-mainBody">
         <Outlet></Outlet>
       </main>
 
