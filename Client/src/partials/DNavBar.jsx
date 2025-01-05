@@ -45,7 +45,9 @@ const DNavBar = ({ children }) => {
 
           {/* DropMenu  */}
           <div className="">
-            <LogoAvatar setMenuDropDown={setMenuDropDown}></LogoAvatar>
+            {userForm.Avatar == !"" && (
+              <LogoAvatar setMenuDropDown={setMenuDropDown}></LogoAvatar>
+            )}
 
             <AnimatePresence>
               {menuDropDown && <UserDropDownMenu userForm={userForm} />}

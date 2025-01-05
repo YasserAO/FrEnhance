@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink } from "react-router";
 
 import { motion } from "framer-motion";
 import { loginForm } from "../../forms/loginForm.mjs";
