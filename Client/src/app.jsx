@@ -9,6 +9,7 @@ import {
 // Main Page
 import { MainPage } from "./layouts/MainPage";
 import { Home } from "./pages/home/Home";
+import URLverification from "./pages/home/URLVerification";
 import About from "./pages/home/About";
 import Contact from "./pages/home/Contact";
 import Features from "./pages/home/Features";
@@ -32,6 +33,10 @@ const router = createBrowserRouter(
         <Route path="about" element={<About />}></Route>
         <Route path="contact" element={<Contact />}></Route>
         <Route path="features" element={<Features />}></Route>
+        <Route
+          path="email-verification/:id"
+          element={<URLverification />}
+        ></Route>
         <Route path="home" element={<Navigate to="/" replace />}></Route>
 
         <Route path="*" element={<NotFound />}></Route>

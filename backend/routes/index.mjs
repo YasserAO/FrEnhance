@@ -6,11 +6,13 @@ import register from "./Authentication/register.mjs";
 import authenticate from "./Authentication/authenticate.mjs";
 import userStatus from "./Authentication/userStatus.mjs";
 import CoinsStatus from "./Authentication/coinStatus.mjs";
+import email from "./Authentication/email.mjs";
 
 router.use(register);
 router.use(userStatus);
 router.use(authenticate);
 router.use(CoinsStatus);
+router.use(email);
 
 // Gen
 import GenText from "./Gen/GenText.mjs";

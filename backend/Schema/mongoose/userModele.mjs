@@ -27,6 +27,21 @@ const UserRegistration = new mongoose.Schema({
     type: String,
     required: true,
   },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+  verification: {
+    verificationToken: {
+      type: Number,
+    },
+    verificationURL: {
+      type: String,
+    },
+    expiresAT: {
+      type: Date,
+    },
+  },
   coins: {
     quantity: {
       type: Number,

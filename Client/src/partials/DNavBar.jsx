@@ -4,7 +4,6 @@ import { useContext, useState } from "react";
 import UserDropDownMenu from "./menus/userDropDown";
 import { AuthContext } from "../authProvider";
 import { AnimatePresence, motion } from "framer-motion";
-import LogoutButton from "./Buttons/logout";
 import { BurgerMenu } from "./Buttons/menuButton";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
