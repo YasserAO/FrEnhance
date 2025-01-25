@@ -1,14 +1,27 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SpinLoad from "./icons/spindLoader";
+import { useNavigate } from "react-router-dom";
 export const LoadingScreen = ({ isLogged }) => {
   const [loading, setLoading] = useState(true);
+  const timerRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    isLogged == true &&
-      setTimeout(() => {
-        setLoading(false);
-      }, 300);
+    console.log(isLogged);
+    console.log(timerRef);
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      console.log("TimeOut Cleared");
+    }
+    if (isLogged == true) {
+      setLoading(false);
+      return;
+    }
+    timerRef.current = setTimeout(() => {
+      if (isLogged == null) navigate("/");
+    }, 3000);
+    console.log("a Timer hasBeen Aded:", timerRef.current);
   }, [isLogged]);
   return (
     <AnimatePresence>

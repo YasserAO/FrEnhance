@@ -49,7 +49,7 @@ router.post("/api/user/email-verify", isLoggedIn, async (request, response) => {
 
   User.verified = false;
   User.verification = verificationToken;
-  const TokenObject = await URLTokensModel.findOne({ userID: userID });
+  let TokenObject = await URLTokensModel.findOne({ userID: userID });
   if (!TokenObject) TokenObject = new URLTokensModel(verificationURL(userID));
   if (now > TokenObject.expiresAT) {
     console.log(TokenObject);
@@ -101,17 +101,16 @@ router.post(
     if (User.verified) {
       return response
         .status(200)
-        .send({ status: 400, msg: "User is Already Verified" });
+        .send({ status: 200, msg: "User is Already Verified" });
     }
     if (
       User.verification.verificationToken == undefined ||
-      User.verification.verificationURL == undefined ||
       User.verification.expiresAT == undefined
     ) {
-      return response.status(200).send({ msg: "No token found" });
+      return response.status(200).send({ status: 404, msg: "No token found" });
     }
     if (code !== User.verification.verificationToken) {
-      return response.status(200).send({ msg: "Wrong Token" });
+      return response.status(200).send({ status: 400, msg: "Wrong Token" });
     }
     if (
       code == User.verification.verificationToken &&
@@ -125,11 +124,13 @@ router.post(
         console.log("User is Verified successfully");
         return response
           .status(200)
-          .send({ msg: `User was Verified successfully` });
+          .send({ status: 200, msg: `User was Verified successfully` });
       } catch (err) {
         console.log("User isn't Verified");
         console.error(err.message);
-        return response.status(200).send({ msg: `User isn't Verified` });
+        return response
+          .status(200)
+          .send({ status: 500, msg: `User isn't Verified` });
       }
     }
     if (
@@ -138,7 +139,7 @@ router.post(
     ) {
       return response
         .status(200)
-        .send({ msg: `Token is expired Please Send a new One` });
+        .send({ status: 400, msg: `Token is expired Please Send a new One` });
     }
 
     return response.status(200).send({ msg: `Nothing Happened` });

@@ -3,13 +3,13 @@ import {
   createRoutesFromElements,
   RouterProvider,
   Route,
-  Navigate,
 } from "react-router";
+import { Navigate } from "react-router-dom";
 
 // Main Page
 import { MainPage } from "./layouts/MainPage";
 import { Home } from "./pages/home/Home";
-import URLverification from "./pages/home/URLVerification";
+import URLverification from "./pages/Auth/URLVerification";
 import About from "./pages/home/About";
 import Contact from "./pages/home/Contact";
 import Features from "./pages/home/Features";
@@ -25,6 +25,9 @@ import { NotFound } from "./layouts/NotFound";
 import { MainDashboard } from "./pages/dashboard/mainDashboard";
 import { CreateAText, EditedTextLoader } from "./pages/dashboard/CreateAText";
 import { TextReadMode } from "./partials/article/TextReadMode";
+import Verify from "./pages/Auth/CODEVerification";
+import { useContext } from "react";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -33,6 +36,7 @@ const router = createBrowserRouter(
         <Route path="about" element={<About />}></Route>
         <Route path="contact" element={<Contact />}></Route>
         <Route path="features" element={<Features />}></Route>
+        <Route path="verify" element={<Verify />}></Route>
         <Route
           path="email-verification/:id"
           element={<URLverification />}

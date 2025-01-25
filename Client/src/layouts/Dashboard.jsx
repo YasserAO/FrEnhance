@@ -53,7 +53,7 @@ export const DashBoard = () => {
 
   return (
     <>
-      <LoadingScreen isLogged></LoadingScreen>
+      <LoadingScreen isLogged={isLogged}></LoadingScreen>
 
       <DNavBar>
         <TextLabelsMobile

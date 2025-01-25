@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
     id: "66eef74903ad9cd2630547f1",
     coins: "",
     Avatar: "",
+    verified: null,
   });
   const [config, setConfig] = useState({});
   const [coins, setCoins] = useState({});
