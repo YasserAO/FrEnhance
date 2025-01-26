@@ -22,69 +22,15 @@ import {
 } from "../../middleware/validResults.mjs";
 import { isLoggedIn } from "../../middleware/isLoggedinCheck.mjs";
 import { getUserByID } from "../../utils/func/getUserByID.mjs";
-import {
-  verificationToken,
-  verificationURL,
-} from "../../utils/func/VerificationToken.mjs";
 
-const router = express.Router();
+import { updateVerification } from "../../middleware/Authentication/updateVerification.mjs";
+
+export const router = express.Router();
 
 dotenv.config();
 
 // Send Verification CODE
-router.post("/api/user/email-verify", isLoggedIn, async (request, response) => {
-  const userID = request.user.id;
-  const User = await getUserByID(userID);
-
-  const now = new Date();
-  if (!User)
-    return response
-      .status(200)
-      .send({ status: 404, msg: "couldn't find the User" });
-
-  if (User.verified === true)
-    return response
-      .status(200)
-      .send({ status: 400, msg: "User is already verified" });
-
-  User.verified = false;
-  User.verification = verificationToken;
-  let TokenObject = await URLTokensModel.findOne({ userID: userID });
-  if (!TokenObject) TokenObject = new URLTokensModel(verificationURL(userID));
-  if (now > TokenObject.expiresAT) {
-    console.log(TokenObject);
-    TokenObject.set(verificationURL(userID));
-    console.log(TokenObject);
-  }
-  try {
-    await TokenObject.save();
-  } catch (err) {
-    console.error(err.message);
-  }
-
-  try {
-    await User.save();
-    response
-      .status(200)
-      .send({ status: 200, msg: "Verification Code was Updated" });
-  } catch (err) {
-    console.log("Couldn't Save the User");
-    return response
-      .status(200)
-      .send({ status: 500, msg: "Something Went Wrong , try Again" });
-  }
-
-  const html = EmailVerificationTemplate(
-    User.firstName,
-    User.verification.verificationToken,
-    process.env.LOCALHOST + "/email-verification/" + TokenObject.Token
-  );
-  try {
-    sendVerification(User.email, "Email Verification", html);
-  } catch (err) {
-    console.error("Error Sending the Email \n ERROR MESSAGE:\n ", err.message);
-  }
-});
+router.post("/api/user/email-verify", isLoggedIn, updateVerification);
 
 // Recive CODE Verification
 router.post(

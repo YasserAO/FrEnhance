@@ -1,10 +1,6 @@
-import express from "express";
 import passport from "passport";
-import "../../utils/Passport Strategies/local-strategy.mjs";
 
-const router = express.Router();
-
-router.post("/api/user/auth", (req, res, next) => {
+export const loginMiddleWare = (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return res.status(500).send({ msg: "An error occurred" });
     if (!user)
@@ -18,22 +14,10 @@ router.post("/api/user/auth", (req, res, next) => {
         return res
           .status(200)
           .send({ msg: "An error occurred while logging in", status: 500 });
+      if (req.NoLoginResponse) return next();
       return res
         .status(200)
         .send({ msg: "Login Successful", user, status: 200 });
     });
   })(req, res, next); // Ensure to pass next for middleware handling
-});
-
-router.post("/api/user/auth/logout", (request, response) => {
-  request.logout((err) => {
-    if (err) return response.sendStatus(401).send({ msg: "Error Occured" });
-    request.session.destroy((err) => {
-      if (err) console.log(err);
-    });
-    response.clearCookie("connect.sid");
-    return response.status(200).send({ msg: "LoggedOut Successfully" });
-  });
-});
-
-export default router;
+};

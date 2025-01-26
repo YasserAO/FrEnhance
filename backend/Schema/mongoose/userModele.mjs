@@ -31,6 +31,7 @@ const UserRegistration = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+
   verification: {
     verificationToken: {
       type: Number,
@@ -39,6 +40,9 @@ const UserRegistration = new mongoose.Schema({
       type: String,
     },
     expiresAT: {
+      type: Date,
+    },
+    verificationCooldown: {
       type: Date,
     },
   },

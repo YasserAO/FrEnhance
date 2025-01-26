@@ -55,13 +55,14 @@ export const Register = () => {
       );
 
       const res = await RegRequest.json();
-      if (res) setMessage(res[0].msg);
+      if (res.status !== 200) setMessage(res[0].msg);
 
-      if (RegRequest.ok) {
+      if (res.status == 200) {
+        setMessage("Registered Successfully");
         setResTypeErr(false);
         setResponseToggle(true);
         setTimeout(() => {
-          navigate("/");
+          window.location.href = "/verify";
         }, 2000);
       } else {
         setResTypeErr(true);

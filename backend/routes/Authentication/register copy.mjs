@@ -1,5 +1,5 @@
 // Packages
-import express, { request } from "express";
+import express from "express";
 import { matchedData, checkSchema } from "express-validator";
 
 // DB // Schemas
@@ -17,8 +17,6 @@ import {
 
 // MiddleWares
 import { validResult } from "../../middleware/validResults.mjs";
-import { loginMiddleWare } from "../../middleware/Authentication/LoginMiddleware.mjs";
-import { updateVerification } from "../../middleware/Authentication/updateVerification.mjs";
 
 const router = express.Router();
 
@@ -61,6 +59,11 @@ router.post(
         email: SavedUser.email,
       };
       console.log(`${SendUser} Was Saved`);
+      setTimeout(() => {
+        return response
+          .status(200)
+          .send([{ msg: "User Saved Successfuly" }, SendUser]);
+      }, 3000);
     } catch (err) {
       if (err.code === 11000) {
         const fieldName = Object.keys(err.keyValue)[0];
@@ -73,17 +76,7 @@ router.post(
         .status(200)
         .send({ status: 500, msg: "something Wrong Try later" });
     }
-    const loginUser = {
-      username: request.body.username,
-      password: request.body.password,
-    };
-    request.body = loginUser;
-    request.NoLoginResponse = true;
-    next();
-  },
-
-  loginMiddleWare,
-  updateVerification
+  }
 );
 
 export default router;

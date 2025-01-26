@@ -10,9 +10,12 @@ export function generateNumericToken() {
   return Math.floor(100000 + Math.random() * 900000);
 }
 
-export const verificationToken = {
-  verificationToken: generateNumericToken(),
-  expiresAT: new Date(Date.now() + 1000 * 60 * 15),
+export const verificationToken = () => {
+  return {
+    verificationToken: generateNumericToken(),
+    expiresAT: new Date(Date.now() + 1000 * 60 * 15),
+    verificationCooldown: new Date(Date.now() + 1000 * 60 * 3),
+  };
 };
 
 export const verificationURL = (pssedid) => {

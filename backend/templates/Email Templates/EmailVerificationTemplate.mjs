@@ -27,7 +27,7 @@ export const EmailVerificationTemplate = (USERNAME, CODE, THEURL) => {
       border-radius: 5px;
       font-weight: bold;
     "
-    >Reset Password</a
+    >Verify Your Email</a
   >
   <p>can't see the Button ? <a href="${THEURL}">(click Here)</a></p>
   <p style="color: #777; margin-top: 20px">

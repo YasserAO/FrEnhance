@@ -7,12 +7,14 @@ import authenticate from "./Authentication/authenticate.mjs";
 import userStatus from "./Authentication/userStatus.mjs";
 import CoinsStatus from "./Authentication/coinStatus.mjs";
 import email from "./Authentication/email.mjs";
+import Cooldown from "./Authentication/cooldownStatus.mjs";
 
 router.use(register);
 router.use(userStatus);
 router.use(authenticate);
 router.use(CoinsStatus);
 router.use(email);
+router.use(Cooldown);
 
 // Gen
 import GenText from "./Gen/GenText.mjs";

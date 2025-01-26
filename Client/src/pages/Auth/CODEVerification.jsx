@@ -6,6 +6,8 @@ import SpinLoad from "../../partials/icons/spindLoader";
 import { AuthContext } from "../../authProvider";
 import { useNavigate } from "react-router-dom";
 import { sendToken } from "../../forms/sendTokenForm.mjs";
+import { cooldownForm } from "../../forms/verificationCooldown.mjs";
+import { calculateTimeLeft } from "../../utils/calculateTimerLeft.mjs";
 const Verify = () => {
   const { isLogged, userForm } = useContext(AuthContext);
   const timeRef = useRef(null);
@@ -14,7 +16,13 @@ const Verify = () => {
   const [message, setMessage] = useState("");
   const [reserror, setReserror] = useState(true);
   const [loadingScreen, setLoadingScreen] = useState(true);
-  const [sendAgain, setSendAgain] = useState(true);
+
+  // VerificationCOOLDOWN STATES
+  const [sendAgain, setSendAgain] = useState(null);
+  const [DisplayTimer, seDisplayTimer] = useState();
+  const [timeLeft, setTimeLeft] = useState();
+
+  const TimerRef = useRef();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +53,30 @@ const Verify = () => {
       // console.log("Timer was set to ", timeRef.current);
     }
   }, [userForm.verified, isLogged]);
+
+  // verification Cooldown
+
+  useEffect(() => {
+    const getCooldown = async () => {
+      if (TimerRef.current) clearInterval(TimerRef.current);
+      const now = new Date();
+      const response = await cooldownForm();
+
+      if (response.cooldown == null || now > new Date(response.cooldown))
+        return setSendAgain(true);
+      console.log(new Date(response.cooldown) - now);
+      setTimeLeft(new Date(response.cooldown) - now);
+
+      TimerRef.current = setInterval(() => {
+        setTimeLeft((prev) => prev - 1000);
+      }, 1000);
+    };
+    getCooldown();
+  }, [sendAgain]);
+
+  useEffect(() => {
+    seDisplayTimer(calculateTimeLeft(timeLeft));
+  }, [timeLeft]);
 
   // Input Handlers
   const handleInput = (e, index) => {
@@ -98,6 +130,7 @@ const Verify = () => {
 
   // Send Token Request
   const handleTokenUpdate = async () => {
+    const cooldown = await codeVerification();
     const response = await sendToken();
     if (response) setSendAgain(false);
     console.log(response.msg);
@@ -189,7 +222,9 @@ const Verify = () => {
                   }}
                   className="select-none rounded-md bg-emerald-50 px-2 py-1"
                 >
-                  <p className="text-emerald-700">00:00</p>
+                  <p className="text-emerald-700">
+                    {DisplayTimer.m}:{DisplayTimer.s}
+                  </p>
                 </motion.div>
               )}
               <button
