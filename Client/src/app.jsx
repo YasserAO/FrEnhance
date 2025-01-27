@@ -10,6 +10,8 @@ import { Navigate } from "react-router-dom";
 import { MainPage } from "./layouts/MainPage";
 import { Home } from "./pages/home/Home";
 import URLverification from "./pages/Auth/URLVerification";
+import { URLPasswordReset } from "./pages/Auth/URLPasswordReset";
+import { PasswordResetRequest } from "./pages/Auth/PasswordResetRequest";
 import About from "./pages/home/About";
 import Contact from "./pages/home/Contact";
 import Features from "./pages/home/Features";
@@ -41,11 +43,17 @@ const router = createBrowserRouter(
           path="email-verification/:id"
           element={<URLverification />}
         ></Route>
+
         <Route path="home" element={<Navigate to="/" replace />}></Route>
 
         <Route path="*" element={<NotFound />}></Route>
       </Route>
       <Route path="/auth" element={<Auth />}>
+        <Route path="password-reset/:id" element={<URLPasswordReset />}></Route>
+        <Route
+          path="password-reset-request"
+          element={<PasswordResetRequest />}
+        ></Route>
         <Route index path="login" element={<Login></Login>}></Route>
         <Route path="register" element={<Register></Register>}></Route>
       </Route>

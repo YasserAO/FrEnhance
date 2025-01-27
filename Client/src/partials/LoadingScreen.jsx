@@ -8,20 +8,18 @@ export const LoadingScreen = ({ isLogged }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(isLogged);
-    console.log(timerRef);
     if (timerRef.current) {
       clearTimeout(timerRef.current);
-      console.log("TimeOut Cleared");
+      // console.log("TimeOut Cleared");
     }
     if (isLogged == true) {
       setLoading(false);
       return;
     }
     timerRef.current = setTimeout(() => {
-      if (isLogged == null) navigate("/");
+      if (isLogged == null) window.location.href = "/";
     }, 3000);
-    console.log("a Timer hasBeen Aded:", timerRef.current);
+    // console.log("a Timer hasBeen Aded:", timerRef.current);
   }, [isLogged]);
   return (
     <AnimatePresence>

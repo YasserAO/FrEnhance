@@ -40,7 +40,7 @@ const Verify = () => {
       if (isLogged == false) navigate("/auth/login");
       if (userForm.verified == true) {
         // console.log("User is Verified");
-        navigate("/");
+        window.location.href = "/";
       }
       return;
     }

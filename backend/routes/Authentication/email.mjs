@@ -24,6 +24,9 @@ import { isLoggedIn } from "../../middleware/isLoggedinCheck.mjs";
 import { getUserByID } from "../../utils/func/getUserByID.mjs";
 
 import { updateVerification } from "../../middleware/Authentication/updateVerification.mjs";
+import { resetPasswordUpdate } from "../../middleware/Authentication/resetPasswordUpdate.mjs";
+import { resetPasswordLink } from "../../middleware/Authentication/resetPasswordLink.mjs";
+import { resetPasswordCheck } from "../../middleware/Authentication/resetPasswordCheck.mjs";
 
 export const router = express.Router();
 
@@ -157,5 +160,20 @@ router.post(
     return;
   }
 );
+
+router.post(
+  "/api/password-reset-request",
+  resetPasswordUpdate,
+  (request, response) => {
+    return response.status(200).send({
+      status: 200,
+      msg: "an Email has been sent to the Provided Mail",
+    });
+  }
+);
+
+router.post("/api/password-reset", resetPasswordLink);
+
+router.post("/api/password-check", resetPasswordCheck);
 
 export default router;

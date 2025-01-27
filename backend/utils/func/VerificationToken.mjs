@@ -25,3 +25,11 @@ export const verificationURL = (pssedid) => {
     expiresAT: new Date(Date.now() + 1000 * 3600 * 24),
   };
 };
+
+export const resetPassURL = (pssedid) => {
+  return {
+    userID: pssedid,
+    Token: generateUrlToken(),
+    expiresAT: new Date(Date.now() + 1000 * 3600 * 24),
+  };
+};

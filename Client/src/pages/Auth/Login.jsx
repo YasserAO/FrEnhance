@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { NavLink } from "react-router";
+import { Link } from "react-router";
 
 import { motion } from "framer-motion";
 import { loginForm } from "../../forms/loginForm.mjs";
@@ -86,7 +87,7 @@ export const Login = () => {
             />
           </div>
           <div
-            className={`mx-auto mb-5 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
+            className={`mx-auto mb-3 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
           >
             <RiLockPasswordFill></RiLockPasswordFill>
             <input
@@ -102,7 +103,17 @@ export const Login = () => {
               required
             />
           </div>
-
+          <div className="mx-auto mb-3 w-[80%]">
+            <p className="text-sm text-gray-600">
+              forgot your password?{" "}
+              <Link
+                className="font-semibold text-blue-500"
+                to={"/auth/password-reset-request"}
+              >
+                Click here
+              </Link>{" "}
+            </p>
+          </div>
           <div className="mx-auto flex w-[80%] justify-between">
             <button
               type="submit"
