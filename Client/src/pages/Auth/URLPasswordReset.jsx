@@ -85,6 +85,7 @@ export const URLPasswordReset = () => {
   const handleSubmit = async (e) => {
     setMessage("");
     e.preventDefault();
+    if (password1.length < 12) return setMessage("Password Too short");
     setLoading(true);
 
     clearTimeout(timeOutRef.current);
@@ -96,6 +97,7 @@ export const URLPasswordReset = () => {
       }, 1000);
       return;
     }
+
     const resetPassword = await passwordReset(id, password1);
     if (resetPassword.status == 200) {
       setTimeout(() => {
