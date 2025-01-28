@@ -18,5 +18,6 @@ export const passwordReset = async (Token, password) => {
     return Resp;
   } catch (err) {
     console.log(err);
+    console.log("Submitted");
   }
 };

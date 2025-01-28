@@ -18,6 +18,7 @@ import { sendVerification } from "../../connection/transporter.mjs";
 // MiddleWares
 import {
   validResult,
+  validResultEmail,
   validResultPrivate,
 } from "../../middleware/validResults.mjs";
 import { isLoggedIn } from "../../middleware/isLoggedinCheck.mjs";
@@ -27,6 +28,7 @@ import { updateVerification } from "../../middleware/Authentication/updateVerifi
 import { resetPasswordUpdate } from "../../middleware/Authentication/resetPasswordUpdate.mjs";
 import { resetPasswordLink } from "../../middleware/Authentication/resetPasswordLink.mjs";
 import { resetPasswordCheck } from "../../middleware/Authentication/resetPasswordCheck.mjs";
+import { emailSchema } from "../../Schema/validation/emailSchema.mjs";
 
 export const router = express.Router();
 
@@ -163,11 +165,13 @@ router.post(
 
 router.post(
   "/api/password-reset-request",
+  checkSchema(emailSchema),
+  validResultEmail,
   resetPasswordUpdate,
   (request, response) => {
     return response.status(200).send({
       status: 200,
-      msg: "an Email has been sent to the Provided Mail",
+      msg: "Password reset request has been sent ",
     });
   }
 );

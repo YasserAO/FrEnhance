@@ -7,6 +7,13 @@ export const validResult = (request, response, next) => {
   next();
 };
 
+export const validResultEmail = (request, response, next) => {
+  const result = validationResult(request);
+  if (!result.isEmpty())
+    return response.status(200).send({ status: 400, msg: "invalid Email" });
+  next();
+};
+
 export const validResultPrivate = (request, response, next) => {
   const result = validationResult(request);
   if (!result.isEmpty())

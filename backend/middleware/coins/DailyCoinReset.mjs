@@ -11,7 +11,25 @@ export const DailyCoinReset = async (req, res, next) => {
   //   console.log(USER.coins);
   //   console.log(USER.coins.quantity);
 
-  if (USER.coins == undefined) {
+  if (!USER.verified) {
+    USER.coins = {
+      quantity: 0,
+      lastReset: undefined,
+    };
+    try {
+      await USER.save();
+      return next();
+    } catch (err) {
+      //   console.error("ERROR SAVING WHEN RESETING COINS");
+      return next();
+    }
+  }
+
+  if (
+    USER.coins == undefined ||
+    USER.coins.quantity == undefined ||
+    USER.coins.lastReset == undefined
+  ) {
     // console.log("coins is undefined");
     USER.coins = {
       quantity: DefaultValue,
@@ -56,6 +74,8 @@ export const DailyCoinReset = async (req, res, next) => {
       return next();
     }
   }
-  //   console.log("No changes in the Daily Reset");
+  if (TheReset == undefined) {
+  }
+  console.log("No changes in the Daily Reset");
   return next();
 };
