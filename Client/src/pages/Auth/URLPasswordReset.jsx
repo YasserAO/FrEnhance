@@ -92,9 +92,8 @@ export const URLPasswordReset = () => {
     } else {
       setTimeout(() => {
         setLoading(false);
-        if (resetPassword.content) {
-          setMessage(resetPassword.content[0].msg);
-        }
+
+        setMessage(resetPassword.msg);
       }, 1000);
       return;
     }
