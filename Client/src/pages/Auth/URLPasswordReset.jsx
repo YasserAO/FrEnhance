@@ -89,6 +89,14 @@ export const URLPasswordReset = () => {
       setTimeout(() => {
         window.location.href = "/";
       }, 4000);
+    } else {
+      setTimeout(() => {
+        setLoading(false);
+        if (resetPassword.content) {
+          setMessage(resetPassword.content[0].msg);
+        }
+      }, 1000);
+      return;
     }
   };
 

@@ -12,9 +12,10 @@ export const registrationSchema = {
     errorMessage: "Invalid email address",
   },
   password: {
-    notEmpty: true,
-    isLength: { min: 6 },
-    errorMessage: "Password must be at least 6 characters long",
+    isLength: {
+      options: { min: 12 },
+      errorMessage: "Password must be at least 12 characters long",
+    },
   },
   username: {
     notEmpty: true,

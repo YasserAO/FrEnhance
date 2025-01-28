@@ -1,9 +1,10 @@
+import { matchedData } from "express-validator";
 import { URLPassToken } from "../../Schema/mongoose/urlPassToken.mjs";
 import { getUserByID } from "../../utils/func/getUserByID.mjs";
 import { hashpassword } from "../../utils/func/helper.mjs";
 
 export const resetPasswordLink = async (request, response) => {
-  const { Token, password } = request.body;
+  const { Token, password } = matchedData(request);
   const now = new Date();
   console.log("Your Token is :", Token);
   let TokenObject;

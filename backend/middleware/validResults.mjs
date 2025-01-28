@@ -14,6 +14,16 @@ export const validResultEmail = (request, response, next) => {
   next();
 };
 
+export const validResultPassword = (request, response, next) => {
+  const result = validationResult(request);
+  if (!result.isEmpty())
+    return response.status(200).send({
+      status: 400,
+      title: "Invalid Link",
+      msg: "The link you used is invalid. Please check your email for a valid link or request a new one if needed.",
+    });
+  next();
+};
 export const validResultPrivate = (request, response, next) => {
   const result = validationResult(request);
   if (!result.isEmpty())

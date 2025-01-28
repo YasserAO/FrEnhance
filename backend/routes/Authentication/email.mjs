@@ -19,6 +19,7 @@ import { sendVerification } from "../../connection/transporter.mjs";
 import {
   validResult,
   validResultEmail,
+  validResultPassword,
   validResultPrivate,
 } from "../../middleware/validResults.mjs";
 import { isLoggedIn } from "../../middleware/isLoggedinCheck.mjs";
@@ -28,7 +29,11 @@ import { updateVerification } from "../../middleware/Authentication/updateVerifi
 import { resetPasswordUpdate } from "../../middleware/Authentication/resetPasswordUpdate.mjs";
 import { resetPasswordLink } from "../../middleware/Authentication/resetPasswordLink.mjs";
 import { resetPasswordCheck } from "../../middleware/Authentication/resetPasswordCheck.mjs";
-import { emailSchema } from "../../Schema/validation/emailSchema.mjs";
+import {
+  emailSchema,
+  newPassword,
+  TokenSchema,
+} from "../../Schema/validation/emailSchema.mjs";
 
 export const router = express.Router();
 
@@ -176,8 +181,18 @@ router.post(
   }
 );
 
-router.post("/api/password-reset", resetPasswordLink);
+router.post(
+  "/api/password-reset",
+  checkSchema(newPassword),
+  validResult,
+  resetPasswordLink
+);
 
-router.post("/api/password-check", resetPasswordCheck);
+router.post(
+  "/api/password-check",
+  checkSchema(TokenSchema),
+  validResultPassword,
+  resetPasswordCheck
+);
 
 export default router;
