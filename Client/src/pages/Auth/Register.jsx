@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CiUser } from "react-icons/ci";
@@ -18,6 +18,17 @@ export const Register = () => {
   const [resTypeErr, setResTypeErr] = useState(true);
   const navigate = useNavigate();
   const [responseToggle, setResponseToggle] = useState(false);
+
+  // Password Validation
+  const [validPassword, setValidPassword] = useState(false);
+  const passwordRef = useRef();
+
+  useEffect(() => {
+    if (password.length >= 12) {
+      return setValidPassword(true);
+    }
+    setValidPassword(false);
+  }, [password]);
 
   function ClearDisableEntry() {
     if (responseToggle) {
@@ -55,7 +66,7 @@ export const Register = () => {
       );
 
       const res = await RegRequest.json();
-      if (res.status !== 200) setMessage(res[0].msg);
+      if (res.status !== 200) setMessage(res.msg);
 
       if (res.status == 200) {
         setMessage("Registered Successfully");
@@ -176,13 +187,14 @@ export const Register = () => {
             />
           </div>
           <div
-            className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
+            className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border ${document.activeElement === passwordRef.current ? (validPassword ? `border-green-400` : `border-red-400`) : `border-gray-400`} bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
           >
             <RiLockPasswordFill />
             <input
+              ref={passwordRef}
               value={password}
               disabled={loading}
-              className="text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
+              className={`text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500`}
               type="password"
               required
               placeholder="Password"
