@@ -20,6 +20,22 @@ export const URLPasswordReset = () => {
   const timeOutRef = useRef();
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const [validPassword, setValidPassword] = useState(false);
+  const [validPassword2, setValidPassword2] = useState(false);
+
+  useEffect(() => {
+    if (password1.length >= 12) {
+      return setValidPassword(true);
+    }
+    setValidPassword(false);
+  }, [password1]);
+
+  useEffect(() => {
+    if (password2 === password1 && password2.length !== 0) {
+      return setValidPassword2(true);
+    }
+    setValidPassword2(false);
+  }, [password2, password1]);
 
   useEffect(() => {
     if (loading == false) {
@@ -143,7 +159,7 @@ export const URLPasswordReset = () => {
                 {message}
               </p>
               <div
-                className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
+                className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border ${validPassword ? `border-green-400` : `border-red-400`} bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
               >
                 <RiLockPasswordFill></RiLockPasswordFill>
                 <input
@@ -157,7 +173,7 @@ export const URLPasswordReset = () => {
                 />
               </div>
               <div
-                className={`mx-auto mb-5 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
+                className={`mx-auto mb-5 flex h-10 w-56 items-center justify-center rounded-sm border ${validPassword2 ? `border-green-400` : `border-red-400`} border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
               >
                 <RiLockPasswordFill></RiLockPasswordFill>
                 <input
