@@ -198,12 +198,14 @@ export const Register = () => {
             >
               {loading ? "Loading..." : "Sign Up"}
             </button>
-            <NavLink
-              to="/auth/login"
-              className="font-semibold text-blue-500 underline"
-            >
-              Login
-            </NavLink>
+            {!loading && (
+              <NavLink
+                to="/auth/login"
+                className="font-semibold text-blue-500 underline"
+              >
+                Login
+              </NavLink>
+            )}
           </div>
         </motion.form>
       </div>

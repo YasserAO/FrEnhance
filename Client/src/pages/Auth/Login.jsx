@@ -122,12 +122,14 @@ export const Login = () => {
             >
               {loading ? "Loading..." : "Login"}
             </button>
-            <NavLink
-              to="/auth/register"
-              className="font-semibold text-blue-500 underline"
-            >
-              Sign up
-            </NavLink>
+            {!loading && (
+              <NavLink
+                to="/auth/register"
+                className="font-semibold text-blue-500 underline"
+              >
+                Sign up
+              </NavLink>
+            )}
           </div>
         </motion.form>
       </div>

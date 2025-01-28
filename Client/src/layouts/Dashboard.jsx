@@ -6,11 +6,12 @@ import { TextLabelsMobile } from "../partials/article/TextLabelsMobile";
 import { textForm } from "../forms/textGetForm.mjs";
 import { TextLabels } from "../partials/article/TextLabels";
 import { LoadingScreen } from "../partials/LoadingScreen";
+import { VerifictionBar } from "../partials/VerificationBar";
 
 export const DashBoard = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isLogged } = useContext(AuthContext);
+  const { isLogged, userForm } = useContext(AuthContext);
   const [myTexts, setMyTexts] = useState([]);
   const [emptyText, setEmptyText] = useState(false);
   const [showMore, setShowMore] = useState(4);
@@ -62,7 +63,7 @@ export const DashBoard = () => {
           myTexts={myTexts}
         ></TextLabelsMobile>
       </DNavBar>
-
+      {isLogged && userForm.verified === false && <VerifictionBar />}
       <main
         className={`relative flex flex-grow flex-col bg-amber-100 sm:px-3 sm:py-4 sm:pb-5 md:flex-row md:gap-[2.5%] md:px-[2.5%] md:py-10 lg:px-[5%] xl:px-[10%]`}
       >

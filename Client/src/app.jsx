@@ -28,7 +28,6 @@ import { MainDashboard } from "./pages/dashboard/mainDashboard";
 import { CreateAText, EditedTextLoader } from "./pages/dashboard/CreateAText";
 import { TextReadMode } from "./partials/article/TextReadMode";
 import Verify from "./pages/Auth/CODEVerification";
-import { useContext } from "react";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

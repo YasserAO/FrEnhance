@@ -1,10 +1,10 @@
 {
-  "defaultValue": 5000,
+  "defaultValue": 500,
   "ResetInterval": 24,
   "GenerateText": {
     "basic": 30,
     "medium": 50,
-    "Advanced": 300
+    "Advanced": 90
   },
   "Explain": 5
 }

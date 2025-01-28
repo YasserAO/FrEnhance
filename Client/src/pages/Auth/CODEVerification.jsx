@@ -35,7 +35,7 @@ const Verify = () => {
       setLoadingScreen(false);
     }
     if (timeRef.current) {
-      // console.log(timeRef.current, "Time Clearing");
+      console.log(timeRef.current, "Time Clearing");
       clearTimeout(timeRef.current);
       if (isLogged == false) navigate("/auth/login");
       if (userForm.verified == true) {
@@ -121,8 +121,8 @@ const Verify = () => {
     if (response.status === 200) {
       setReserror(false);
       setTimeout(() => {
-        navigate("/");
-      }, 1000);
+        window.location.href = "/";
+      }, 2000);
     }
     setMessage(response.msg);
     setLoading(false);

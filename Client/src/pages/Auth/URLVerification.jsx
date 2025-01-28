@@ -39,7 +39,12 @@ const URLVerification = () => {
         console.log("Failed");
       }
       if (response) {
-        if (response.status == 200) setColor(true);
+        if (response.status == 200) {
+          setColor(true);
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 2000);
+        }
         if (response.title) {
           setTitle(response.title);
         }
