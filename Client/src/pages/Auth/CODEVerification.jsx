@@ -137,7 +137,7 @@ const Verify = () => {
   };
 
   return loadingScreen ? (
-    <div className="flex flex-1 flex-col items-center justify-center bg-amber-200 px-3 md:block md:px-[10%] md:pt-20">
+    <div className="flex w-full flex-1 flex-col items-center justify-center bg-amber-200 px-3 md:px-[10%] md:pt-20">
       <SpinLoad />
     </div>
   ) : (
