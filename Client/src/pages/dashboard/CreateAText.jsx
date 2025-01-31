@@ -8,6 +8,8 @@ import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
 import SpinLoad from "../../partials/icons/spindLoader";
 import { IoSend } from "react-icons/io5";
 import { IoIosReturnLeft } from "react-icons/io";
+import { CiEdit } from "react-icons/ci";
+import { MdCancel } from "react-icons/md";
 
 // Fetchers and updaters
 import fetchText from "../../forms/textGenerate.mjs";
@@ -23,6 +25,7 @@ import { ExplainWindow } from "../../partials/article/ExplainWindow.jsx";
 
 // Functions and utils
 import { outputFinder } from "../../utils/outputFinder.mjs";
+import { TextParagraphs } from "../../partials/article/TextParagraphs.jsx";
 
 export const EditedTextLoader = async () => {
   async function textHandler() {
@@ -69,6 +72,10 @@ export const CreateAText = () => {
   const [selectedText, setSelectedText] = useState("");
   const [explainMenuToggle, setExplainMenuToggle] = useState(false);
   const [anchor, setAnchor] = useState("");
+
+  // Edit Paragraphs
+  const [editParagraphMode, setEditParagraphMode] = useState(false);
+  const [editedParagraph, setEditedParagraph] = useState(0);
 
   useState(() => {
     if (content) {
@@ -160,15 +167,26 @@ export const CreateAText = () => {
           )}
         </div>
         {!emptyField && (
-          <div className="flex w-1/3 items-center justify-end gap-3">
-            <SaveText
-              disabledButton={disabledButton}
-              setDisabledButton={setDisabledButton}
-              dbupdateToggle={dbupdateToggle}
-              setDbupdateToggle={setDbupdateToggle}
-              text={myText}
-            ></SaveText>
-            <DeleteGen setEmptyField={setEmptyField}></DeleteGen>
+          <div className="flex w-1/3 items-center justify-end gap-4">
+            {!editParagraphMode && (
+              <>
+                <SaveText
+                  disabledButton={disabledButton}
+                  setDisabledButton={setDisabledButton}
+                  dbupdateToggle={dbupdateToggle}
+                  setDbupdateToggle={setDbupdateToggle}
+                  text={myText}
+                ></SaveText>
+                <DeleteGen setEmptyField={setEmptyField}></DeleteGen>
+              </>
+            )}
+            <button
+              onClick={(e) => {
+                setEditParagraphMode((prev) => !prev);
+              }}
+            >
+              {editParagraphMode ? <MdCancel /> : <CiEdit size={"2.5rem"} />}
+            </button>
           </div>
         )}
       </div>
@@ -179,7 +197,7 @@ export const CreateAText = () => {
           {myText.title}
         </h2>
         <div
-          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
+          className={`mb-22 overflow-y-auto bg-white py-5 ${emptyField ? `h-0` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
           //
         >
           {!emptyField && (
@@ -196,9 +214,14 @@ export const CreateAText = () => {
                   {myText.title}
                 </h2>
                 {myText.text.split("\n").map((para, index) => (
-                  <p className="mb-4 selection:bg-amber-200" key={index}>
-                    <span className="inline-block w-4"></span> {para}
-                  </p>
+                  <TextParagraphs
+                    key={Math.random()}
+                    editParagraphMode={editParagraphMode}
+                    para={para}
+                    index={index}
+                    editedParagraph={editedParagraph}
+                    setEditedParagraph={setEditedParagraph}
+                  />
                 ))}
               </motion.div>
             </>
