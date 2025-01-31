@@ -66,7 +66,7 @@ export const TextLabels = ({
                       {extract(element.title, readMode ? 30 : 5)}
                     </h2>
                     <p className="text-sm">
-                      {extract(element.text, readMode ? 50 : 5)}
+                      {extract(element.text[0], readMode ? 50 : 5)}
                     </p>
                   </motion.div>
                 ))

@@ -4,14 +4,13 @@ export const textSaveSchema = {
     errorMessage: "A title is Required",
   },
   text: {
-    isLength: {
-      options: { min: 200 },
-      errorMessage: "text must at least has 200 letters",
+    isArray: {
+      errorMessage: "Text must be an array",
     },
   },
-  savebutton:{
-    isBoolean:{
-      errorMessage:"SaveButton must be a boolean value"
-    }
-  }
+  savebutton: {
+    isBoolean: {
+      errorMessage: "SaveButton must be a boolean value",
+    },
+  },
 };

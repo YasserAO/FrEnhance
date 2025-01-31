@@ -1,6 +1,7 @@
-import baiscModel from "../connection/basicModel.mjs";
+import baiscModel from "./groq-models/basicModel.mjs";
+import jsonModel from "./groq-models/JsonModel.mjs";
 
-const ChatModels = [baiscModel];
+const ChatModels = [baiscModel, jsonModel];
 
 export default async function chatCompletion(msg, index) {
   try {

@@ -162,7 +162,7 @@ export const TextReadMode = () => {
       </motion.div>
       <div className="mt-2 h-[calc(100svh-56px-56px-24px-8px-8px-32px)] overflow-y-auto rounded-md bg-white px-4 py-4 sm:h-[600px]">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          {Text.text.split("\n").map((txt, indx) => (
+          {Text.text.map((txt, indx) => (
             <p key={indx} className="mb-3 last:mb-0">
               <span className="inline-block w-3"></span>
               {txt}

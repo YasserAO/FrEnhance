@@ -12,11 +12,11 @@ const TextRegistration = new mongoose.Schema({
     required: true,
   },
   text: {
-    type: mongoose.Schema.Types.String,
+    type: mongoose.Schema.Types.Array,
     required: true,
   },
-  savebutton:{
-    type:mongoose.Schema.Types.Boolean
+  savebutton: {
+    type: mongoose.Schema.Types.Boolean,
   },
   questions: {
     type: mongoose.Schema.Types.String,

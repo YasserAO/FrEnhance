@@ -1,4 +1,4 @@
-import { groqConnect } from "../core/models/Groq.connect.mjs";
+import { groqConnect } from "../../connection/Groq.connect.mjs";
 
 async function getGroqChatCompletion(msg) {
   return groqConnect.chat.completions.create({

@@ -15,7 +15,7 @@ export const TextParagraphs = ({
       setInputToggle((prev) => !prev);
     } else setInputToggle(false);
   }, [editedParagraph, trigger]);
-
+  console.log(para);
   return editParagraphMode ? (
     <div key={index} className="mb-4">
       <p
@@ -42,7 +42,7 @@ export const TextParagraphs = ({
       )}
     </div>
   ) : (
-    <p className="mb-4 selection:bg-amber-200" key={index}>
+    <p className="mb-4 selection:bg-amber-200" key={Math.random(index)}>
       <span className="inline-block w-4"></span> {para}
     </p>
   );

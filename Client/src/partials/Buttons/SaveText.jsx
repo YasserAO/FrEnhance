@@ -44,7 +44,7 @@ export const SaveText = ({
 SaveText.propTypes = {
   text: PropTypes.shape({
     title: PropTypes.string,
-    text: PropTypes.string,
+    text: PropTypes.array,
   }).isRequired,
   setDbupdateToggle: PropTypes.func,
   dbupdateToggle: PropTypes.bool,

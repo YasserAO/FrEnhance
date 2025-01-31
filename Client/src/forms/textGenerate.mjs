@@ -1,7 +1,7 @@
 const fetchText = async (theme, nv) => {
   const level = parseInt(nv);
   const responseAPI = await fetch(
-    import.meta.env.VITE_API_URL + "/api/generate/text",
+    import.meta.env.VITE_API_URL + "/api/generate/textJSON",
     {
       credentials: "include",
       method: "POST",

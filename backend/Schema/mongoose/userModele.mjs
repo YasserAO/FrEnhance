@@ -59,7 +59,7 @@ const UserRegistration = new mongoose.Schema({
       type: String,
     },
     text: {
-      type: String,
+      type: Array,
     },
     savebutton: {
       type: Boolean,

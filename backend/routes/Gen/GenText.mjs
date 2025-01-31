@@ -1,5 +1,6 @@
 import express from "express";
 import textOnlyTemplate from "../../templates/textOnly.mjs";
+import textOnlyTemplateJSON from "../../templates/textOnlyJSON.mjs";
 import chatCompletion from "../../core/chatCompletion.mjs";
 import { convertPromptToJSON } from "../../utils/func/textToJson.mjs";
 import { isLoggedIn } from "../../middleware/isLoggedinCheck.mjs";
@@ -37,4 +38,30 @@ router.post(
   }
 );
 
+router.post(
+  "/api/generate/textJSON",
+  isLoggedIn,
+  checkSchema(textGenSchema),
+  validResult,
+  async (request, response) => {
+    const textData = matchedData(request);
+    const User = request.user;
+    let { level, theme } = request.body;
+    const myMessage = textOnlyTemplateJSON(level, theme);
+    const Purchase = await coinsConsume(User.id, level);
+    if (Purchase) {
+      const MyPrompt = await chatCompletion(myMessage, 1);
+      if (!MyPrompt) return response.status(200).send({ msg: "No response" });
+      try {
+        const JSONResponse = JSON.parse(MyPrompt);
+        return response.status(200).send({ status: 200, ...JSONResponse });
+      } catch (err) {
+        console.log(err.message);
+        return response.status(200).send({ status: 500, msg: "No response" });
+      }
+    } else {
+      return response.status(200).send({ msg: "Not Enough Credits" });
+    }
+  }
+);
 export default router;

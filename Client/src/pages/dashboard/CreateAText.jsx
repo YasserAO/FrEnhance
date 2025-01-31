@@ -56,7 +56,7 @@ export const CreateAText = () => {
   );
   const [myText, setMyText] = useState({
     title: "",
-    text: "",
+    text: [],
   });
   const navigate = useNavigate();
 
@@ -90,15 +90,15 @@ export const CreateAText = () => {
     setEmptyField(true);
     const data = await fetchText(theme, level);
     if (!(data.status == 200)) {
-      console.log(data.content);
+      console.log(data);
       setTextLoading(false);
 
       return;
     }
     fetchCoins();
     setEmptyField(false);
-    const text = JSON.parse(data.content);
-    setMyText(text);
+    const content = { title: data.title, text: data.text };
+    setMyText(content);
     setDisabledButton(false);
     setTextLoading(false);
     setEmptyField(false);
@@ -109,6 +109,7 @@ export const CreateAText = () => {
       if (explainMenuToggle) return;
       const output = document.getElementById("content");
       const myAnchor = window.getSelection().anchorNode;
+      console.log(myAnchor);
       const selection = window.getSelection().toString().trim();
       if (output.contains(myAnchor)) {
         const myWords = outputFinder(
@@ -197,7 +198,7 @@ export const CreateAText = () => {
           {myText.title}
         </h2>
         <div
-          className={`mb-22 overflow-y-auto bg-white py-5 ${emptyField ? `h-0` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
+          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
           //
         >
           {!emptyField && (
@@ -209,13 +210,13 @@ export const CreateAText = () => {
                 className="px-3"
               >
                 <h2
-                  className={`flex sm:hidden ${emptyField ? `h-0` : `h-14 md:my-1`} items-center justify-center overflow-hidden border-b bg-white text-center font-semibold transition-all duration-150 md:rounded-md md:border-none`}
+                  className={`flex sm:hidden ${emptyField ? `h-0` : `h-20 md:my-1`} items-center justify-center overflow-hidden border-b bg-white text-center font-semibold transition-all duration-150 md:rounded-md md:border-none`}
                 >
                   {myText.title}
                 </h2>
-                {myText.text.split("\n").map((para, index) => (
+                {myText.text.map((para, index) => (
                   <TextParagraphs
-                    key={Math.random()}
+                    key={Math.random(index)}
                     editParagraphMode={editParagraphMode}
                     para={para}
                     index={index}
