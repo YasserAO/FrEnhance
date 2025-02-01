@@ -109,7 +109,7 @@ export const CreateAText = () => {
       if (explainMenuToggle) return;
       const output = document.getElementById("content");
       const myAnchor = window.getSelection().anchorNode;
-      console.log(myAnchor);
+      // console.log(myAnchor);
       const selection = window.getSelection().toString().trim();
       if (output.contains(myAnchor)) {
         const myWords = outputFinder(

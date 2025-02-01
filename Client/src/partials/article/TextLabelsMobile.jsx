@@ -63,7 +63,7 @@ export const TextLabelsMobile = ({ emptyText, readMode, myTexts }) => {
                   <h2 className="font-semibold">
                     {extract(element.title, 2)}...
                   </h2>
-                  <p className="text-sm">{extract(element.text, 5)}...</p>
+                  <p className="text-sm">{extract(element.text[0], 5)}...</p>
                 </motion.div>
               ))
               .filter((element, index) => index < mobileShowMore)

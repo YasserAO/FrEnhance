@@ -15,7 +15,7 @@ export const TextParagraphs = ({
       setInputToggle((prev) => !prev);
     } else setInputToggle(false);
   }, [editedParagraph, trigger]);
-  console.log(para);
+  // console.log(para);
   return editParagraphMode ? (
     <div key={index} className="mb-4">
       <p
