@@ -1,5 +1,4 @@
 export const outputFinder = (myAnchor, selection) => {
-  // console.log("selection: ", selection.length);
   if (selection.length < 3) {
     return null;
   }
@@ -11,8 +10,6 @@ export const outputFinder = (myAnchor, selection) => {
       else return element;
     })
     .filter((element) => !(element == null));
-
-  // console.log(selectedWords);
 
   let succession = selectedWords.length;
   const trueWords = myAnchor

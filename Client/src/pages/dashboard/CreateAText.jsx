@@ -31,7 +31,7 @@ export const EditedTextLoader = async () => {
   async function textHandler() {
     try {
       const response = await loadEditedText();
-      console.log(response);
+      // console.log(response);
       if (!response) return null;
       // console.log(response.status);
       if (response.status == 200) return response.content;
@@ -90,7 +90,7 @@ export const CreateAText = () => {
     setEmptyField(true);
     const data = await fetchText(theme, level);
     if (!(data.status == 200)) {
-      console.log(data);
+      // console.log(data);
       setTextLoading(false);
 
       return;
@@ -109,7 +109,6 @@ export const CreateAText = () => {
       if (explainMenuToggle) return;
       const output = document.getElementById("content");
       const myAnchor = window.getSelection().anchorNode;
-      // console.log(myAnchor);
       const selection = window.getSelection().toString().trim();
       if (output.contains(myAnchor)) {
         const myWords = outputFinder(
@@ -216,7 +215,7 @@ export const CreateAText = () => {
                 </h2>
                 {myText.text.map((para, index) => (
                   <TextParagraphs
-                    key={Math.random(index)}
+                    key={index}
                     editParagraphMode={editParagraphMode}
                     para={para}
                     index={index}
