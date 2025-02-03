@@ -76,6 +76,7 @@ export const CreateAText = () => {
   // Edit Paragraphs
   const [editParagraphMode, setEditParagraphMode] = useState(false);
   const [editedParagraph, setEditedParagraph] = useState(0);
+  const [selectedTexts, setSelectedTexts] = useState([]);
 
   useState(() => {
     if (content) {
@@ -99,6 +100,7 @@ export const CreateAText = () => {
     setEmptyField(false);
     const content = { title: data.title, text: data.text };
     setMyText(content);
+    setSelectedTexts([]);
     setDisabledButton(false);
     setTextLoading(false);
     setEmptyField(false);
@@ -197,7 +199,7 @@ export const CreateAText = () => {
           {myText.title}
         </h2>
         <div
-          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
+          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : editParagraphMode ? `h-[calc(100svh-(40px+128px+56px))] sm:h-[590px] lg:py-5` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
           //
         >
           {!emptyField && (
@@ -215,6 +217,8 @@ export const CreateAText = () => {
                 </h2>
                 {myText.text.map((para, index) => (
                   <TextParagraphs
+                    selectedTexts={selectedTexts}
+                    setSelectedTexts={setSelectedTexts}
                     key={index}
                     editParagraphMode={editParagraphMode}
                     para={para}
@@ -229,36 +233,84 @@ export const CreateAText = () => {
         </div>
       </div>
       <form
-        className={`absolute bottom-0 right-0 flex h-20 w-full flex-col justify-center border-t border-gray-400 bg-gray-100 px-3 shadow-md transition-all duration-100 sm:rounded-md sm:border-none sm:bg-gray-50`}
+        className={`absolute bottom-0 right-0 flex ${editParagraphMode ? `h-32` : `h-20`} w-full flex-col justify-center border-t border-gray-400 bg-gray-100 px-3 shadow-md transition-all duration-100 sm:rounded-md sm:border-none sm:bg-gray-50`}
         onSubmit={handleSubmit}
       >
-        <div>
-          <div className="flex items-center gap-2">
-            <DifficultyMenu
-              selectedIndex={level}
-              setSelectedIndex={setLevel}
-              config={config.textGeneration}
-            ></DifficultyMenu>
-
-            <textarea
-              className="w-full resize-none rounded-lg bg-gray-200 px-2 py-1 outline-none"
-              placeholder="Ex: Le changement climatique"
-              required
-              value={theme}
-              type="text"
-              onChange={(e) => setTheme(e.target.value)}
-            />
-            <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
-              {textLoading ? (
-                <SpinLoad />
-              ) : (
-                <button>
-                  <IoSend />
-                </button>
-              )}
+        {/* Sending Pannel */}
+        {editParagraphMode ? (
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between">
+              <div
+                className={`flex w-fit items-center justify-between gap-2 rounded-sm ${selectedTexts.length > 0 && `bg-gray-200`} h-10 px-2`}
+              >
+                <AnimatePresence>
+                  {selectedTexts.map((myindex, index) => (
+                    <motion.p
+                      initial={{ opacity: 0, height: 0, width: 0 }}
+                      animate={{ opacity: 1, height: 32, width: 32 }}
+                      exit={{ opacity: 0, height: 0, width: 0 }}
+                      key={index + 19}
+                      onClick={() => {
+                        setSelectedTexts((prev) => {
+                          const newValues = prev.filter(
+                            (element) => element !== myindex,
+                          );
+                          return newValues;
+                        });
+                      }}
+                      className="flex cursor-pointer items-center justify-center rounded-md bg-green-200"
+                    >
+                      P{myindex + 1}
+                    </motion.p>
+                  ))}
+                </AnimatePresence>
+              </div>
+              <p className="h-8 rounded-md bg-green-500 px-1 py-1 text-sm font-semibold text-white">
+                Customize
+              </p>
+            </div>
+            <div className="flex items-center">
+              <textarea className="w-full resize-none rounded-lg bg-gray-200 px-2 py-1 outline-none"></textarea>
+              <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
+                {textLoading ? (
+                  <SpinLoad />
+                ) : (
+                  <button>
+                    <IoSend />
+                  </button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div>
+            <div className="flex items-center gap-2">
+              <DifficultyMenu
+                selectedIndex={level}
+                setSelectedIndex={setLevel}
+                config={config.textGeneration}
+              ></DifficultyMenu>
+
+              <textarea
+                className="w-full resize-none rounded-lg bg-gray-200 px-2 py-1 outline-none"
+                placeholder="Ex: Le changement climatique"
+                required
+                value={theme}
+                type="text"
+                onChange={(e) => setTheme(e.target.value)}
+              />
+              <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
+                {textLoading ? (
+                  <SpinLoad />
+                ) : (
+                  <button>
+                    <IoSend />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </form>
     </motion.div>
   );
