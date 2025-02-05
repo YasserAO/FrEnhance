@@ -10,6 +10,8 @@ export const TextParagraphs = ({
   setEditedParagraph,
   selectedTexts,
   setSelectedTexts,
+  deletedTexts,
+  setDeletedTexts,
 }) => {
   // Exterior EditMODE STATES
   const [inputToggle, setInputToggle] = useState(false);
@@ -21,7 +23,14 @@ export const TextParagraphs = ({
 
   // Selected Texts Handler
   const [selected, setSelected] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+
+  // Handl Selected Texts
   const handleText = (index, prev) => {
+    console.log(prev);
+    if (deletedTexts) {
+      if (deletedTexts.includes(index)) return;
+    }
     if (prev.length == 0) {
       console.log("Condition prev.length == 0 ");
       return [index];
@@ -38,6 +47,39 @@ export const TextParagraphs = ({
 
     return [...prev, index].sort((a, b) => a - b);
   };
+
+  // Handle Deleted Texts
+  const handleDeletedTexts = (index, prev) => {
+    if (selectedTexts) {
+      if (selectedTexts.includes(index))
+        setSelectedTexts((prev2) => {
+          const arr = handleText(index, prev2);
+          return arr;
+        });
+    }
+    if (prev.length == 0) {
+      console.log("Condition prev.length == 0 ");
+      return [index];
+    }
+    if (prev.length == 1 && prev[0] == index) {
+      console.log(" condition prev.length == 1 && prev[0] == index");
+      return [];
+    }
+
+    if (prev.includes(index)) {
+      console.log("Condition element == index ");
+      return prev.filter((element) => element !== index);
+    }
+
+    return [...prev, index].sort((a, b) => a - b);
+  };
+
+  useEffect(() => {
+    if (!deletedTexts) return;
+    const Trigger = deletedTexts.includes(index);
+    if (Trigger) setDeleted(true);
+    else setDeleted(false);
+  }, [deletedTexts]);
 
   useEffect(() => {
     if (!selectedTexts) return;
@@ -105,7 +147,7 @@ export const TextParagraphs = ({
             setEditedParagraph(index);
             setTrigger((prev) => !prev);
           }}
-          className={`cursor-pointer select-none rounded-md transition selection:bg-amber-200 ${inputToggle ? (selected ? `bg-green-200` : `bg-gray-200`) : selected ? `bg-green-200` : `hover:bg-gray-100`}`}
+          className={`cursor-pointer select-none rounded-md transition selection:bg-amber-200 ${inputToggle ? (selected ? `bg-green-200` : `bg-gray-200`) : selected ? `bg-green-200` : `hover:bg-gray-100`} ${deleted && `text-d bg-red-200 opacity-70 hover:bg-red-300`}`}
         >
           <span className="inline-block w-4"></span> {para}
         </p>
@@ -127,10 +169,19 @@ export const TextParagraphs = ({
                 >
                   Edit
                 </button>
-                <button className="rounded-sm bg-red-500 px-2 py-1 font-semibold text-white">
-                  Delete
+                <button
+                  onClick={() => {
+                    setDeletedTexts((prev) => {
+                      const arr = handleDeletedTexts(index, prev);
+                      return arr;
+                    });
+                  }}
+                  className="rounded-sm bg-red-500 px-2 py-1 font-semibold text-white"
+                >
+                  {deleted ? `Cancel` : `Delete`}
                 </button>
                 <button
+                  disabled={deleted}
                   onClick={() => {
                     setSelectedTexts((prev) => {
                       const arr = handleText(index, prev);
@@ -138,7 +189,7 @@ export const TextParagraphs = ({
                       return arr;
                     });
                   }}
-                  className="rounded-sm bg-green-500 px-2 py-1 font-semibold text-white"
+                  className="rounded-sm bg-green-500 px-2 py-1 font-semibold text-white disabled:bg-green-300"
                 >
                   {selected ? `Unselect` : `Select`}
                 </button>

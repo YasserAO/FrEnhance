@@ -77,6 +77,7 @@ export const CreateAText = () => {
   const [editParagraphMode, setEditParagraphMode] = useState(false);
   const [editedParagraph, setEditedParagraph] = useState(0);
   const [selectedTexts, setSelectedTexts] = useState([]);
+  const [deletedTexts, setDeletedTexts] = useState([]);
 
   useState(() => {
     if (content) {
@@ -217,6 +218,8 @@ export const CreateAText = () => {
                 </h2>
                 {myText.text.map((para, index) => (
                   <TextParagraphs
+                    deletedTexts={deletedTexts}
+                    setDeletedTexts={setDeletedTexts}
                     selectedTexts={selectedTexts}
                     setSelectedTexts={setSelectedTexts}
                     key={index}
@@ -233,7 +236,7 @@ export const CreateAText = () => {
         </div>
       </div>
       <form
-        className={`absolute bottom-0 right-0 flex ${editParagraphMode ? `h-32` : `h-20`} w-full flex-col justify-center border-t border-gray-400 bg-gray-100 px-3 shadow-md transition-all duration-100 sm:rounded-md sm:border-none sm:bg-gray-50`}
+        className={`absolute bottom-0 right-0 flex ${editParagraphMode ? `h-28` : `h-20`} w-full flex-col justify-center border-t border-gray-400 bg-gray-100 px-3 shadow-md transition-all duration-100 sm:rounded-md sm:border-none sm:bg-gray-50`}
         onSubmit={handleSubmit}
       >
         {/* Sending Pannel */}
@@ -263,6 +266,25 @@ export const CreateAText = () => {
                       P{myindex + 1}
                     </motion.p>
                   ))}
+                  {deletedTexts.map((myindex, index) => (
+                    <motion.p
+                      initial={{ opacity: 0, height: 0, width: 0 }}
+                      animate={{ opacity: 1, height: 32, width: 32 }}
+                      exit={{ opacity: 0, height: 0, width: 0 }}
+                      key={index + 19}
+                      onClick={() => {
+                        setDeletedTexts((prev) => {
+                          const newValues = prev.filter(
+                            (element) => element !== myindex,
+                          );
+                          return newValues;
+                        });
+                      }}
+                      className="flex cursor-pointer items-center justify-center rounded-md bg-red-200"
+                    >
+                      P{myindex + 1}
+                    </motion.p>
+                  ))}
                 </AnimatePresence>
               </div>
               <p className="h-8 rounded-md bg-green-500 px-1 py-1 text-sm font-semibold text-white">
@@ -270,7 +292,6 @@ export const CreateAText = () => {
               </p>
             </div>
             <div className="flex items-center">
-              <textarea className="w-full resize-none rounded-lg bg-gray-200 px-2 py-1 outline-none"></textarea>
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
                 {textLoading ? (
                   <SpinLoad />
