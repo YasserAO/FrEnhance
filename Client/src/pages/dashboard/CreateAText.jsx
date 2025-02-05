@@ -79,6 +79,9 @@ export const CreateAText = () => {
   const [selectedTexts, setSelectedTexts] = useState([]);
   const [deletedTexts, setDeletedTexts] = useState([]);
 
+  // Edit paragraph send
+  const [suggestions, setSuggestions] = useState([]);
+
   useState(() => {
     if (content) {
       setEmptyField(false);
@@ -244,7 +247,7 @@ export const CreateAText = () => {
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">
               <div
-                className={`flex w-fit items-center justify-between gap-2 rounded-sm ${selectedTexts.length > 0 && `bg-gray-200`} h-10 px-2`}
+                className={`flex h-10 w-fit items-center justify-between gap-2 rounded-sm px-2`}
               >
                 <AnimatePresence>
                   {selectedTexts.map((myindex, index) => (
@@ -292,6 +295,7 @@ export const CreateAText = () => {
               </p>
             </div>
             <div className="flex items-center">
+              <div className="min-h-10 w-10 rounded-full bg-gray-300"></div>
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
                 {textLoading ? (
                   <SpinLoad />
