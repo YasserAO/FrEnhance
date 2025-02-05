@@ -2,9 +2,9 @@
   "defaultValue": 500,
   "ResetInterval": 24,
   "GenerateText": {
-    "basic": 0,
-    "medium": 0,
-    "Advanced": 0
+    "basic": 20,
+    "medium": 50,
+    "Advanced": 90
   },
-  "Explain": 0
+  "Explain": 10
 }
