@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import textOnlyTemplate from "../../templates/textOnly.mjs";
 import textOnlyTemplateJSON from "../../templates/textOnlyJSON.mjs";
 import chatCompletion from "../../core/chatCompletion.mjs";
@@ -8,6 +8,7 @@ import { matchedData, checkSchema } from "express-validator";
 import { textGenSchema } from "../../Schema/validation/textGenerate.mjs";
 import { validResult } from "../../middleware/validResults.mjs";
 import { coinsConsume } from "../../utils/func/coinsConsume.mjs";
+import textRegenTemplate from "../../templates/textRegenTemplate.mjs";
 const router = express.Router();
 
 router.post(
@@ -61,6 +62,27 @@ router.post(
       }
     } else {
       return response.status(200).send({ msg: "Not Enough Credits" });
+    }
+  }
+);
+
+router.post(
+  "/api/generate/textRegen",
+  isLoggedIn,
+  async (request, response) => {
+    const { text, title, regen } = request.body;
+    const myMessage = textRegenTemplate(text, title, regen);
+
+    const MyPrompt = await chatCompletion(myMessage, 1, 1);
+    if (!MyPrompt)
+      return response.status(200).send({ status: 500, msg: "No response" });
+    try {
+      const JSONResponse = JSON.parse(MyPrompt);
+      console.log(JSONResponse);
+      return response.status(200).send({ status: 200, ...JSONResponse });
+    } catch (err) {
+      console.log(err.message);
+      return response.status(200).send({ status: 500, msg: "No response" });
     }
   }
 );

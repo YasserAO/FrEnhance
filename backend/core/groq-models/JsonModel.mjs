@@ -1,6 +1,6 @@
 import { groqConnect } from "../../connection/Groq.connect.mjs";
 
-async function getGroqChatCompletionJSON(msg) {
+async function getGroqChatCompletionJSON(msg, temp) {
   return groqConnect.chat.completions.create({
     messages: [
       {
@@ -13,10 +13,11 @@ async function getGroqChatCompletionJSON(msg) {
       },
     ],
     response_format: { type: "json_object" },
-    temperature: 0.5,
-    model: "llama-3.3-70b-specdec",
+    temperature: temp,
+    model: "llama-3.3-70b-versatile",
   });
 }
 export default getGroqChatCompletionJSON;
 // llama-3.1-8b-instant
-// llama-3.1-70b-versatile
+// model: "	llama-3.3-70b-versatile",
+// model: "llama-3.3-70b-specdec",

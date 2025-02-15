@@ -1,4 +1,8 @@
 export const textSaveSchema = {
+  id: {
+    notEmpty: true,
+    errorMessage: "id is required",
+  },
   title: {
     notEmpty: true,
     errorMessage: "A title is Required",

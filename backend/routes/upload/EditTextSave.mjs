@@ -18,6 +18,7 @@ router.post(
     try {
       const UserData = await UserModel.findByIdAndUpdate(user.id, {
         editText: {
+          id: textData.id,
           title: textData.title,
           text: textData.text,
           savebutton: textData.savebutton,

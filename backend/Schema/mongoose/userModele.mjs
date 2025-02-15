@@ -55,6 +55,9 @@ const UserRegistration = new mongoose.Schema({
     },
   },
   editText: {
+    id: {
+      type: String,
+    },
     title: {
       type: String,
     },
