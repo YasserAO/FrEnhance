@@ -1,8 +1,13 @@
 // React Tools // Animation libraries
-import PropTypes from "prop-types";
+import PropTypes, { element } from "prop-types";
 import { useEffect, useState, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLoaderData, useNavigate, useOutletContext } from "react-router-dom";
+import {
+  useLoaderData,
+  useLocation,
+  useNavigate,
+  useOutletContext,
+} from "react-router-dom";
 
 // icons
 import SpinLoad from "../../partials/icons/spindLoader";
@@ -10,6 +15,8 @@ import { IoSend } from "react-icons/io5";
 import { IoIosReturnLeft } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { MdCancel } from "react-icons/md";
+import { FaPlus } from "react-icons/fa";
+import { FaMinus } from "react-icons/fa";
 
 // Fetchers and updaters
 import fetchText from "../../forms/textGenerate.mjs";
@@ -22,10 +29,12 @@ import { SaveText } from "../../partials/Buttons/SaveText";
 import { DeleteGen } from "../../partials/Buttons/DeleteGen.jsx";
 import { Translate } from "../../partials/Buttons/Translate.jsx";
 import { ExplainWindow } from "../../partials/article/ExplainWindow.jsx";
+import { SuggestionsMenu } from "../../partials/menus/SuggestionsMenu.jsx";
 
 // Functions and utils
 import { outputFinder } from "../../utils/outputFinder.mjs";
 import { TextParagraphs } from "../../partials/article/TextParagraphs.jsx";
+import textRegen from "../../forms/textRegen.mjs";
 
 export const EditedTextLoader = async () => {
   async function textHandler() {
@@ -48,6 +57,7 @@ export const EditedTextLoader = async () => {
 };
 
 export const CreateAText = () => {
+  const location = useLocation();
   const content = useLoaderData();
   const { fetchCoins, config } = useContext(AuthContext);
   const { setDbupdateToggle, dbupdateToggle } = useOutletContext();
@@ -74,13 +84,21 @@ export const CreateAText = () => {
   const [anchor, setAnchor] = useState("");
 
   // Edit Paragraphs
-  const [editParagraphMode, setEditParagraphMode] = useState(false);
+  const [editParagraphMode, setEditParagraphMode] = useState(
+    location.pathname == "/dashboard/edit" ? true : false,
+  );
   const [editedParagraph, setEditedParagraph] = useState(0);
   const [selectedTexts, setSelectedTexts] = useState([]);
   const [deletedTexts, setDeletedTexts] = useState([]);
 
   // Edit paragraph send
   const [suggestions, setSuggestions] = useState([]);
+  const [listMenu, setListMenu] = useState(false);
+  const [deletionState, setDeletionState] = useState(false);
+  const [selectionState, setSelectionState] = useState(false);
+  const [addLabelState, setAddLabelState] = useState(true);
+
+  // Key
 
   useState(() => {
     if (content) {
@@ -89,6 +107,7 @@ export const CreateAText = () => {
     }
   }, [content]);
 
+  // Handle Submit GENERATE TEXT
   const handleSubmit = async (e) => {
     e.preventDefault();
     setTextLoading(true);
@@ -109,6 +128,64 @@ export const CreateAText = () => {
     setTextLoading(false);
     setEmptyField(false);
     fetchCoins();
+  };
+
+  // Handle Submit REGEN TEXT
+  const handleRegenSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!selectionState) return;
+    setTextLoading(true);
+    const regen = myText.text.filter((element, index) =>
+      selectedTexts.some((seletedINX) => index === seletedINX),
+    );
+
+    const regenResponse = await textRegen(
+      myText.title,
+      myText.text.join("\n"),
+      regen,
+    );
+
+    if (!regenResponse || regenResponse.status !== 200) {
+      setTextLoading(false);
+      return;
+    }
+
+    setMyText((prev) => {
+      let newText = [...prev.text];
+      for (let i = 0; i < selectedTexts.length; i++) {
+        console.log(selectedTexts[i]);
+        newText[selectedTexts[i]] = regenResponse.text[i];
+      }
+      // console.log(newText);
+      return { ...prev, text: newText };
+    });
+
+    setTimeout(() => {
+      setSelectedTexts([]);
+      setTextLoading(false);
+    }, 300);
+  };
+
+  // Handle Submit Delete TEXTS
+  const handleDeleteSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!deletionState) return;
+    setTextLoading(true);
+    setMyText((prev) => {
+      let tempText = [...prev.text];
+      for (let i = 0; i < deletedTexts.length; i++) {
+        tempText = tempText.filter((element, index) => {
+          return index !== deletedTexts[i];
+        });
+      }
+      return { ...prev, text: tempText };
+    });
+    setDeletedTexts([]);
+    setTimeout(() => {
+      setTextLoading(false);
+    }, 300);
   };
   useEffect(() => {
     const selectionFunction = () => {
@@ -138,6 +215,21 @@ export const CreateAText = () => {
     };
   }, [explainMenuToggle]);
 
+  // Edit Paragraph EFFECTS
+  useEffect(() => {
+    if (selectedTexts.length > 0) setSelectionState(true);
+    else setSelectionState(false);
+  }, [selectedTexts]);
+
+  useEffect(() => {
+    if (deletedTexts.length > 0) setDeletionState(true);
+    else setDeletionState(false);
+  }, [deletedTexts]);
+
+  useEffect(() => {
+    if (suggestions.length > 1) setAddLabelState(false);
+    else setAddLabelState(true);
+  }, [suggestions]);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -156,13 +248,15 @@ export const CreateAText = () => {
       </AnimatePresence>
       <div className="flex h-10 w-full gap-3 overflow-hidden bg-gray-100 px-2">
         <div className="w-1/3">
-          <button
-            onClick={() => {
-              navigate("/dashboard");
-            }}
-          >
-            <IoIosReturnLeft size={"2.5rem"}></IoIosReturnLeft>
-          </button>
+          {!editParagraphMode && (
+            <button
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            >
+              <IoIosReturnLeft size={"2.5rem"}></IoIosReturnLeft>
+            </button>
+          )}
         </div>
         <div className="flex w-1/3 justify-center">
           {selectedText.length >= 3 && (
@@ -203,7 +297,7 @@ export const CreateAText = () => {
           {myText.title}
         </h2>
         <div
-          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : editParagraphMode ? `h-[calc(100svh-(40px+128px+56px))] sm:h-[590px] lg:py-5` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
+          className={`mb-22 overflow-y-auto bg-white py-2 ${emptyField ? `h-0` : editParagraphMode ? `h-[calc(100svh-(40px+128px+56px))] sm:h-[590px] lg:py-5` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
           //
         >
           {!emptyField && (
@@ -215,19 +309,21 @@ export const CreateAText = () => {
                 className="px-3"
               >
                 <h2
-                  className={`flex sm:hidden ${emptyField ? `h-0` : `h-20 md:my-1`} items-center justify-center overflow-hidden border-b bg-white text-center font-semibold transition-all duration-150 md:rounded-md md:border-none`}
+                  className={`flex sm:hidden ${emptyField ? `h-0` : `my-2 h-20 md:my-1`} items-center justify-center overflow-hidden border-b bg-white text-center font-semibold transition-all duration-150 md:rounded-md md:border-none`}
                 >
                   {myText.title}
                 </h2>
                 {myText.text.map((para, index) => (
                   <TextParagraphs
+                    load
+                    setMyText={setMyText}
                     deletedTexts={deletedTexts}
                     setDeletedTexts={setDeletedTexts}
                     selectedTexts={selectedTexts}
                     setSelectedTexts={setSelectedTexts}
-                    key={index}
+                    key={(index + 1) * 10000}
                     editParagraphMode={editParagraphMode}
-                    para={para}
+                    para={myText.text[index]}
                     index={index}
                     editedParagraph={editedParagraph}
                     setEditedParagraph={setEditedParagraph}
@@ -239,23 +335,40 @@ export const CreateAText = () => {
         </div>
       </div>
       <form
-        className={`absolute bottom-0 right-0 flex ${editParagraphMode ? `h-28` : `h-20`} w-full flex-col justify-center border-t border-gray-400 bg-gray-100 px-3 shadow-md transition-all duration-100 sm:rounded-md sm:border-none sm:bg-gray-50`}
-        onSubmit={handleSubmit}
+        className={`absolute bottom-0 right-0 flex ${editParagraphMode ? `h-32 md:h-28` : `h-20`} w-full flex-col justify-center border-t border-gray-400 bg-gray-100 px-3 shadow-md transition-all duration-100 sm:rounded-md sm:border-none sm:bg-gray-50`}
+        onSubmit={(e) => {
+          e.preventDefault();
+          setEditedParagraph();
+          if (editParagraphMode && selectionState) return handleRegenSubmit(e);
+          if (editParagraphMode && deletionState) return handleDeleteSubmit(e);
+          if (editParagraphMode && deletionState) return handleDeleteSubmit(e);
+          handleSubmit(e);
+        }}
       >
         {/* Sending Pannel */}
         {editParagraphMode ? (
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">
               <div
-                className={`flex h-10 w-fit items-center justify-between gap-2 rounded-sm px-2`}
+                className={`flex h-10 w-fit items-center justify-between rounded-sm px-2`}
               >
                 <AnimatePresence>
                   {selectedTexts.map((myindex, index) => (
                     <motion.p
-                      initial={{ opacity: 0, height: 0, width: 0 }}
-                      animate={{ opacity: 1, height: 32, width: 32 }}
-                      exit={{ opacity: 0, height: 0, width: 0 }}
-                      key={index + 19}
+                      initial={{
+                        opacity: 0,
+                        height: 0,
+                        width: 0,
+                        marginRight: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        height: 32,
+                        width: 32,
+                        marginRight: 10,
+                      }}
+                      exit={{ opacity: 0, height: 0, width: 0, marginRight: 0 }}
+                      key={999 + myindex}
                       onClick={() => {
                         setSelectedTexts((prev) => {
                           const newValues = prev.filter(
@@ -264,17 +377,27 @@ export const CreateAText = () => {
                           return newValues;
                         });
                       }}
-                      className="flex cursor-pointer items-center justify-center rounded-md bg-green-200"
+                      className="flex cursor-pointer select-none items-center justify-center rounded-md bg-green-200"
                     >
                       P{myindex + 1}
                     </motion.p>
                   ))}
                   {deletedTexts.map((myindex, index) => (
                     <motion.p
-                      initial={{ opacity: 0, height: 0, width: 0 }}
-                      animate={{ opacity: 1, height: 32, width: 32 }}
-                      exit={{ opacity: 0, height: 0, width: 0 }}
-                      key={index + 19}
+                      initial={{
+                        opacity: 0,
+                        height: 0,
+                        width: 0,
+                        marginRight: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        height: 32,
+                        width: 32,
+                        marginRight: 10,
+                      }}
+                      exit={{ opacity: 0, height: 0, width: 0, marginRight: 0 }}
+                      key={9999 + myindex}
                       onClick={() => {
                         setDeletedTexts((prev) => {
                           const newValues = prev.filter(
@@ -283,28 +406,178 @@ export const CreateAText = () => {
                           return newValues;
                         });
                       }}
-                      className="flex cursor-pointer items-center justify-center rounded-md bg-red-200"
+                      className="flex cursor-pointer select-none items-center justify-center rounded-md bg-red-200"
                     >
                       P{myindex + 1}
                     </motion.p>
                   ))}
                 </AnimatePresence>
               </div>
-              <p className="h-8 rounded-md bg-green-500 px-1 py-1 text-sm font-semibold text-white">
+              <p className="h-8 select-none rounded-md bg-green-500 px-1 py-1 text-sm font-semibold text-white">
                 Customize
               </p>
             </div>
-            <div className="flex items-center">
-              <div className="min-h-10 w-10 rounded-full bg-gray-300"></div>
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
-                {textLoading ? (
-                  <SpinLoad />
-                ) : (
-                  <button>
-                    <IoSend />
-                  </button>
-                )}
+            <div className="relative flex justify-between">
+              <div className="flex h-fit max-w-sm items-center overflow-auto py-1">
+                <SuggestionsMenu
+                  key={23}
+                  listMenu={listMenu}
+                  setListMenu={setListMenu}
+                  suggestions={suggestions}
+                  setSuggestions={setSuggestions}
+                ></SuggestionsMenu>
+                <AnimatePresence>
+                  {suggestions.map((suguest, index) => (
+                    <motion.div
+                      initial={{
+                        opacity: 0,
+                        maxWidth: 0,
+                        paddingLeft: 0,
+                        paddingRight: 0,
+                        marginRight: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        maxWidth: 200,
+                        paddingLeft: 7,
+                        paddingRight: 7,
+                        marginRight: 10,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        width: 0,
+                        paddingLeft: 0,
+                        paddingRight: 0,
+                        marginRight: 0,
+                      }}
+                      key={suguest.id * 919191919}
+                      className="flex h-10 select-none items-center justify-center gap-2 overflow-hidden rounded-full bg-blue-100 text-sm font-semibold text-blue-900 shadow-md"
+                    >
+                      <p className="max-w-[200px] overflow-hidden text-nowrap">
+                        {suguest.text}{" "}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          console.log(suggestions);
+                          setSuggestions((prev) => {
+                            const newArr = prev.filter(
+                              (element) => element.id !== suguest.id,
+                            );
+                            return newArr;
+                          });
+                        }}
+                        className="px-2"
+                      >
+                        x
+                      </button>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+                <AnimatePresence>
+                  {deletionState && (
+                    <motion.div
+                      initial={{
+                        opacity: 0,
+                        width: 0,
+                        paddingLeft: 0,
+                        paddingRight: 0,
+                        marginRight: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        width: 100,
+                        paddingLeft: 8,
+                        paddingRight: 8,
+                        marginRight: 10,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        width: 0,
+                        paddingLeft: 0,
+                        paddingRight: 0,
+                        marginRight: 0,
+                      }}
+                      key={1234}
+                      className="flex min-h-10 w-fit select-none items-center justify-center overflow-hidden rounded-full bg-red-100 text-sm font-semibold text-red-900 shadow-md"
+                    >
+                      Delete
+                    </motion.div>
+                  )}
+                  {selectionState && (
+                    <motion.div
+                      initial={{
+                        opacity: 0,
+                        width: 0,
+                        paddingLeft: 0,
+                        paddingRight: 0,
+                        marginRight: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        width: 100,
+                        paddingLeft: 8,
+                        paddingRight: 8,
+                        marginRight: 10,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        width: 0,
+                        paddingLeft: 0,
+                        paddingRight: 0,
+                        marginRight: 0,
+                      }}
+                      key={1232}
+                      className="flex min-h-10 w-fit select-none items-center justify-center overflow-hidden rounded-full bg-green-100 text-sm font-semibold text-green-900 shadow-md"
+                    >
+                      Regenerate
+                    </motion.div>
+                  )}
+                  {addLabelState && (
+                    <motion.div
+                      initial={{
+                        opacity: 0,
+                        width: 0,
+                        paddingLeft: 0,
+                        paddingRight: 0,
+                        marginRight: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                        width: 100,
+                        paddingLeft: 8,
+                        paddingRight: 8,
+                        marginRight: 10,
+                      }}
+                      exit={{
+                        opacity: 0,
+                        width: 0,
+                        paddingLeft: 0,
+                        paddingRight: 0,
+                        marginRight: 0,
+                      }}
+                      key={1231}
+                      onClick={() => {
+                        setListMenu((prev) => !prev);
+                      }}
+                      className="flex min-h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-300 transition duration-150 hover:scale-105 active:scale-95"
+                    >
+                      {listMenu ? <FaMinus /> : <FaPlus />}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
+              {(selectionState || deletionState || suggestions.length > 0) && (
+                <div className="flex h-10 w-10 items-center justify-center overflow-hidden">
+                  {textLoading ? (
+                    <SpinLoad />
+                  ) : (
+                    <button disabled={listMenu} key={9999999} type="submit">
+                      <IoSend />
+                    </button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         ) : (

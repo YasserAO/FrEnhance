@@ -1,4 +1,4 @@
-export const SaveEditedText = async (title, text, savebutton) => {
+export const SaveEditedText = async (id, title, text, savebutton) => {
   try {
     const editedResponse = await fetch(
       import.meta.env.VITE_API_URL + "/api/save/editedtext",
@@ -8,7 +8,7 @@ export const SaveEditedText = async (title, text, savebutton) => {
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ title, text,savebutton }),
+        body: JSON.stringify({ id, title, text, savebutton }),
       },
     );
     const Resp = editedResponse.json();
