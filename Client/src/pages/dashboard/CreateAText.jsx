@@ -325,7 +325,7 @@ export const CreateAText = () => {
           {myText.title}
         </h2>
         <div
-          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : editParagraphMode ? `h-[calc(100svh-(40px+128px+56px+16px))] py-4 sm:h-[590px] lg:py-5` : `h-[calc(100svh-(40px+80px+56px))] py-2 sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
+          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : editParagraphMode ? `h-[calc(100svh-(40px+128px+56px))] py-4 sm:h-[590px] lg:py-5` : `h-[calc(100svh-(40px+80px+56px))] py-2 sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
           //
         >
           {!emptyField && (
