@@ -1,17 +1,21 @@
 import LogoAvatar from "./Buttons/LogoAvatar";
 import { LogoDash } from "./Buttons/Logo";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import UserDropDownMenu from "./menus/userDropDown";
 import { AuthContext } from "../authProvider";
 import { AnimatePresence, motion } from "framer-motion";
 import { BurgerMenu } from "./Buttons/menuButton";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import useClickOutside from "../utils/closeMenu";
 
 const DNavBar = ({ children }) => {
   const [menuDropDown, setMenuDropDown] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
   const { userForm, coins } = useContext(AuthContext);
+  const popupRef = useRef(null);
+  const buttonRef = useRef(null);
+  useClickOutside(popupRef, () => setToggleMenu(false), buttonRef);
   return (
     <header
       className={`sticky top-0 z-40 flex h-14 items-center justify-between border-b border-gray-100 bg-gray-100 px-3 shadow-sm sm:relative sm:px-3 md:px-[10%]`}
@@ -57,6 +61,7 @@ const DNavBar = ({ children }) => {
 
       {/* Mobile Nav */}
       <BurgerMenu
+        buttonRef={buttonRef}
         toggleMenu={toggleMenu}
         setToggleMenu={setToggleMenu}
         d={true}
@@ -64,6 +69,7 @@ const DNavBar = ({ children }) => {
       <AnimatePresence>
         {toggleMenu && (
           <motion.div
+            ref={popupRef}
             initial={{ width: 0 }}
             animate={{ width: `100%` }}
             exit={{ width: 0 }}

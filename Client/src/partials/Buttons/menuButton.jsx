@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 
-export function BurgerMenu({ setToggleMenu, toggleMenu, d }) {
+export function BurgerMenu({ setToggleMenu, toggleMenu, d, buttonRef }) {
   if (d)
     return (
       <div
+        ref={buttonRef}
         onClick={() => {
           setToggleMenu((prev) => !prev);
         }}
@@ -22,6 +23,7 @@ export function BurgerMenu({ setToggleMenu, toggleMenu, d }) {
     );
   return (
     <div
+      ref={buttonRef}
       onClick={() => {
         setToggleMenu((prev) => !prev);
       }}

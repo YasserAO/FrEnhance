@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import useClickOutside from "../../utils/closeMenu";
 
 export const SuggestionsMenu = ({
+  buttonRef,
   listMenu,
   setSuggestions,
   setListMenu,
@@ -13,7 +14,7 @@ export const SuggestionsMenu = ({
   const popupRef = useRef(null);
   const inputRef = useRef();
 
-  useClickOutside(popupRef, () => setListMenu(false));
+  useClickOutside(popupRef, () => setListMenu(false), buttonRef);
   return (
     <AnimatePresence>
       {listMenu && (

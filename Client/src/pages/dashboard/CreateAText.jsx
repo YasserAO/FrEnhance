@@ -1,6 +1,6 @@
 // React Tools // Animation libraries
 import PropTypes, { element } from "prop-types";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   useLoaderData,
@@ -97,6 +97,9 @@ export const CreateAText = () => {
   const [deletionState, setDeletionState] = useState(false);
   const [selectionState, setSelectionState] = useState(false);
   const [addLabelState, setAddLabelState] = useState(true);
+
+  // Button Ref
+  const buttonRef = useRef(null);
 
   // Key
 
@@ -297,7 +300,7 @@ export const CreateAText = () => {
           {myText.title}
         </h2>
         <div
-          className={`mb-22 overflow-y-auto bg-white py-2 ${emptyField ? `h-0` : editParagraphMode ? `h-[calc(100svh-(40px+128px+56px))] sm:h-[590px] lg:py-5` : `h-[calc(100svh-(40px+80px+56px))] sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
+          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : editParagraphMode ? `h-[calc(100svh-(40px+128px+56px))] sm:h-[590px] lg:py-5` : `h-[calc(100svh-(40px+80px+56px))] py-2 sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
           //
         >
           {!emptyField && (
@@ -420,6 +423,7 @@ export const CreateAText = () => {
             <div className="relative flex justify-between">
               <div className="flex h-fit max-w-sm items-center overflow-auto py-1">
                 <SuggestionsMenu
+                  buttonRef={buttonRef}
                   key={23}
                   listMenu={listMenu}
                   setListMenu={setListMenu}
@@ -535,6 +539,7 @@ export const CreateAText = () => {
                   )}
                   {addLabelState && (
                     <motion.div
+                      ref={buttonRef}
                       initial={{
                         opacity: 0,
                         width: 0,

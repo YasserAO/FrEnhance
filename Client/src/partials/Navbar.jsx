@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { AuthContext } from "../authProvider";
 import { motion, AnimatePresence } from "framer-motion";
 import SignIn from "./Buttons/singIn";
@@ -10,11 +10,15 @@ import { MdDashboardCustomize } from "react-icons/md";
 import { Logo } from "./Buttons/Logo";
 import { BurgerMenu } from "./Buttons/menuButton";
 import { Link, NavLink } from "react-router-dom";
+import useClickOutside from "../utils/closeMenu";
 
 const NavBar = ({ auth }) => {
   const { userForm, isLogged } = useContext(AuthContext);
   const [menuDropDown, setMenuDropDown] = useState(false);
   const [toggleMenu, setToggleMenu] = useState(false);
+  const popupRef = useRef(null);
+  const buttonRef = useRef(null);
+  useClickOutside(popupRef, () => setToggleMenu(false), buttonRef);
   const LogoHeaderOnly = () => (
     <header className="relative flex h-[60px] w-full items-center justify-between bg-sky-900 px-3 sm:px-3 md:px-[10%]">
       <Logo></Logo>
@@ -96,6 +100,7 @@ const NavBar = ({ auth }) => {
       </div>
 
       <BurgerMenu
+        buttonRef={buttonRef}
         setToggleMenu={setToggleMenu}
         toggleMenu={toggleMenu}
       ></BurgerMenu>
@@ -105,6 +110,7 @@ const NavBar = ({ auth }) => {
       <AnimatePresence>
         {toggleMenu && (
           <motion.div
+            ref={popupRef}
             initial={{ width: 0 }}
             animate={{ width: `100%` }}
             exit={{ width: 0 }}

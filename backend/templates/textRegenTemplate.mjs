@@ -1,14 +1,14 @@
 const textRegenTemplate = (text, title, regen) => {
   return {
     system: `
-  Your are a french text Regenerator , you take the title and the context and you regenerte a specific parts of the text
+  Your are a french text generator , you take the text and you recreate a specific parts of the text
   
   format guidelines:
   -JSON Format
   -no additional info
   -french only
   -keep it within the context
-  -change the text completly
+  -change the paragraph idea
   -number of paragraph should remain the same as input
   -family friendly
  

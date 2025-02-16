@@ -1,9 +1,13 @@
 import { useEffect } from "react";
 
-const useClickOutside = (ref, onClickOutside) => {
+const useClickOutside = (ref, onClickOutside, ignoredRef = null) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
+      if (
+        ref.current &&
+        !ref.current.contains(event.target) &&
+        (!ignoredRef || !ignoredRef.current.contains(event.target))
+      ) {
         onClickOutside(); // Call the passed function
       }
     };
