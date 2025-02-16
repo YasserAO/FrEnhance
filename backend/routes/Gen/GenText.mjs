@@ -9,6 +9,7 @@ import { textGenSchema } from "../../Schema/validation/textGenerate.mjs";
 import { validResult } from "../../middleware/validResults.mjs";
 import { coinsConsume } from "../../utils/func/coinsConsume.mjs";
 import textRegenTemplate from "../../templates/textRegenTemplate.mjs";
+import textRfineTemplate from "../../templates/textRfineTemplate .mjs";
 const router = express.Router();
 
 router.post(
@@ -72,6 +73,27 @@ router.post(
   async (request, response) => {
     const { text, title, regen } = request.body;
     const myMessage = textRegenTemplate(text, title, regen);
+
+    const MyPrompt = await chatCompletion(myMessage, 1, 1);
+    if (!MyPrompt)
+      return response.status(200).send({ status: 500, msg: "No response" });
+    try {
+      const JSONResponse = JSON.parse(MyPrompt);
+      console.log(JSONResponse);
+      return response.status(200).send({ status: 200, ...JSONResponse });
+    } catch (err) {
+      console.log(err.message);
+      return response.status(200).send({ status: 500, msg: "No response" });
+    }
+  }
+);
+
+router.post(
+  "/api/generate/textRefine",
+  isLoggedIn,
+  async (request, response) => {
+    const { text, title, instruction } = request.body;
+    const myMessage = textRfineTemplate(text, title, instruction);
 
     const MyPrompt = await chatCompletion(myMessage, 1, 1);
     if (!MyPrompt)

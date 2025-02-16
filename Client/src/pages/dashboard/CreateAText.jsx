@@ -35,6 +35,7 @@ import { SuggestionsMenu } from "../../partials/menus/SuggestionsMenu.jsx";
 import { outputFinder } from "../../utils/outputFinder.mjs";
 import { TextParagraphs } from "../../partials/article/TextParagraphs.jsx";
 import textRegen from "../../forms/textRegen.mjs";
+import textRfine from "../../forms/textRefine.mjs";
 
 export const EditedTextLoader = async () => {
   async function textHandler() {
@@ -111,8 +112,8 @@ export const CreateAText = () => {
   }, [content]);
 
   // Handle Submit GENERATE TEXT
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    // e.preventDefault();
     setTextLoading(true);
     setEmptyField(true);
     const data = await fetchText(theme, level);
@@ -133,9 +134,32 @@ export const CreateAText = () => {
     fetchCoins();
   };
 
+  // Handle instruction
+  const handleInstruction = async () => {
+    setTextLoading(true);
+    if (suggestions.length == 0) return;
+    const refinedResponse = await textRfine(
+      myText.title,
+      myText.text,
+      suggestions[0].text,
+    );
+    if (refinedResponse.status !== 200) return;
+    const mynewText = {
+      title: refinedResponse.title,
+      text: refinedResponse.text,
+    };
+    setTimeout(() => {
+      setSuggestions((prev) => {
+        const newArr = prev.filter((element, index) => !index == 0);
+        return newArr;
+      });
+      setMyText(mynewText);
+      setTextLoading(false);
+    }, 300);
+  };
   // Handle Submit REGEN TEXT
-  const handleRegenSubmit = async (e) => {
-    e.preventDefault();
+  const handleRegenSubmit = async () => {
+    // e.preventDefault();
 
     if (!selectionState) return;
     setTextLoading(true);
@@ -171,8 +195,8 @@ export const CreateAText = () => {
   };
 
   // Handle Submit Delete TEXTS
-  const handleDeleteSubmit = async (e) => {
-    e.preventDefault();
+  const handleDeleteSubmit = async () => {
+    // e.preventDefault();
 
     if (!deletionState) return;
     setTextLoading(true);
@@ -285,6 +309,7 @@ export const CreateAText = () => {
             )}
             <button
               onClick={(e) => {
+                console.log(myText);
                 setEditParagraphMode((prev) => !prev);
               }}
             >
@@ -300,7 +325,7 @@ export const CreateAText = () => {
           {myText.title}
         </h2>
         <div
-          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : editParagraphMode ? `h-[calc(100svh-(40px+128px+56px))] sm:h-[590px] lg:py-5` : `h-[calc(100svh-(40px+80px+56px))] py-2 sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
+          className={`mb-22 overflow-y-auto bg-white ${emptyField ? `h-0` : editParagraphMode ? `h-[calc(100svh-(40px+128px+56px+16px))] py-4 sm:h-[590px] lg:py-5` : `h-[calc(100svh-(40px+80px+56px))] py-2 sm:h-[590px] lg:py-5`} transition-all duration-150 sm:shadow-md md:rounded-md lg:px-5`}
           //
         >
           {!emptyField && (
@@ -342,10 +367,11 @@ export const CreateAText = () => {
         onSubmit={(e) => {
           e.preventDefault();
           setEditedParagraph();
-          if (editParagraphMode && selectionState) return handleRegenSubmit(e);
-          if (editParagraphMode && deletionState) return handleDeleteSubmit(e);
-          if (editParagraphMode && deletionState) return handleDeleteSubmit(e);
-          handleSubmit(e);
+          if (editParagraphMode && selectionState) return handleRegenSubmit();
+          if (editParagraphMode && deletionState) return handleDeleteSubmit();
+          if (editParagraphMode && deletionState) return handleDeleteSubmit();
+          if (suggestions.length > 0) return handleInstruction();
+          if (!editParagraphMode) return handleSubmit();
         }}
       >
         {/* Sending Pannel */}

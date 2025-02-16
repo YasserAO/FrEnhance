@@ -3,7 +3,7 @@ import { isLoggedIn } from "../../middleware/isLoggedinCheck.mjs";
 import { matchedData, checkSchema } from "express-validator";
 import { UserModel } from "../../Schema/mongoose/userModele.mjs";
 import { validResult } from "../../middleware/validResults.mjs";
-import { textSaveSchema } from "../../Schema/validation/textGenerate copy.mjs";
+import { textSaveSchema } from "../../Schema/validation/textGenerateEdited.mjs";
 const router = express.Router();
 
 router.post(

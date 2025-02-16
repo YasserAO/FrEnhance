@@ -22,7 +22,7 @@ router.post(
       text: textData.text,
       savebutton: textData.savebutton,
     });
-    let Err;
+
     try {
       const savedText = await createText.save();
     } catch (err) {
