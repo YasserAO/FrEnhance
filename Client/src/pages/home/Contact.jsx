@@ -19,7 +19,7 @@ const Contact = () => {
               href="mailto:frenhance@gmail.com"
               className="font-semibold text-sky-600"
             >
-              frenhance@gmail.com
+              contact@frenhance.com
             </a>
           </p>
           <p>
