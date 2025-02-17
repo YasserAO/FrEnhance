@@ -16,7 +16,7 @@ const Contact = () => {
             <span className="font-semibold">Email: </span>
             <a
               target="_blank"
-              href="mailto:frenhance@gmail.com"
+              href="mailto:contact@frenhance.com"
               className="font-semibold text-sky-600"
             >
               contact@frenhance.com
