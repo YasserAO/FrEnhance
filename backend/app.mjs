@@ -1,13 +1,13 @@
 import express from "express";
-import routes from "./backend/routes/index.mjs";
-import DBConnect from "./backend/connection/mongoose.mjs";
+import routes from "./routes/index.mjs";
+import DBConnect from "./connection/mongoose.mjs";
 import MongoStore from "connect-mongo";
 import session from "express-session";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import passport from "passport";
 import cors from "cors";
-import { syntaxError } from "./backend/middleware/SyntaxError.mjs";
+import { syntaxError } from "./middleware/SyntaxError.mjs";
 
 dotenv.config();
 const app = express();
