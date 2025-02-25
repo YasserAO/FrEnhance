@@ -67,7 +67,7 @@ router.post(
 
         return response
           .status(400)
-          .send([{ msg: `${fieldName.toUpperCase()} is Already being used` }]);
+          .send({ msg: `${fieldName.toUpperCase()} is Already being used` });
       } else console.log(err.message);
       return response
         .status(200)
