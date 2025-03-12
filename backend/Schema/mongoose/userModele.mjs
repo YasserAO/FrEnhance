@@ -18,10 +18,28 @@ const UserRegistration = new mongoose.Schema({
     type: mongoose.Schema.Types.String,
     required: true,
     unique: true,
+    provider: {
+      type: String,
+      enum: ["local", "google", "local-google"],
+      default: "local",
+      required: true,
+    },
+  },
+  provider: {
+    type: String,
+    default: "local",
+  },
+  googleId: {
+    type: String,
+    required: function () {
+      return this.provider == "google" || this.provider == ["local-google"];
+    },
   },
   password: {
     type: String,
-    required: true,
+    required: function () {
+      return this.provider == "local";
+    },
   },
   pfp: {
     type: String,
@@ -29,7 +47,9 @@ const UserRegistration = new mongoose.Schema({
   },
   verified: {
     type: Boolean,
-    default: false,
+    default: function () {
+      return this.provider == "google";
+    },
   },
 
   verification: {

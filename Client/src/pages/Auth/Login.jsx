@@ -3,6 +3,7 @@ import { CiUser } from "react-icons/ci";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { NavLink } from "react-router";
 import { Link } from "react-router";
+import { FcGoogle } from "react-icons/fc";
 
 import { motion } from "framer-motion";
 import { loginForm } from "../../forms/loginForm.mjs";
@@ -12,6 +13,7 @@ export const Login = () => {
   const [loading, setLoading] = useState(false);
   const [reserror, setReserror] = useState(true);
   const [message, setMessage] = useState("");
+  const urlGoogle = import.meta.env.VITE_API_URL + "/api/user/auth/google";
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -102,6 +104,15 @@ export const Login = () => {
               }}
               required
             />
+          </div>
+          <div>
+            <a
+              href={urlGoogle}
+              className="mx-auto mb-2 flex w-[80%] items-center gap-1 rounded-md bg-gray-200 px-2 py-2 text-sm font-semibold text-gray-800"
+            >
+              <FcGoogle size={"1.8em"} />
+              Login with Google
+            </a>
           </div>
           <div className="mx-auto mb-3 w-[80%]">
             <p className="text-sm text-gray-600">
