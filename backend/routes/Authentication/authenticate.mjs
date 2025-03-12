@@ -4,6 +4,19 @@ import "../../utils/Passport Strategies/local-strategy.mjs";
 
 const router = express.Router();
 
+router.get(
+  "/api/user/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+  "/api/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: `${process.env.LOCALHOST}/auth/login`,
+    successRedirect: process.env.LOCALHOST,
+  })
+);
+
 router.post("/api/user/auth", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return res.status(500).send({ msg: "An error occurred" });

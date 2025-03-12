@@ -110,7 +110,6 @@ router.post(
   async (request, response) => {
     const { Token } = matchedData(request);
     const now = new Date();
-    console.log("Your Token is :", Token);
     let TokenObject;
     try {
       TokenObject = await URLTokensModel.findOne({ Token: Token });

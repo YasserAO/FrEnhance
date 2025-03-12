@@ -26,7 +26,6 @@ router.post(
       if (!myRespone)
         return res.status(200).send({ status: 204, msg: "No response" });
       const resultJSON = textToJsonExplanation(myRespone);
-      console.log(myRespone);
       return res
         .status(200)
         .send({ status: 200, msg: "success", content: resultJSON });
