@@ -20,18 +20,13 @@ router.post(
   async (request, response) => {
     const textData = matchedData(request);
     const User = request.user;
-    console.log(textData);
-
     let { level, theme } = request.body;
     const myMessage = textOnlyTemplate(level, theme);
     const Purchase = await coinsConsume(User.id, level);
     if (Purchase) {
       const MyPrompt = await chatCompletion(myMessage, 0);
       if (!MyPrompt) return response.status(200).send({ msg: "No response" });
-      console.log(MyPrompt);
       const myJson = convertPromptToJSON(MyPrompt);
-      // console.log(myJson);
-      console.log({ status: 200 }, myJson);
 
       return response.status(200).send({ status: 200, content: myJson });
     } else {
@@ -79,7 +74,6 @@ router.post(
       return response.status(200).send({ status: 500, msg: "No response" });
     try {
       const JSONResponse = JSON.parse(MyPrompt);
-      console.log(JSONResponse);
       return response.status(200).send({ status: 200, ...JSONResponse });
     } catch (err) {
       console.log(err.message);
@@ -100,7 +94,6 @@ router.post(
       return response.status(200).send({ status: 500, msg: "No response" });
     try {
       const JSONResponse = JSON.parse(MyPrompt);
-      console.log(JSONResponse);
       return response.status(200).send({ status: 200, ...JSONResponse });
     } catch (err) {
       console.log(err.message);

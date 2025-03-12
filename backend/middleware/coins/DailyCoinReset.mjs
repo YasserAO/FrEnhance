@@ -76,6 +76,6 @@ export const DailyCoinReset = async (req, res, next) => {
   }
   if (TheReset == undefined) {
   }
-  console.log("No changes in the Daily Reset");
+  // console.log("No changes in the Daily Reset");
   return next();
 };
