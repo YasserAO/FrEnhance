@@ -118,7 +118,7 @@ export const URLPasswordReset = () => {
   };
 
   return (
-    <div className="flex h-screen flex-col bg-amber-200">
+    <div className="flex flex-1 flex-col bg-amber-200">
       {spinner ? (
         <div className="mx-auto w-fit items-center py-20">{SpinLoad()}</div>
       ) : (

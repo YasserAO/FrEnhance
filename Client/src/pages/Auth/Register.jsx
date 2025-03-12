@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { CiUser } from "react-icons/ci";
 import { MdAlternateEmail } from "react-icons/md";
 import { RiLockPasswordFill } from "react-icons/ri";
-
+import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
@@ -18,6 +18,8 @@ export const Register = () => {
   const [resTypeErr, setResTypeErr] = useState(true);
   const navigate = useNavigate();
   const [responseToggle, setResponseToggle] = useState(false);
+
+  const urlGoogle = import.meta.env.VITE_API_URL + "/api/user/auth/google";
 
   // Password Validation
   const [validPassword, setValidPassword] = useState(false);
@@ -87,7 +89,7 @@ export const Register = () => {
 
   return (
     <>
-      <div className="flex h-screen flex-col bg-amber-200">
+      <div className="flex flex-1 flex-col bg-amber-200">
         <motion.form
           initial={{
             opacity: 0,
@@ -201,12 +203,20 @@ export const Register = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-
+          <div>
+            <a
+              href={urlGoogle}
+              className="mx-auto mb-2 flex w-[80%] items-center gap-1 rounded-md bg-gray-200 px-2 py-2 text-sm font-semibold text-gray-800"
+            >
+              <FcGoogle size={"1.8em"} />
+              Signup with Google
+            </a>
+          </div>
           <div className="mx-auto flex w-[80%] justify-between">
             <button
               type="submit"
               disabled={loading}
-              className="flex h-8 w-20 items-center justify-center rounded-md bg-gray-600 text-white transition-all duration-150 disabled:bg-gray-500"
+              className="flex h-8 w-20 items-center justify-center rounded-md bg-sky-700 text-white transition-all duration-150 disabled:bg-gray-500"
             >
               {loading ? "Loading..." : "Sign Up"}
             </button>

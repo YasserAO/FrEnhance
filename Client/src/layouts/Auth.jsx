@@ -4,7 +4,7 @@ export const Auth = () => {
   return (
     <>
       <NavBar auth={true}></NavBar>
-      <main>
+      <main className="flex flex-1 flex-col">
         <Outlet></Outlet>
       </main>
     </>

@@ -21,7 +21,7 @@ export const PasswordResetRequest = () => {
   };
 
   return (
-    <div className="flex h-screen flex-col bg-amber-200">
+    <div className="flex flex-1 flex-col bg-amber-200">
       <motion.form
         onSubmit={(e) => {
           handleSubmit(e);
