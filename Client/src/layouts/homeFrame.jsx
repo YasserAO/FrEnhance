@@ -6,7 +6,7 @@ export const Framer = ({ children }) => {
   return (
     <motion.div
       key={window.location.href}
-      className="overflow-hidden"
+      className="flex flex-1 flex-col overflow-hidden bg-mainBody"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
     >
