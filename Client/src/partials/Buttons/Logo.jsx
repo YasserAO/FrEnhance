@@ -3,6 +3,7 @@ export const Logo = () => {
   return (
     <NavLink
       to="/"
+      draggable={false}
       className="h-fit w-fit cursor-pointer select-none rounded-3xl bg-white px-2 py-1 font-semibold"
     >
       FrenchEnhance
@@ -13,6 +14,7 @@ export const Logo = () => {
 export const LogoDash = () => {
   return (
     <NavLink
+      draggable={false}
       to="/dashboard"
       className="h-fit w-fit cursor-pointer select-none rounded-3xl bg-white px-2 py-1 font-semibold"
     >

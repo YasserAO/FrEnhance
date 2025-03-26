@@ -30,27 +30,31 @@ const NavBar = ({ auth }) => {
     <header className="sticky top-0 z-50 flex h-[60px] w-full items-center justify-between bg-sky-900 px-3 sm:relative sm:px-3 md:px-[10%]">
       <Logo></Logo>
 
-      <nav draggable={false} className="hidden w-1/2 gap-2 sm:flex">
+      <nav className="hidden w-1/2 gap-2 sm:flex">
         <NavLink
           to="/"
+          draggable={false}
           className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
         >
           Home
         </NavLink>
         <NavLink
           to="/features"
+          draggable={false}
           className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
         >
           Features
         </NavLink>
         <NavLink
           to="/about"
+          draggable={false}
           className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
         >
           About
         </NavLink>
         <NavLink
           to="/contact"
+          draggable={false}
           className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
         >
           Contact
@@ -68,6 +72,7 @@ const NavBar = ({ auth }) => {
           >
             <NavLink
               to="/dashboard"
+              draggable={false}
               className="flex h-8 cursor-pointer select-none items-center gap-1 rounded-sm bg-[#f8e8c581] px-1"
             >
               <p className="font-semibold text-white">Dashboard</p>
