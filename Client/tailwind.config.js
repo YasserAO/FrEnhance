@@ -4,8 +4,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        "hero-pattern": "url('/pexels-stywo-1054218.jpg')",
-        "features-hero": "url('/pexels-danielabsi-952670.jpg')",
+        "hero-pattern": "url('/background.jpg')",
       },
       fontFamily: {
         body: ["Anton", "serif"],
