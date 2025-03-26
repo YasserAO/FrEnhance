@@ -132,6 +132,7 @@ export const Register = () => {
               className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
             >
               <input
+                autoComplete="given-name"
                 disabled={loading}
                 value={firstName}
                 className="text-md h-8 w-full bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
@@ -147,6 +148,7 @@ export const Register = () => {
               className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
             >
               <input
+                autoComplete="family-name"
                 disabled={loading}
                 value={lastName}
                 className="text-md h-8 w-full bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
@@ -164,6 +166,7 @@ export const Register = () => {
           >
             <CiUser />
             <input
+              autoComplete="username"
               disabled={loading}
               value={username}
               className="text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
@@ -178,6 +181,7 @@ export const Register = () => {
           >
             <MdAlternateEmail />
             <input
+              autoComplete="email"
               value={email}
               disabled={loading}
               className="text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
@@ -192,6 +196,7 @@ export const Register = () => {
           >
             <RiLockPasswordFill />
             <input
+              autoComplete="new-password"
               ref={passwordRef}
               value={password}
               disabled={loading}

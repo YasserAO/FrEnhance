@@ -100,6 +100,7 @@ export const Login = () => {
           >
             <CiUser></CiUser>
             <input
+              autoComplete="username"
               type="text"
               disabled={loading}
               className="text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
@@ -114,7 +115,7 @@ export const Login = () => {
           >
             <RiLockPasswordFill></RiLockPasswordFill>
             <input
-              autoComplete="on"
+              autoComplete="current-password"
               type="password"
               disabled={loading}
               className="text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
