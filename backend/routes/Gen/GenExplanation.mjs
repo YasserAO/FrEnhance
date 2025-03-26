@@ -35,14 +35,14 @@ router.post(
   }
 );
 
-router.post("/api/generate/correct", isLoggedIn, async (request, response) => {
-  const { myinput } = request.body;
-  const myMessage = CorrectMyInput(myinput.split(" "));
-  const resultJSON = await chatCompletion(myMessage, 1, 0.2);
-  console.log(JSON.parse(resultJSON));
-  if (!resultJSON)
-    return response.status(200).send({ status: 400, msg: "Wrong message" });
-  return response.status(200).send({ status: 200, ...JSON.parse(resultJSON) });
-});
+// router.post("/api/generate/correct", isLoggedIn, async (request, response) => {
+//   const { myinput } = request.body;
+//   const myMessage = CorrectMyInput(myinput.split(" "));
+//   const resultJSON = await chatCompletion(myMessage, 1, 0.2);
+//   console.log(JSON.parse(resultJSON));
+//   if (!resultJSON)
+//     return response.status(200).send({ status: 400, msg: "Wrong message" });
+//   return response.status(200).send({ status: 200, ...JSON.parse(resultJSON) });
+// });
 
 export default router;
