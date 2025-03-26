@@ -28,7 +28,7 @@ export const DashBoard = () => {
   }, [location]);
 
   useEffect(() => {
-    if (isLogged == false) navigate("/auth/login");
+    if (isLogged == false) navigate("/auth/login?source=dashboard");
   }, [isLogged, navigate]);
 
   useEffect(() => {

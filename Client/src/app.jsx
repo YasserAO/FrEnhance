@@ -6,6 +6,9 @@ import {
 } from "react-router";
 import { Navigate } from "react-router-dom";
 
+// Animation Framer
+import { Framer } from "./layouts/homeFrame";
+
 // Main Page
 import { MainPage } from "./layouts/MainPage";
 import { Home } from "./pages/home/Home";
@@ -33,11 +36,46 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<MainPage></MainPage>}>
-        <Route index element={<Home />}></Route>
-        <Route path="about" element={<About />}></Route>
-        <Route path="contact" element={<Contact />}></Route>
-        <Route path="features" element={<Features />}></Route>
-        <Route path="verify" element={<Verify />}></Route>
+        <Route
+          index
+          element={
+            <Framer>
+              <Home />
+            </Framer>
+          }
+        ></Route>
+        <Route
+          path="about"
+          element={
+            <Framer>
+              <About />
+            </Framer>
+          }
+        ></Route>
+        <Route
+          path="contact"
+          element={
+            <Framer>
+              <Contact />
+            </Framer>
+          }
+        ></Route>
+        <Route
+          path="features"
+          element={
+            <Framer>
+              <Features />
+            </Framer>
+          }
+        ></Route>
+        <Route
+          path="verify"
+          element={
+            <Framer>
+              <Verify />
+            </Framer>
+          }
+        ></Route>
         <Route
           path="email-verification/:id"
           element={<URLverification />}
