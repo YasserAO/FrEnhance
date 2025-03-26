@@ -7,6 +7,7 @@ import { ExplainBody } from "../../Schema/validation/explainWord.mjs";
 import { validResult } from "../../middleware/validResults.mjs";
 import { textToJsonExplanation } from "../../utils/func/textToJsonExplanation.mjs";
 import { coinsConsume } from "../../utils/func/coinsConsume.mjs";
+import CorrectMyInput from "../../templates/correctMyInput.mjs";
 
 const router = express.Router();
 
@@ -19,7 +20,6 @@ router.post(
     const User = req.user;
     const { context, words } = matchedData(req);
     const myMessage = ExplainWords(context, words);
-    console.log(myMessage);
     const Purchase = await coinsConsume(User.id);
     if (Purchase) {
       const myRespone = await chatCompletion(myMessage, 0);
@@ -34,5 +34,15 @@ router.post(
     }
   }
 );
+
+router.post("/api/generate/correct", isLoggedIn, async (request, response) => {
+  const { myinput } = request.body;
+  const myMessage = CorrectMyInput(myinput.split(" "));
+  const resultJSON = await chatCompletion(myMessage, 1, 0.2);
+  console.log(JSON.parse(resultJSON));
+  if (!resultJSON)
+    return response.status(200).send({ status: 400, msg: "Wrong message" });
+  return response.status(200).send({ status: 200, ...JSON.parse(resultJSON) });
+});
 
 export default router;

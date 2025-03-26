@@ -1,19 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate, useSearchParams } from "react-router";
 import { Link } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 
 import { motion } from "framer-motion";
 import { loginForm } from "../../forms/loginForm.mjs";
+
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [reserror, setReserror] = useState(true);
   const [message, setMessage] = useState("");
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const urlGoogle = import.meta.env.VITE_API_URL + "/api/user/auth/google";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -36,6 +40,23 @@ export const Login = () => {
       }, 1000);
     }
   };
+
+  // Return LOOP at LOGIN
+  const handleBack = () => {
+    navigate("/");
+  };
+  useEffect(() => {
+    const source = searchParams.get("source");
+
+    if (source == "dashboard") {
+      window.addEventListener("popstate", handleBack);
+    }
+    return () => {
+      setTimeout(() => {
+        window.removeEventListener("popstate", handleBack);
+      });
+    };
+  }, []);
 
   return (
     <>

@@ -86,7 +86,6 @@ export const Register = () => {
       setLoading(false);
     }
   };
-
   return (
     <>
       <div className="flex flex-1 flex-col bg-amber-200">

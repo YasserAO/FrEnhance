@@ -3,10 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.log({
-  user: process.env.USER,
-  pass: process.env.EPASSWORD,
-});
 const transporter = createTransport({
   host: "smtp-relay.brevo.com",
   port: "587",

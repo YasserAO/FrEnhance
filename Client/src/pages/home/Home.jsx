@@ -41,10 +41,10 @@ export const Home = () => {
   return (
     <>
       {/* Intro */}
-      <div className="relative flex min-h-[26rem] flex-col items-center justify-center gap-7 overflow-hidden bg-black bg-hero-pattern bg-cover bg-center px-3 py-10 md:px-[10%] md:pt-12">
-        <div className="absolute left-0 top-0 h-full w-full bg-black opacity-50"></div>
+      <div className="relative flex min-h-[26rem] flex-col items-center justify-center gap-7 overflow-hidden bg-black bg-[url('/background.jpg')] bg-cover bg-center px-3 py-10 md:px-[10%] md:pt-12">
+        <div className="absolute left-0 top-0 h-full w-full bg-mainBody opacity-60"></div>
         <div className="z-10">
-          <h1 className="mb-3 text-center font-body text-4xl font-bold tracking-wide text-white drop-shadow-2xl sm:mb-10 md:text-5xl">
+          <h1 className="roboto mb-3 text-center text-4xl font-bold tracking-wide text-white drop-shadow-2xl sm:mb-10 md:text-5xl">
             {content.header}
           </h1>
           <p className="text-center text-white lg:text-xl">{content.desc}</p>
