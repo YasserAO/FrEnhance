@@ -19,6 +19,12 @@ services:
     restart: unless-stopped
     ports:
       - "127.0.0.1:3000:3000"
+    environment:
+      - MONGO_URI=mongodb://frenhance-mongo:27017/frenhance
+      - MONGO_DOCKER_URI=mongodb://frenhance-mongo:27017/frenhance
+      - NODE_ENV=production
+      - LOCALHOST=https://frenhance.vendra.cfd
+      - CLIENT_URL=https://frenhance.vendra.cfd
     env_file:
       - ./backend/.env
     depends_on:
