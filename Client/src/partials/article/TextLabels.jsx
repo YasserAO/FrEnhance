@@ -18,89 +18,81 @@ export const TextLabels = ({
   return (
     <>
       {/* DesktopVersion */}
-      <div className="flex h-full flex-col justify-between">
-        {displayShowMore && myTexts.length > 0 && (
-          <div className="mb-3 flex items-center justify-between px-1 text-xs text-slate-400">
+      <div className="">
+        {displayShowMore && (
+          <div className="mb-2 flex justify-center">
             <button
-              onClick={() => setShowMore((prev) => Math.max(1, prev - 1))}
-              disabled={showMore <= 1}
-              className="rounded bg-slate-900/80 p-1.5 text-slate-300 transition-colors hover:bg-slate-900 hover:text-white disabled:opacity-30"
-              aria-label="Show fewer"
+              onClick={() => setShowMore((prev) => prev - 1)}
+              className={`mx-auto block rounded-sm bg-gray-900 px-2 py-1 text-white ${showMore <= 2 && `pointer-events-none opacity-0`}`}
             >
-              <FaAnglesUp size="0.75rem" />
+              <FaAnglesUp></FaAnglesUp>
             </button>
-            <span className="font-medium tracking-wide">
-              Showing {Math.min(showMore, myTexts.length)} of {myTexts.length}
-            </span>
+            <p className="w-20 select-none text-center font-semibold text-white transition">
+              {showMore} / {myTexts.length}
+            </p>
             <button
-              onClick={() => setShowMore((prev) => Math.min(myTexts.length, prev + 1))}
-              disabled={showMore >= myTexts.length}
-              className="rotate-180 rounded bg-slate-900/80 p-1.5 text-slate-300 transition-colors hover:bg-slate-900 hover:text-white disabled:opacity-30"
-              aria-label="Show more"
+              onClick={() => setShowMore((prev) => prev + 1)}
+              className={`mx-auto block rotate-180 rounded-sm bg-gray-900 px-2 py-1 text-white ${showMore == myTexts.length && `pointer-events-none opacity-0`}`}
             >
-              <FaAnglesUp size="0.75rem" />
+              <FaAnglesUp></FaAnglesUp>
             </button>
           </div>
         )}
-
-        <div className="flex-1 min-h-0 space-y-2.5 overflow-y-auto pr-1">
+        <div className="max-h-[600px] overflow-hidden overflow-y-auto">
           <AnimatePresence>
-            {emptyText || myTexts.length === 0 ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="rounded-xl border border-dashed border-slate-700 p-6 text-center text-xs text-slate-400"
+            {emptyText ? (
+              <motion.p
+                initial={{ opacity: 0, height: "0px" }}
+                animate={{ opacity: 1, height: "50px" }}
+                exit={{ opacity: 0, height: "0px" }}
+                className="overflow-hidden text-center text-base font-semibold text-gray-500"
               >
-                No saved texts yet. Create or generate a new text to get started!
-              </motion.div>
+                Your list is Empty please Generate a text
+              </motion.p>
             ) : (
               myTexts
-                .slice(0, showMore)
                 .map((element, index) => (
                   <motion.div
                     onClick={() => {
                       navigate("readmode/" + element.id);
                     }}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    key={element.id || index}
-                    className="group cursor-pointer select-none rounded-xl border border-slate-700/60 bg-slate-900/60 p-3 transition-all duration-150 hover:border-sky-500/80 hover:bg-slate-900 hover:shadow-md"
+                    key={index}
+                    className={`g-slate-400 mb-3 cursor-pointer select-none overflow-hidden rounded-sm bg-slate-400 px-1 py-1 transition-all duration-150`}
                   >
-                    <h3 className="text-xs font-semibold text-white transition-colors group-hover:text-amber-300">
-                      {extract(element.title, readMode ? 35 : 20)}
-                    </h3>
-                    <p className="mt-1 text-[11px] leading-relaxed text-slate-400 line-clamp-2">
-                      {extract(element.text?.[0] || "", readMode ? 60 : 40)}
+                    <h2 className="font-semibold">
+                      {extract(element.title, readMode ? 30 : 5)}
+                    </h2>
+                    <p className="text-sm">
+                      {extract(element.text[0], readMode ? 50 : 5)}
                     </p>
                   </motion.div>
                 ))
+                .filter((element, index) => index < showMore)
             )}
           </AnimatePresence>
         </div>
-
-        <div className="mt-3 pt-2">
-          {readMode ? (
-            <button
-              onClick={() => {
-                navigate(-1);
-              }}
-              className="w-full rounded-xl bg-red-600/90 py-2.5 text-xs font-semibold text-white shadow transition-all hover:bg-red-500"
-            >
-              ← Exit Reading Mode
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                navigate("readmode");
-              }}
-              className="w-full rounded-xl bg-sky-600 py-2.5 text-xs font-semibold text-white shadow transition-all hover:bg-sky-500"
-            >
-              📖 Open Reader Mode
-            </button>
-          )}
-        </div>
+        {readMode ? (
+          <button
+            onClick={() => {
+              navigate(-1);
+            }}
+            className="btn absolute bottom-4 right-1/2 mx-auto block translate-x-1/2 bg-red-500 py-1"
+          >
+            Exit
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              navigate("readmode");
+            }}
+            className="btn absolute bottom-4 right-1/2 mx-auto block translate-x-1/2 bg-slate-900 py-1"
+          >
+            ReadAll
+          </button>
+        )}
       </div>
     </>
   );

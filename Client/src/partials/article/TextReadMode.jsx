@@ -161,7 +161,7 @@ export const TextReadMode = () => {
           ></DeleteText>
         )}
       </motion.div>
-      <div className="mt-2 h-[calc(100svh-56px-56px-24px-8px-8px-32px)] overflow-y-auto rounded-md bg-white px-4 py-4 sm:h-[600px]">
+      <div className="mt-2 min-h-[180px] max-h-[calc(100vh-250px)] overflow-y-auto rounded-md bg-white px-4 py-4 shadow-sm">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           {Text.text.map((txt, indx) => (
             <p key={indx} className="mb-3 last:mb-0">
@@ -171,8 +171,8 @@ export const TextReadMode = () => {
           ))}
         </motion.div>
       </div>
-      <div className="mt-2 flex justify-center gap-8">
-        <button className="btn bg-sky-500" onClick={handleEdit}>
+      <div className="mt-4 flex items-center justify-center gap-8">
+        <button className="btn bg-sky-500 hover:bg-sky-600 transition-colors" onClick={handleEdit}>
           Edit
         </button>
         <div className="flex gap-7">
@@ -187,9 +187,9 @@ export const TextReadMode = () => {
           onClick={() => {
             navigate("/dashboard");
           }}
-          className="btn bg-red-600"
+          className="btn bg-red-600 hover:bg-red-700 transition-colors"
         >
-          Exist
+          Exit
         </button>
       </div>
     </div>

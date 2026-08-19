@@ -102,12 +102,13 @@ export const CreateAText = () => {
   // Button Ref
   const buttonRef = useRef(null);
 
-  // Key
-
-  useState(() => {
+  useEffect(() => {
     if (content) {
       setEmptyField(false);
       setMyText(content);
+      if (content.savebutton !== undefined) {
+        setDisabledButton(content.savebutton);
+      }
     }
   }, [content]);
 

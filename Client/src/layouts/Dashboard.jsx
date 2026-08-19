@@ -54,7 +54,7 @@ export const DashBoard = () => {
   }, [dbupdateToggle]);
 
   return (
-    <div className="flex h-svh w-full flex-col overflow-hidden bg-slate-900">
+    <>
       <LoadingScreen isLogged={isLogged} />
 
       <DNavBar>
@@ -65,32 +65,32 @@ export const DashBoard = () => {
         />
       </DNavBar>
       {isLogged && userForm.verified === false && <VerifictionBar />}
-      <main className="relative flex flex-1 min-h-0 overflow-hidden bg-slate-900 p-3 sm:p-4 md:gap-6 md:p-6 lg:px-8">
+      <main
+        className={`relative flex min-h-[calc(100vh-3.5rem)] flex-grow flex-col bg-slate-50 sm:px-3 sm:py-4 sm:pb-5 md:flex-row md:gap-6 md:px-[2.5%] md:py-8 lg:px-[5%] xl:px-[8%]`}
+      >
         <aside
-          className={`${!readMode ? "hidden md:flex" : "hidden"} relative h-full w-80 max-w-[280px] flex-col rounded-2xl border border-slate-700/60 bg-slate-800/90 p-4 shadow-xl backdrop-blur-sm transition-all duration-200`}
+          className={`${!readMode && `hidden`} relative min-h-full flex-[1] rounded-xl border border-slate-700/50 bg-slate-800 p-4 shadow-lg transition-all duration-200 md:block`}
         >
-          <h2 className="mb-4 select-none rounded-xl bg-slate-950/80 py-2.5 text-center text-xs font-bold uppercase tracking-wider text-slate-200 shadow-inner">
+          <h2 className="mb-5 select-none rounded-lg bg-slate-900/90 py-2.5 text-center text-sm font-semibold tracking-wide text-white shadow-inner">
             My Recent Texts
           </h2>
-          <div className="flex-1 min-h-0">
-            <TextLabels
-              readMode={readMode}
-              setShowMore={setShowMore}
-              displayShowMore={displayShowMore}
-              showMore={showMore}
-              emptyText={emptyText}
-              myTexts={myTexts}
-            />
-          </div>
+          <TextLabels
+            readMode={readMode}
+            setShowMore={setShowMore}
+            displayShowMore={displayShowMore}
+            showMore={showMore}
+            emptyText={emptyText}
+            myTexts={myTexts}
+          />
         </aside>
         <div
-          className={`relative flex flex-1 min-h-0 flex-col overflow-y-auto rounded-2xl border border-slate-700/40 bg-slate-800/40 p-4 shadow-inner backdrop-blur-sm sm:p-6`}
+          className={`relative ${readMode ? `sm:flex-[0] lg:flex-[0]` : `sm:flex-[2] lg:flex-[2.5]`} flex flex-grow flex-col transition-all duration-150`}
         >
           <Outlet
             context={{ myTexts, emptyText, setDbupdateToggle, dbupdateToggle }}
           />
         </div>
       </main>
-    </div>
+    </>
   );
 };
