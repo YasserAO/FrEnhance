@@ -5,21 +5,23 @@ import { motion } from "framer-motion";
 const UserDropDownMenu = ({ userForm }) => {
   return (
     <motion.div
-      initial={{ height: 0, opacity: 0 }}
-      animate={{ height: "200px", opacity: 1 }}
-      exit={{ height: 0, opacity: 0 }}
-      transition={{ duration: 0.15, opacity: { duration: 0.1 } }}
-      className="absolute right-[10%] top-full z-50 w-full max-w-56 translate-x-16 translate-y-2 overflow-hidden rounded-lg bg-slate-600 px-5 py-10"
+      initial={{ opacity: 0, y: -6, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -6, scale: 0.95 }}
+      transition={{ duration: 0.12 }}
+      className="absolute right-0 top-full z-50 mt-2 w-64 rounded-xl border border-slate-700/80 bg-slate-800 p-4 shadow-2xl"
     >
-      <p className="font-semibold text-white">
-        {userForm.firstName + " " + userForm.lastName}
-      </p>
-      <p className="font-semibold text-white">
-        Email: <span className="text-sm text-gray-100">{userForm.email}</span>
-      </p>
-      <div className="absolute bottom-0 right-1/2 mb-2 flex translate-x-1/2 items-center gap-2">
-        <p className="text-white">Disconnect</p>
-        <LogoutButton></LogoutButton>
+      <div className="border-b border-slate-700/80 pb-3">
+        <p className="font-semibold text-white">
+          {userForm.firstName} {userForm.lastName}
+        </p>
+        <p className="truncate text-xs text-slate-300">
+          {userForm.email}
+        </p>
+      </div>
+      <div className="mt-3 flex items-center justify-between">
+        <span className="text-xs font-medium text-slate-400">Log out</span>
+        <LogoutButton />
       </div>
     </motion.div>
   );
@@ -35,3 +37,4 @@ UserDropDownMenu.propTypes = {
 };
 
 export default UserDropDownMenu;
+

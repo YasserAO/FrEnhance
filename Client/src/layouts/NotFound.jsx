@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 export const NotFound = () => {
   return (
     <div className="px-3 py-3 text-white md:px-[10%]">
@@ -20,7 +20,7 @@ export const NotFound = () => {
         <ul className="flex list-inside list-disc flex-col gap-2 py-2">
           <li>
             Go to{" "}
-            <Link className="font-semibold text-amber-300" to={"/home"}>
+            <Link className="font-semibold text-amber-300" to={"/"}>
               Home
             </Link>
             : Return to the main page and start fresh.

@@ -33,20 +33,21 @@ export const DashBoard = () => {
 
   useEffect(() => {
     const getTexts = async () => {
-      let texts;
       try {
-        texts = await textForm();
+        const texts = await textForm();
+        if (texts && texts.status === 200) {
+          setEmptyText(false);
+          setMyTexts(texts.content || []);
+          if (texts.content && texts.content.length < 4) {
+            setShowMore(texts.content.length);
+          }
+          setDisplayShowMore(true);
+        } else if (texts && texts.status === 204) {
+          setEmptyText(true);
+          setMyTexts([]);
+        }
       } catch (err) {
-        console.log(err);
-      }
-      if (texts.status == 200) {
-        setEmptyText(false);
-        setMyTexts(texts.content);
-        if (texts.content.length < 4) setShowMore(texts.content.length);
-
-        setDisplayShowMore(true);
-      } else if (texts.status == 204) {
-        setEmptyText(true);
+        console.debug("Dashboard fetch texts error:", err);
       }
     };
     getTexts();
@@ -54,24 +55,24 @@ export const DashBoard = () => {
 
   return (
     <>
-      <LoadingScreen isLogged={isLogged}></LoadingScreen>
+      <LoadingScreen isLogged={isLogged} />
 
       <DNavBar>
         <TextLabelsMobile
           readMode={readMode}
           emptyText={emptyText}
           myTexts={myTexts}
-        ></TextLabelsMobile>
+        />
       </DNavBar>
       {isLogged && userForm.verified === false && <VerifictionBar />}
       <main
-        className={`relative flex flex-grow flex-col bg-amber-100 sm:px-3 sm:py-4 sm:pb-5 md:flex-row md:gap-[2.5%] md:px-[2.5%] md:py-10 lg:px-[5%] xl:px-[10%]`}
+        className={`relative flex min-h-[calc(100vh-3.5rem)] flex-grow flex-col bg-slate-50 sm:px-3 sm:py-4 sm:pb-5 md:flex-row md:gap-6 md:px-[2.5%] md:py-8 lg:px-[5%] xl:px-[8%]`}
       >
-        <div
-          className={`${!readMode && `hidden`} relative min-h-full flex-[1] rounded-lg bg-gray-700 px-3 py-6 shadow-md shadow-gray-600 transition-all duration-200 md:block`}
+        <aside
+          className={`${!readMode && `hidden`} relative min-h-full flex-[1] rounded-xl border border-slate-700/50 bg-slate-800 p-4 shadow-lg transition-all duration-200 md:block`}
         >
-          <h2 className="mb-6 select-none rounded-lg bg-slate-900 py-3 text-center font-semibold text-white">
-            My Recent texts
+          <h2 className="mb-5 select-none rounded-lg bg-slate-900/90 py-2.5 text-center text-sm font-semibold tracking-wide text-white shadow-inner">
+            My Recent Texts
           </h2>
           <TextLabels
             readMode={readMode}
@@ -80,14 +81,14 @@ export const DashBoard = () => {
             showMore={showMore}
             emptyText={emptyText}
             myTexts={myTexts}
-          ></TextLabels>
-        </div>
+          />
+        </aside>
         <div
-          className={`relative ${readMode ? `sm:flex-[0] lg:flex-[0]` : `sm:flex-[2] lg:flex-[2.5]`} flex flex-grow flex-col transition-all duration-100`}
+          className={`relative ${readMode ? `sm:flex-[0] lg:flex-[0]` : `sm:flex-[2] lg:flex-[2.5]`} flex flex-grow flex-col transition-all duration-150`}
         >
           <Outlet
             context={{ myTexts, emptyText, setDbupdateToggle, dbupdateToggle }}
-          ></Outlet>
+          />
         </div>
       </main>
     </>

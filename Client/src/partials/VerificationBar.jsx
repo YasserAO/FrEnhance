@@ -1,13 +1,16 @@
 export const VerifictionBar = () => {
   return (
-    <div className="flex items-center justify-center bg-violet-600 px-3 py-2 text-white md:px-[10%]">
-      <p>Please Verify your Email by Clicking here </p>
+    <div className="flex items-center justify-center gap-3 bg-amber-500/95 px-4 py-2.5 text-slate-900 shadow-sm md:px-[10%]">
+      <p className="text-sm font-medium">
+        ⚠️ Please verify your email address to unlock all daily AI credits.
+      </p>
       <a
         href="/verify"
-        className="ml-2 rounded-md border border-black bg-white px-2 text-sm font-semibold text-black"
+        className="rounded-md bg-slate-900 px-3 py-1 text-xs font-semibold text-white transition-all hover:bg-slate-800"
       >
-        Verify
+        Verify Now →
       </a>
     </div>
   );
 };
+

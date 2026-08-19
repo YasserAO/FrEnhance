@@ -26,30 +26,30 @@ const DNavBar = ({ children }) => {
       <div className="hidden w-full items-center md:flex">
         <div className="w-full select-none pl-5">
           <Link
-            className="font-semibold underline-offset-2 hover:underline active:underline"
+            className="text-sm font-semibold text-slate-700 underline-offset-4 transition-colors hover:text-sky-700 hover:underline"
             to="/"
           >
-            Home
+            ← Home
           </Link>
         </div>
 
-        <div className="flex w-full justify-end gap-1">
+        <div className="flex w-full items-center justify-end gap-3">
           {/* Coins score */}
-          <div className="flex items-center rounded-md bg-slate-800">
-            <p className="w-fit font-semibold text-purple-200">
-              {coins.quantity}
-            </p>
+          <div className="flex items-center gap-1.5 rounded-full bg-slate-900 px-3 py-1 text-sm shadow-sm">
+            <span className="font-bold text-amber-300">
+              {coins?.quantity ?? 0}
+            </span>
             <img
-              className="inline-block h-5 w-5"
+              className="inline-block h-4 w-4"
               src="/diamondIcon.png"
               alt="coins"
             />
           </div>
 
           {/* DropMenu  */}
-          <div className="">
-            {userForm.Avatar == !"" && (
-              <LogoAvatar setMenuDropDown={setMenuDropDown}></LogoAvatar>
+          <div className="relative">
+            {Boolean(userForm?.Avatar || userForm?.firstName) && (
+              <LogoAvatar setMenuDropDown={setMenuDropDown} />
             )}
 
             <AnimatePresence>
@@ -65,34 +65,35 @@ const DNavBar = ({ children }) => {
         toggleMenu={toggleMenu}
         setToggleMenu={setToggleMenu}
         d={true}
-      ></BurgerMenu>
+      />
       <AnimatePresence>
         {toggleMenu && (
           <motion.div
             ref={popupRef}
-            initial={{ width: 0 }}
-            animate={{ width: `100%` }}
-            exit={{ width: 0 }}
-            className={`b absolute right-0 top-0 z-50 flex h-svh w-full max-w-[300px] flex-col overflow-hidden bg-gray-600 pt-[60px] md:hidden`}
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween", duration: 0.2 }}
+            className={`absolute right-0 top-0 z-50 flex h-svh w-full max-w-[300px] flex-col overflow-y-auto bg-slate-800 pt-[60px] shadow-2xl md:hidden`}
           >
             <div className="min-w-[300px]">
-              <div className="flex flex-col items-start justify-start gap-2 px-10">
-                <div className="flex items-center">
+              <div className="flex flex-col items-start justify-start gap-2 px-6">
+                <div className="flex items-center gap-3">
                   <LogoAvatar
                     user={userForm.firstName + " " + userForm.lastName}
-                  ></LogoAvatar>
+                  />
 
-                  <div className="ml-2 flex w-3/4 flex-col justify-start gap-1">
-                    <p className="h-6 w-full rounded-md bg-slate-500 text-white">
+                  <div className="flex flex-col justify-start gap-1">
+                    <p className="font-semibold text-white">
                       {userForm.firstName}{" "}
                       <span className="uppercase">{userForm.lastName}</span>
                     </p>
-                    <div className="flex h-6 w-fit items-center rounded-md bg-slate-800 px-2">
-                      <p className="w-fit font-semibold text-purple-200">
-                        {coins.quantity}
-                      </p>
+                    <div className="flex h-6 w-fit items-center gap-1.5 rounded-full bg-slate-900 px-2.5 shadow-inner">
+                      <span className="text-xs font-bold text-amber-300">
+                        {coins?.quantity ?? 0}
+                      </span>
                       <img
-                        className="inline-block h-5 w-5"
+                        className="inline-block h-3.5 w-3.5"
                         src="/diamondIcon.png"
                         alt="coins"
                       />
@@ -101,12 +102,12 @@ const DNavBar = ({ children }) => {
                 </div>
               </div>
               {children}
-              <div className="flex flex-col gap-4 px-5 py-10 text-xl text-white">
+              <div className="flex flex-col gap-2 px-5 py-6 text-base text-white">
                 <Link
                   to="/"
-                  className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
+                  className="cursor-pointer select-none rounded-lg bg-slate-700/80 px-4 py-2.5 font-medium transition-colors hover:bg-slate-700"
                 >
-                  Home
+                  ← Return to Home
                 </Link>
               </div>
             </div>

@@ -40,21 +40,33 @@ export const TextToolButton = ({ type }) => {
   ];
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.1 }}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.15 }}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          navigate(icons[type - 1].to);
+        }
+      }}
       onClick={() => {
         navigate(icons[type - 1].to);
       }}
-      className="group flex h-24 w-full cursor-pointer select-none flex-col items-center justify-center overflow-hidden rounded-lg border-4 border-gray-300"
+      className="group flex h-32 w-full max-w-sm cursor-pointer select-none flex-col items-center justify-center rounded-2xl border-2 border-slate-700/80 bg-slate-800 p-6 shadow-md transition-all hover:border-sky-500 hover:shadow-sky-500/10 focus:outline-none focus:ring-2 focus:ring-sky-500"
     >
-      <h1 className="text-md select-none font-semibold text-gray-400">
+      <div className="mb-2 text-sky-400 transition-transform duration-200 group-hover:scale-110">
+        {icons[type - 1].icon}
+      </div>
+      <h1 className="text-base font-semibold tracking-wide text-white transition-colors group-hover:text-sky-300">
         {icons[type - 1].text}
       </h1>
-      {icons[type - 1].icon}
     </motion.div>
   );
 };
+
 
 TextToolButton.propTypes = {
   toggleForm: PropTypes.any,

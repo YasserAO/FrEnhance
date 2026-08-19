@@ -88,54 +88,58 @@ export const Register = () => {
   };
   return (
     <>
-      <div className="flex flex-1 flex-col bg-amber-200">
+      <div className="flex min-h-[calc(100vh-60px)] flex-1 flex-col items-center justify-center bg-slate-900 px-4 py-12">
         <motion.form
           initial={{
             opacity: 0,
-            y: 10,
-            scale: 0.8,
+            y: 16,
+            scale: 0.96,
           }}
           animate={{
             opacity: 1,
             y: 0,
             scale: 1,
             transition: {
-              duration: 0.1,
+              duration: 0.18,
             },
           }}
           onSubmit={handleSubmit}
-          className="mx-auto mt-40 flex w-full max-w-80 flex-col rounded-md bg-white p-4 shadow-lg"
+          className="mx-auto flex w-full max-w-sm flex-col rounded-2xl border border-slate-700/60 bg-slate-800 p-6 shadow-2xl backdrop-blur-sm sm:p-8"
         >
-          <h1 className="mx-auto mb-3 w-fit text-2xl font-bold text-slate-800">
-            Sign Up
+          <h1 className="mx-auto mb-4 text-center text-2xl font-bold tracking-tight text-white">
+            Create an Account
           </h1>
-          <p
-            className={`relative flex items-center rounded-sm bg-slate-300 pl-2 transition-all duration-150 ${resTypeErr ? `text-red-500` : `text-green-700`} mb-2 overflow-hidden ${message.length == 0 ? `max-h-0 min-h-0` : `max-h-10 min-h-10`} `}
-          >
-            <button
-              onClick={() => {
-                setMessage("");
-              }}
-              type="button"
-              className="absolute right-2 top-1/2 -translate-y-1/2 font-semibold"
+
+          {message && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`relative mb-4 flex items-center justify-between rounded-lg px-3 py-2 text-xs font-medium ${
+                resTypeErr
+                  ? "border border-red-500/30 bg-red-500/10 text-red-400"
+                  : "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+              }`}
             >
-              x
-            </button>
-            {message}
-          </p>
+              <span>{message}</span>
+              <button
+                onClick={() => setMessage("")}
+                type="button"
+                className="ml-2 font-bold opacity-70 hover:opacity-100"
+              >
+                ✕
+              </button>
+            </motion.div>
+          )}
 
           {/* Names */}
-
-          <div className="flex gap-1">
+          <div className="mb-3 flex gap-2">
             {/* First Name */}
-            <div
-              className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
-            >
+            <div className="flex h-11 w-1/2 items-center rounded-lg border border-slate-700 bg-slate-900/80 px-2.5 transition-all focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
               <input
                 autoComplete="given-name"
                 disabled={loading}
                 value={firstName}
-                className="text-md h-8 w-full bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
+                className="h-full w-full bg-transparent text-sm text-white placeholder-slate-500 outline-none"
                 type="text"
                 required
                 placeholder="First Name"
@@ -144,14 +148,12 @@ export const Register = () => {
             </div>
 
             {/* Last Name */}
-            <div
-              className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
-            >
+            <div className="flex h-11 w-1/2 items-center rounded-lg border border-slate-700 bg-slate-900/80 px-2.5 transition-all focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
               <input
                 autoComplete="family-name"
                 disabled={loading}
                 value={lastName}
-                className="text-md h-8 w-full bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
+                className="h-full w-full bg-transparent text-sm text-white placeholder-slate-500 outline-none"
                 type="text"
                 required
                 placeholder="Last Name"
@@ -161,75 +163,83 @@ export const Register = () => {
           </div>
 
           {/* User Name */}
-          <div
-            className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
-          >
-            <CiUser />
+          <div className="mb-3 flex h-11 w-full items-center rounded-lg border border-slate-700 bg-slate-900/80 px-3 transition-all focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
+            <CiUser className="text-lg text-slate-400" />
             <input
               autoComplete="username"
               disabled={loading}
               value={username}
-              className="text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
+              className="h-full w-full bg-transparent pl-2.5 text-sm text-white placeholder-slate-500 outline-none"
               type="text"
               required
               placeholder="Username"
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <div
-            className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
-          >
-            <MdAlternateEmail />
+
+          {/* Email */}
+          <div className="mb-3 flex h-11 w-full items-center rounded-lg border border-slate-700 bg-slate-900/80 px-3 transition-all focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
+            <MdAlternateEmail className="text-lg text-slate-400" />
             <input
               autoComplete="email"
               value={email}
               disabled={loading}
-              className="text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
+              className="h-full w-full bg-transparent pl-2.5 text-sm text-white placeholder-slate-500 outline-none"
               type="email"
               required
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+
+          {/* Password */}
           <div
-            className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border ${document.activeElement === passwordRef.current ? (validPassword ? `border-green-400` : `border-red-400`) : `border-gray-400`} bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
+            className={`mb-4 flex h-11 w-full items-center rounded-lg border bg-slate-900/80 px-3 transition-all ${
+              document.activeElement === passwordRef.current
+                ? validPassword
+                  ? "border-emerald-500 ring-1 ring-emerald-500"
+                  : "border-amber-500 ring-1 ring-amber-500"
+                : "border-slate-700 focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500"
+            }`}
           >
-            <RiLockPasswordFill />
+            <RiLockPasswordFill className="text-lg text-slate-400" />
             <input
               autoComplete="new-password"
               ref={passwordRef}
               value={password}
               disabled={loading}
-              className={`text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500`}
+              className="h-full w-full bg-transparent pl-2.5 text-sm text-white placeholder-slate-500 outline-none"
               type="password"
               required
-              placeholder="Password"
+              placeholder="Password (12+ characters)"
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div>
+
+          <div className="mb-5">
             <a
               href={urlGoogle}
-              className="mx-auto mb-2 flex w-[80%] items-center gap-1 rounded-md bg-gray-200 px-2 py-2 text-sm font-semibold text-gray-800"
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-600 bg-slate-700/60 py-2.5 text-sm font-medium text-white transition-colors hover:bg-slate-700"
             >
-              <FcGoogle size={"1.8em"} />
-              Signup with Google
+              <FcGoogle size="1.4em" />
+              Sign up with Google
             </a>
           </div>
-          <div className="mx-auto flex w-[80%] justify-between">
+
+          <div className="flex items-center justify-between">
             <button
               type="submit"
               disabled={loading}
-              className="flex h-8 w-20 items-center justify-center rounded-md bg-sky-700 text-white transition-all duration-150 disabled:bg-gray-500"
+              className="flex h-10 w-28 items-center justify-center rounded-lg bg-sky-600 font-semibold text-white shadow-md transition-all hover:bg-sky-500 disabled:opacity-50"
             >
-              {loading ? "Loading..." : "Sign Up"}
+              {loading ? "Creating..." : "Sign Up"}
             </button>
             {!loading && (
               <NavLink
                 to="/auth/login"
-                className="font-semibold text-blue-500 underline"
+                className="text-sm font-medium text-sky-400 hover:underline"
               >
-                Login
+                Already registered?
               </NavLink>
             )}
           </div>

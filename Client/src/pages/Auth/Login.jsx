@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { CiUser } from "react-icons/ci";
 import { RiLockPasswordFill } from "react-icons/ri";
-import { NavLink, useNavigate, useSearchParams } from "react-router";
-import { Link } from "react-router";
+import { NavLink, useNavigate, useSearchParams, Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 import { motion } from "framer-motion";
@@ -23,21 +22,16 @@ export const Login = () => {
     setLoading(true);
 
     const data = await loginForm(username, password);
-    if (data.status == 200) {
+    if (data && data.status == 200) {
       setReserror(false);
-      setTimeout(() => {
-        setMessage(data.msg);
-      }, 500);
+      setMessage(data.msg || "Login Successful");
       setTimeout(() => {
         window.location.href = "/";
-      }, 2000);
+      }, 1500);
     } else {
-      setTimeout(() => {
-        setMessage(data.msg);
-      }, 300);
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+      setMessage(data?.msg || "Invalid username or password");
+      setReserror(true);
+      setLoading(false);
     }
   };
 
@@ -52,115 +46,116 @@ export const Login = () => {
       window.addEventListener("popstate", handleBack);
     }
     return () => {
-      setTimeout(() => {
-        window.removeEventListener("popstate", handleBack);
-      });
+      window.removeEventListener("popstate", handleBack);
     };
-  }, []);
+  }, [searchParams]);
 
   return (
     <>
-      <div className="flex flex-1 flex-col bg-amber-200">
+      <div className="flex min-h-[calc(100vh-60px)] flex-1 flex-col items-center justify-center bg-slate-900 px-4 py-12">
         <motion.form
           initial={{
             opacity: 0,
-            y: 10,
-            scale: 0.8,
+            y: 16,
+            scale: 0.96,
           }}
           animate={{
             opacity: 1,
             y: 0,
             scale: 1,
             transition: {
-              duration: 0.1,
+              duration: 0.18,
             },
           }}
           onSubmit={handleSubmit}
-          className="mx-auto mt-40 flex w-full max-w-80 flex-col rounded-md bg-white p-4 shadow-lg"
+          className="mx-auto flex w-full max-w-sm flex-col rounded-2xl border border-slate-700/60 bg-slate-800 p-6 shadow-2xl backdrop-blur-sm sm:p-8"
         >
-          <h1 className="mx-auto mb-3 w-fit text-2xl font-bold text-slate-800">
-            Login
+          <h1 className="mx-auto mb-4 text-center text-2xl font-bold tracking-tight text-white">
+            Welcome Back
           </h1>
-          <p
-            className={`relative flex flex-wrap content-center rounded-sm bg-slate-300 pl-2 transition-all duration-150 ${reserror ? `text-red-500` : `text-green-700`} mb-2 overflow-hidden ${message.length == 0 ? `max-h-0 min-h-0` : `max-h-10 min-h-10`} `}
-          >
-            <button
-              onClick={() => {
-                setMessage("");
-              }}
-              type="button"
-              className="absolute right-2 top-1/2 -translate-y-1/2 font-semibold"
+
+          {message && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`relative mb-4 flex items-center justify-between rounded-lg px-3 py-2 text-xs font-medium ${
+                reserror
+                  ? "border border-red-500/30 bg-red-500/10 text-red-400"
+                  : "border border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+              }`}
             >
-              x
-            </button>
-            {message}
-          </p>
-          <div
-            className={`mx-auto mb-2 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
-          >
-            <CiUser></CiUser>
+              <span>{message}</span>
+              <button
+                onClick={() => setMessage("")}
+                type="button"
+                className="ml-2 font-bold opacity-70 hover:opacity-100"
+              >
+                ✕
+              </button>
+            </motion.div>
+          )}
+
+          <div className="mb-3 flex h-11 w-full items-center rounded-lg border border-slate-700 bg-slate-900/80 px-3 transition-all focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
+            <CiUser className="text-lg text-slate-400" />
             <input
               autoComplete="username"
               type="text"
               disabled={loading}
-              className="text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
+              className="h-full w-full bg-transparent pl-2.5 text-sm text-white placeholder-slate-500 outline-none"
               value={username}
-              placeholder="Usernam"
+              placeholder="Username"
               onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
-          <div
-            className={`mx-auto mb-3 flex h-10 w-56 items-center justify-center rounded-sm border border-gray-400 bg-gray-300 shadow-sm transition-all duration-150 ${loading ? `black` : `transparent`} `}
-          >
-            <RiLockPasswordFill></RiLockPasswordFill>
+
+          <div className="mb-4 flex h-11 w-full items-center rounded-lg border border-slate-700 bg-slate-900/80 px-3 transition-all focus-within:border-sky-500 focus-within:ring-1 focus-within:ring-sky-500">
+            <RiLockPasswordFill className="text-lg text-slate-400" />
             <input
               autoComplete="current-password"
               type="password"
               disabled={loading}
-              className="text-md h-8 bg-transparent pl-2 text-black outline-none placeholder:text-gray-500"
+              className="h-full w-full bg-transparent pl-2.5 text-sm text-white placeholder-slate-500 outline-none"
               value={password}
               placeholder="Password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <div>
+
+          <div className="mb-4">
             <a
               href={urlGoogle}
-              className="mx-auto mb-2 flex w-[80%] items-center gap-1 rounded-md bg-gray-200 px-2 py-2 text-sm font-semibold text-gray-800"
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-slate-600 bg-slate-700/60 py-2.5 text-sm font-medium text-white transition-colors hover:bg-slate-700"
             >
-              <FcGoogle size={"1.8em"} />
-              Login with Google
+              <FcGoogle size="1.4em" />
+              Continue with Google
             </a>
           </div>
-          <div className="mx-auto mb-3 w-[80%]">
-            <p className="text-sm text-gray-600">
-              forgot your password?{" "}
-              <Link
-                className="font-semibold text-blue-500"
-                to={"/auth/password-reset-request"}
-              >
-                Click here
-              </Link>{" "}
-            </p>
+
+          <div className="mb-5 text-right">
+            <Link
+              className="text-xs text-sky-400 transition-colors hover:text-sky-300 hover:underline"
+              to="/auth/password-reset-request"
+            >
+              Forgot password?
+            </Link>
           </div>
-          <div className="mx-auto flex w-[80%] justify-between">
+
+          <div className="flex items-center justify-between">
             <button
               type="submit"
               disabled={loading}
-              className="flex h-8 w-20 flex-wrap content-center justify-center rounded-md bg-sky-700 text-white transition-all duration-150 disabled:bg-sky-900"
+              className="flex h-10 w-28 items-center justify-center rounded-lg bg-sky-600 font-semibold text-white shadow-md transition-all hover:bg-sky-500 disabled:opacity-50"
             >
-              {loading ? "Loading..." : "Login"}
+              {loading ? "Signing in..." : "Sign In"}
             </button>
             {!loading && (
               <NavLink
                 to="/auth/register"
-                className="font-semibold text-blue-500 underline"
+                className="text-sm font-medium text-sky-400 hover:underline"
               >
-                Sign up
+                Create account
               </NavLink>
             )}
           </div>
@@ -169,3 +164,4 @@ export const Login = () => {
     </>
   );
 };
+

@@ -3,8 +3,9 @@ import {
   createRoutesFromElements,
   RouterProvider,
   Route,
-} from "react-router";
-import { Navigate } from "react-router-dom";
+  Navigate,
+} from "react-router-dom";
+
 
 // Animation Framer
 import { Framer } from "./layouts/homeFrame";
