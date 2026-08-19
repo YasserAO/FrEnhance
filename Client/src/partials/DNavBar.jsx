@@ -48,9 +48,7 @@ const DNavBar = ({ children }) => {
 
           {/* DropMenu  */}
           <div className="relative">
-            {Boolean(userForm?.Avatar || userForm?.firstName) && (
-              <LogoAvatar setMenuDropDown={setMenuDropDown} />
-            )}
+            <LogoAvatar setMenuDropDown={setMenuDropDown} />
 
             <AnimatePresence>
               {menuDropDown && <UserDropDownMenu userForm={userForm} />}
