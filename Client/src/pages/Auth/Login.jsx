@@ -16,7 +16,7 @@ export const Login = () => {
   const [message, setMessage] = useState("");
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const urlGoogle = import.meta.env.VITE_API_URL + "/api/user/auth/google";
+  const urlGoogle = (import.meta.env.VITE_API_URL || "") + "/api/user/auth/google";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

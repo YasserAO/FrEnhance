@@ -1,7 +1,7 @@
 export const loginForm = async (username, password) => {
   try {
     const LoginRequest = await fetch(
-      import.meta.env.VITE_API_URL + "/api/user/auth",
+      (import.meta.env.VITE_API_URL || "") + "/api/user/auth",
       {
         credentials: "include",
         method: "POST",
@@ -14,9 +14,11 @@ export const loginForm = async (username, password) => {
         }),
       },
     );
-    const Resp = LoginRequest.json();
+    const Resp = await LoginRequest.json();
     return Resp;
   } catch (err) {
-    console.log(err);
+    console.error("loginForm error:", err);
+    return { status: 500, msg: "Failed to connect to authentication server" };
   }
 };
+

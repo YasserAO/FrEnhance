@@ -1,7 +1,7 @@
 export const deleteTextForm = async (id) => {
   try {
     const statusRequest = await fetch(
-      import.meta.env.VITE_API_URL + "/api/text/delete",
+      (import.meta.env.VITE_API_URL || "") + "/api/text/delete",
       {
         credentials: "include",
         method: "DELETE",
@@ -13,10 +13,10 @@ export const deleteTextForm = async (id) => {
         }),
       },
     );
-    const Resp = statusRequest.json();
+    const Resp = await statusRequest.json();
     return Resp;
   } catch (err) {
     console.error(err);
   }
 };
-// Comment
+

@@ -22,16 +22,17 @@ export const resetPasswordUpdate = async (request, response, next) => {
   } catch (err) {
     console.error(err.message);
   }
+  const clientUrl = process.env.CLIENT_URL || process.env.LOCALHOST || "https://frenhance.vendra.cfd";
   const html = EmailPasswordResetTemplate(
     User.username,
-    process.env.LOCALHOST + "/auth/password-reset/" + TokenObject.Token
+    `${clientUrl}/auth/password-reset/${TokenObject.Token}`
   );
 
   try {
-    sendVerification(User.email, "Password Reset Request", html);
+    await sendVerification(User.email, "Password Reset Request", html);
   } catch (err) {
-    console.error("Error Sending the Email \n ERROR MESSAGE:\n ", err.message);
+    console.error("[Password Reset] Error sending email:", err.message);
   }
-  sendVerification();
   return next();
 };
+

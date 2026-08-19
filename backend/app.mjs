@@ -13,8 +13,25 @@ dotenv.config();
 const app = express();
 await DBConnect();
 app.set("trust proxy", 1);
+
+const allowedOrigins = [
+  process.env.LOCALHOST,
+  process.env.CLIENT_URL,
+  "http://localhost:5173",
+  "http://localhost:8080",
+  "http://localhost:3000",
+  "https://frenhance.vendra.cfd",
+  "http://frenhance.vendra.cfd",
+].filter(Boolean);
+
 const corsOptions = {
-  origin: process.env.LOCALHOST,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== "production") {
+      callback(null, true);
+    } else {
+      callback(null, true);
+    }
+  },
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -25,11 +42,11 @@ app.use(syntaxError);
 
 app.use(
   session({
-    secret: process.env.SKEY,
+    secret: process.env.SKEY || "frenhance_default_secret_key_session",
     saveUninitialized: false,
     resave: false,
     cookie: {
-      // httpOnly: true,
+      httpOnly: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 3600 * 1000,
@@ -46,6 +63,8 @@ app.use(passport.session());
 
 app.use(routes);
 
-app.listen(3000, () => {
-  console.log("Listening to Port 3000");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`FrEnhance Backend listening on port ${port}`);
 });
+

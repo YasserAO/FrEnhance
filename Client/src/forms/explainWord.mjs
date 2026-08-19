@@ -1,6 +1,6 @@
 const fetchExplain = async (words, context) => {
   const responseAPI = await fetch(
-    import.meta.env.VITE_API_URL + "/api/generate/explain",
+    (import.meta.env.VITE_API_URL || "") + "/api/generate/explain",
     {
       credentials: "include",
       method: "POST",
@@ -17,3 +17,4 @@ const fetchExplain = async (words, context) => {
 };
 
 export default fetchExplain;
+

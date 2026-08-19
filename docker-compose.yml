@@ -1,0 +1,51 @@
+services:
+  frenhance-mongo:
+    image: mongo:7.0
+    container_name: frenhance-mongo
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - frenhance-mongo-data:/data/db
+    networks:
+      - frenhance-net
+      - localnetwork
+
+  frenhance-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: frenhance-backend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - frenhance-mongo
+    networks:
+      - frenhance-net
+      - localnetwork
+
+  frenhance:
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
+    container_name: frenhance
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5000:5000"
+    depends_on:
+      - frenhance-backend
+    networks:
+      - frenhance-net
+      - localnetwork
+
+volumes:
+  frenhance-mongo-data:
+
+networks:
+  frenhance-net:
+    driver: bridge
+  localnetwork:
+    external: true

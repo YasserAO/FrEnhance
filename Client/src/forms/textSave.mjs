@@ -1,6 +1,6 @@
 export const textSaveForm = async (title, text, savebutton) => {
   const responseAPI = await fetch(
-    import.meta.env.VITE_API_URL + "/api/save/text",
+    (import.meta.env.VITE_API_URL || "") + "/api/save/text",
     {
       credentials: "include",
       method: "POST",
@@ -16,3 +16,5 @@ export const textSaveForm = async (title, text, savebutton) => {
   );
   return await responseAPI.json();
 };
+
+

@@ -3,15 +3,19 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const URL = `mongodb+srv://${process.env.MONGODBACCT}:${process.env.MONGODBACCESS}@cluster0.kmyksfl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
+const URL =
+  process.env.MONGO_URI ||
+  process.env.MONGO_DOCKER_URI ||
+  "mongodb://127.0.0.1:27017/frenhance";
 
 const connectToDB = async () => {
   try {
-    const connected = await mongoose.connect(URL);
-    console.log("Connected to DataBase");
+    await mongoose.connect(URL);
+    console.log("Connected to DataBase at:", URL);
   } catch (err) {
-    console.log("not Connecting", err.message);
+    console.error("Database connection error:", err.message);
   }
 };
 
 export default connectToDB;
+

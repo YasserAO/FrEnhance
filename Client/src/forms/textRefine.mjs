@@ -1,6 +1,6 @@
 const textRfine = async (title, text, instruction) => {
   const responseAPI = await fetch(
-    import.meta.env.VITE_API_URL + "/api/generate/textRefine",
+    (import.meta.env.VITE_API_URL || "") + "/api/generate/textRefine",
     {
       credentials: "include",
       method: "POST",
@@ -18,3 +18,4 @@ const textRfine = async (title, text, instruction) => {
 };
 
 export default textRfine;
+

@@ -1,7 +1,7 @@
 export const passwordRequest = async (email) => {
   try {
     const statusRequest = await fetch(
-      import.meta.env.VITE_API_URL + "/api/password-reset-request",
+      (import.meta.env.VITE_API_URL || "") + "/api/password-reset-request",
       {
         credentials: "include",
         method: "POST",
@@ -13,9 +13,10 @@ export const passwordRequest = async (email) => {
         }),
       },
     );
-    const Resp = statusRequest.json();
+    const Resp = await statusRequest.json();
     return Resp;
   } catch (err) {
     console.log(err);
   }
 };
+

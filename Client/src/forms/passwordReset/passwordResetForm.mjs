@@ -1,7 +1,7 @@
 export const passwordReset = async (Token, password) => {
   try {
     const statusRequest = await fetch(
-      import.meta.env.VITE_API_URL + "/api/password-reset",
+      (import.meta.env.VITE_API_URL || "") + "/api/password-reset",
       {
         credentials: "include",
         method: "POST",
@@ -14,10 +14,10 @@ export const passwordReset = async (Token, password) => {
         }),
       },
     );
-    const Resp = statusRequest.json();
+    const Resp = await statusRequest.json();
     return Resp;
   } catch (err) {
     console.log(err);
-    console.log("Submitted");
   }
 };
+

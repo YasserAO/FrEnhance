@@ -1,6 +1,6 @@
 const urlVerificationForm = async (id) => {
   const responseAPI = await fetch(
-    import.meta.env.VITE_API_URL + "/api/user/email-verificationURL",
+    (import.meta.env.VITE_API_URL || "") + "/api/user/email-verificationURL",
     {
       credentials: "include",
       method: "POST",
@@ -16,3 +16,4 @@ const urlVerificationForm = async (id) => {
 };
 
 export default urlVerificationForm;
+

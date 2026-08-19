@@ -1,7 +1,7 @@
 export const textForm = async () => {
   try {
     const statusRequest = await fetch(
-      import.meta.env.VITE_API_URL + "/api/text",
+      (import.meta.env.VITE_API_URL || "") + "/api/text",
       {
         credentials: "include",
         method: "GET",
@@ -10,9 +10,10 @@ export const textForm = async () => {
         },
       },
     );
-    const Resp = statusRequest.json();
+    const Resp = await statusRequest.json();
     return Resp;
   } catch (err) {
     console.log(err);
   }
 };
+

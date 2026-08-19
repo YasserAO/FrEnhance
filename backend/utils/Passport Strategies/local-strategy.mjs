@@ -47,53 +47,55 @@ passport.use(
   })
 );
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/api/auth/google/callback",
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
-      try {
-        const user = await UserModel.findOne({ googleId: profile.id });
-        if (user) return done(null, user);
-      } catch (err) {
-        return done(err, null);
-      }
-
-      try {
-        const user = await UserModel.findOne({
-          email: profile.emails[0].value,
-        });
-        if (user) {
-          user.provider = "local-google";
-          user.googleId = profile.id;
-          await user.save();
-          done(null, user);
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "/api/auth/google/callback",
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        console.log(profile);
+        try {
+          const user = await UserModel.findOne({ googleId: profile.id });
+          if (user) return done(null, user);
+        } catch (err) {
+          return done(err, null);
         }
-      } catch (err) {
-        done(err, null);
-      }
-      try {
-        const tempUsername = await generateUniqueUsername(profile.displayName);
-        const user = await UserModel.insertOne({
-          firstName: profile.name.givenName,
-          lastName: profile.name.familyName,
-          provider: "google",
-          googleId: profile.id,
-          email: profile.emails[0].value,
-          pfp: profile.photos[0].value,
-          username: tempUsername,
-        });
 
-        done(null, user);
-      } catch (err) {
-        done(err, null);
+        try {
+          const user = await UserModel.findOne({
+            email: profile.emails[0].value,
+          });
+          if (user) {
+            user.provider = "local-google";
+            user.googleId = profile.id;
+            await user.save();
+            done(null, user);
+          }
+        } catch (err) {
+          done(err, null);
+        }
+        try {
+          const tempUsername = await generateUniqueUsername(profile.displayName);
+          const user = await UserModel.insertOne({
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+            provider: "google",
+            googleId: profile.id,
+            email: profile.emails[0].value,
+            pfp: profile.photos[0].value,
+            username: tempUsername,
+          });
+
+          done(null, user);
+        } catch (err) {
+          done(err, null);
+        }
       }
-    }
-  )
-);
+    )
+  );
+}
 
 export default passport;

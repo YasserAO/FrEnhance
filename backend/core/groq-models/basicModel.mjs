@@ -13,10 +13,9 @@ async function getGroqChatCompletion(msg) {
       },
     ],
     temperature: 0.2,
-    model: "llama-3.3-70b-versatile",
+    model: process.env.GROQ_MODEL || "openai/gpt-oss-120b",
   });
 }
-// llama-3.1-8b-instant
-// model: "llama-3.1-70b-versatile",
-// model: "llama-3.3-70b-specdec",
+
 export default getGroqChatCompletion;
+

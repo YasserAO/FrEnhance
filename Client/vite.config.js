@@ -6,6 +6,15 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 8080,
-    host: true,
+    host: "0.0.0.0",
+    allowedHosts: ["frenhance.vendra.cfd", "localhost", "127.0.0.1"],
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:3000",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 });
+

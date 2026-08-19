@@ -1,7 +1,7 @@
 export const loadEditedText = async () => {
   try {
     const editedResponse = await fetch(
-      import.meta.env.VITE_API_URL + "/api/text/editedtext",
+      (import.meta.env.VITE_API_URL || "") + "/api/text/editedtext",
       {
         credentials: "include",
         method: "GET",
@@ -14,10 +14,10 @@ export const loadEditedText = async () => {
       console.error("Wrong URL");
       return null;
     }
-    const Resp = editedResponse.json();
-    
+    const Resp = await editedResponse.json();
     return Resp;
   } catch (err) {
     console.error(err);
   }
 };
+

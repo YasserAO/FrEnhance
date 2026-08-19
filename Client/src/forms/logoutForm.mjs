@@ -1,7 +1,7 @@
-export const logoutForm = async (username, password) => {
+export const logoutForm = async () => {
   try {
-    const LogoutResponse = await fetch(
-      import.meta.env.VITE_API_URL + "/api/user/auth/logout",
+    const statusRequest = await fetch(
+      (import.meta.env.VITE_API_URL || "") + "/api/user/auth/logout",
       {
         credentials: "include",
         method: "POST",
@@ -10,7 +10,7 @@ export const logoutForm = async (username, password) => {
         },
       },
     );
-    const Resp = LogoutResponse.json();
+    const Resp = await statusRequest.json();
     return Resp;
   } catch (err) {
     console.log(err);

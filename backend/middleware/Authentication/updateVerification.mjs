@@ -54,14 +54,15 @@ export const updateVerification = async (request, response) => {
       .send({ status: 500, msg: "Something Went Wrong , try Again" });
   }
 
+  const clientUrl = process.env.CLIENT_URL || process.env.LOCALHOST || "https://frenhance.vendra.cfd";
   const html = EmailVerificationTemplate(
     User.firstName,
     User.verification.verificationToken,
-    process.env.LOCALHOST + "/email-verification/" + TokenObject.Token
+    `${clientUrl}/email-verification/${TokenObject.Token}`
   );
   try {
-    sendVerification(User.email, "Email Verification", html);
+    await sendVerification(User.email, "Verify Your Email Address", html);
   } catch (err) {
-    console.error("Error Sending the Email \n ERROR MESSAGE:\n ", err.message);
+    console.error("[Email Verification] Error sending email:", err.message);
   }
 };

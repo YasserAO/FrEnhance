@@ -1,6 +1,6 @@
 const textRegen = async (title, text, regen) => {
   const responseAPI = await fetch(
-    import.meta.env.VITE_API_URL + "/api/generate/textRegen",
+    (import.meta.env.VITE_API_URL || "") + "/api/generate/textRegen",
     {
       credentials: "include",
       method: "POST",
@@ -18,3 +18,4 @@ const textRegen = async (title, text, regen) => {
 };
 
 export default textRegen;
+

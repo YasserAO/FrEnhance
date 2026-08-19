@@ -19,7 +19,7 @@ export const Register = () => {
   const navigate = useNavigate();
   const [responseToggle, setResponseToggle] = useState(false);
 
-  const urlGoogle = import.meta.env.VITE_API_URL + "/api/user/auth/google";
+  const urlGoogle = (import.meta.env.VITE_API_URL || "") + "/api/user/auth/google";
 
   // Password Validation
   const [validPassword, setValidPassword] = useState(false);
@@ -50,7 +50,7 @@ export const Register = () => {
     setLoading(true);
     try {
       const RegRequest = await fetch(
-        import.meta.env.VITE_API_URL + "/api/user/reg",
+        (import.meta.env.VITE_API_URL || "") + "/api/user/reg",
         {
           credentials: "include",
           method: "POST",

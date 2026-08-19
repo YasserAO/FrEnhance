@@ -6,16 +6,11 @@ import { hashpassword } from "../../utils/func/helper.mjs";
 export const resetPasswordLink = async (request, response) => {
   const { Token, password } = matchedData(request);
   const now = new Date();
-  console.log("Your Token is :", Token);
   let TokenObject;
   try {
     TokenObject = await URLPassToken.findOne({ Token: Token });
     if (!TokenObject) throw Error("Token was not Found");
   } catch (err) {
-    console.error(
-      "Problem accured Trying to find the Token ERROR Message:\n",
-      err.message
-    );
     return response.status(200).send({
       status: 404,
       title: "Invalid Link",
@@ -23,20 +18,18 @@ export const resetPasswordLink = async (request, response) => {
     });
   }
   if (now > TokenObject.expiresAT) {
-    console.error("Token is expired");
     return response.status(200).send({
       status: 400,
       title: "Link Expired",
-      msg: "The link has expired. To verify your email, request a new link.",
+      msg: "The password reset link has expired. Please request a new one.",
     });
   }
 
   const User = await getUserByID(TokenObject.userID);
   if (!User) {
-    console.error("User doesn't exist");
     return response
       .status(200)
-      .send({ status: 404, msg: "User doesn't exist" });
+      .send({ status: 404, msg: "User does not exist" });
   }
 
   User.password = hashpassword(password);
@@ -46,18 +39,19 @@ export const resetPasswordLink = async (request, response) => {
     response.status(200).send({
       status: 200,
       title: "Password Changed Successfully",
-      msg: "Your password has been rest Successfully , Login to your Account with the new Password",
+      msg: "Your password has been reset successfully. You can now log in with your new password.",
     });
   } catch (err) {
-    response
+    return response
       .status(200)
-      .send({ status: 500, msg: "Something Went Wrong try later" });
+      .send({ status: 500, msg: "Something went wrong, please try again later" });
   }
 
   try {
     await TokenObject.deleteOne();
   } catch (err) {
-    console.error("Error Clearing used Token \nERROR MESSAGE: ", err.message);
+    console.warn("[Password Reset] Could not clear used token:", err.message);
   }
   return;
 };
+

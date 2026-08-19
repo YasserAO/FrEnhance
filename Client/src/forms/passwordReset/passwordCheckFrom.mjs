@@ -1,7 +1,7 @@
 export const passwordCheck = async (Token) => {
   try {
     const statusRequest = await fetch(
-      import.meta.env.VITE_API_URL + "/api/password-check",
+      (import.meta.env.VITE_API_URL || "") + "/api/password-check",
       {
         credentials: "include",
         method: "POST",
@@ -13,9 +13,10 @@ export const passwordCheck = async (Token) => {
         }),
       },
     );
-    const Resp = statusRequest.json();
+    const Resp = await statusRequest.json();
     return Resp;
   } catch (err) {
     console.log(err);
   }
 };
+
