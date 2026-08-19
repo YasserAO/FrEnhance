@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { AuthContext } from "../authProvider";
 import { motion, AnimatePresence } from "framer-motion";
 import SignIn from "./Buttons/singIn";
@@ -18,176 +18,196 @@ const NavBar = ({ auth }) => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const popupRef = useRef(null);
   const buttonRef = useRef(null);
+
   useClickOutside(popupRef, () => setToggleMenu(false), buttonRef);
-  const LogoHeaderOnly = () => (
-    <header className="relative flex h-[60px] w-full items-center justify-between bg-sky-900 px-3 sm:px-3 md:px-[10%]">
-      <Logo></Logo>
-    </header>
-  );
-  const navigation = auth ? (
-    LogoHeaderOnly()
-  ) : (
-    <header className="sticky top-0 z-50 flex h-[60px] w-full items-center justify-between bg-sky-900 px-3 sm:relative sm:px-3 md:px-[10%]">
-      <Logo></Logo>
 
-      <nav className="hidden w-1/2 gap-2 sm:flex">
-        <NavLink
-          to="/"
-          draggable={false}
-          className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
-        >
-          Home
-        </NavLink>
-        <NavLink
-          to="/features"
-          draggable={false}
-          className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
-        >
-          Features
-        </NavLink>
-        <NavLink
-          to="/about"
-          draggable={false}
-          className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
-        >
-          About
-        </NavLink>
-        <NavLink
-          to="/contact"
-          draggable={false}
-          className="text-md w-fit cursor-pointer select-none rounded-lg px-1 py-1 font-semibold text-white hover:underline hover:underline-offset-4"
-        >
-          Contact
-        </NavLink>
+  // Prevent background scroll when mobile drawer is open
+  useEffect(() => {
+    if (toggleMenu) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [toggleMenu]);
+
+  const navLinks = [
+    { to: "/", label: "Home" },
+    { to: "/features", label: "Features" },
+    { to: "/about", label: "About" },
+    { to: "/contact", label: "Contact" },
+  ];
+
+  if (auth) {
+    return (
+      <header className="relative flex h-14 w-full items-center justify-between border-b border-slate-700/80 bg-slate-900 px-4 md:px-[10%]">
+        <Logo />
+      </header>
+    );
+  }
+
+  return (
+    <header className="sticky top-0 z-50 flex h-14 w-full items-center justify-between border-b border-slate-800 bg-slate-900/95 px-4 shadow-md backdrop-blur-md md:px-[10%]">
+      <Logo />
+
+      {/* Desktop Navigation Links */}
+      <nav className="hidden items-center gap-1 sm:flex">
+        {navLinks.map((link) => (
+          <NavLink
+            key={link.to}
+            to={link.to}
+            className={({ isActive }) =>
+              `rounded-lg px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
+                isActive
+                  ? "bg-slate-800 text-amber-300"
+                  : "text-slate-300 hover:bg-slate-800/60 hover:text-white"
+              }`
+            }
+          >
+            {link.label}
+          </NavLink>
+        ))}
       </nav>
-      <div className="flex min-w-[150px] justify-end">
-        {isLogged == null ? (
-          <></>
-        ) : isLogged ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.1 }}
-            className="hidden h-fit items-center gap-2 sm:flex"
-          >
-            <NavLink
-              to="/dashboard"
-              draggable={false}
-              className="flex h-8 cursor-pointer select-none items-center gap-1 rounded-sm bg-[#f8e8c581] px-1"
-            >
-              <p className="font-semibold text-white">Dashboard</p>
-              <MdDashboardCustomize
-                size={"1.5rem"}
-                color="#fff"
-              ></MdDashboardCustomize>
-            </NavLink>
-            <LogoAvatar setMenuDropDown={setMenuDropDown}></LogoAvatar>
 
-            <AnimatePresence>
-              {menuDropDown && <UserDropDownMenu userForm={userForm} />}
-            </AnimatePresence>
-          </motion.div>
+      {/* Desktop Right User / Auth */}
+      <div className="hidden items-center gap-3 sm:flex">
+        {isLogged === null ? null : isLogged ? (
+          <div className="flex items-center gap-3">
+            <Link
+              to="/dashboard"
+              className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-sky-700 px-3.5 py-1.5 text-xs font-semibold text-white shadow transition-all hover:from-sky-500 hover:to-sky-600 active:scale-95"
+            >
+              <span>Dashboard</span>
+              <MdDashboardCustomize size="1.1rem" />
+            </Link>
+
+            <div className="relative">
+              <LogoAvatar setMenuDropDown={setMenuDropDown} />
+              <AnimatePresence>
+                {menuDropDown && <UserDropDownMenu userForm={userForm} />}
+              </AnimatePresence>
+            </div>
+          </div>
         ) : (
-          <motion.ul
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.1 }}
-            className="hidden gap-3 sm:flex"
-          >
-            <li>
-              <SignIn></SignIn>
-            </li>
-            <li>
-              <SignUp></SignUp>
-            </li>
-          </motion.ul>
+          <div className="flex items-center gap-2">
+            <SignIn />
+            <SignUp />
+          </div>
         )}
       </div>
 
+      {/* Mobile Burger Trigger */}
       <BurgerMenu
         buttonRef={buttonRef}
         setToggleMenu={setToggleMenu}
         toggleMenu={toggleMenu}
-      ></BurgerMenu>
+      />
 
-      {/* Mobile Navigation Menu */}
-
+      {/* Mobile Drawer & Backdrop */}
       <AnimatePresence>
         {toggleMenu && (
-          <motion.div
-            ref={popupRef}
-            initial={{ width: 0 }}
-            animate={{ width: `100%` }}
-            exit={{ width: 0 }}
-            className={`b absolute right-0 top-0 flex h-svh w-full max-w-[300px] flex-col overflow-hidden bg-slate-800 pt-[60px] sm:hidden`}
-          >
-            {isLogged ? (
-              <>
-                <Link
-                  to="/dashboard"
-                  className="mx-auto flex w-fit cursor-pointer select-none items-center gap-1 rounded-md bg-[#f8e8c581] px-3 py-2"
-                >
-                  <p className="font-semibold text-white">Dashboard</p>
-                  <MdDashboardCustomize
-                    size={"1.5rem"}
-                    color="#fff"
-                  ></MdDashboardCustomize>
-                </Link>
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              onClick={() => setToggleMenu(false)}
+              className="fixed inset-0 z-40 bg-slate-950/70 backdrop-blur-xs sm:hidden"
+            />
 
-                <div className="absolute bottom-0 flex h-12 w-full -translate-y-1/2 items-center justify-center gap-3">
-                  <div className="flex items-center gap-1">
-                    <LogoAvatar
-                      user={userForm.firstName + " " + userForm.lastName}
-                    ></LogoAvatar>
-                    <p className="text-white">
-                      {userForm.firstName + " " + userForm.lastName}
-                    </p>
-                  </div>
-                  <LogoutButton></LogoutButton>
-                </div>
-              </>
-            ) : (
-              <div className="flex h-12 items-center justify-center gap-4 bg-slate-600 px-10">
-                <SignIn></SignIn>
-                <SignUp></SignUp>
-              </div>
-            )}
-            <div
-              draggable={false}
-              className="flex h-full flex-col gap-4 px-5 py-10 text-xl text-white"
+            <motion.div
+              ref={popupRef}
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "tween", duration: 0.2 }}
+              className="fixed right-0 top-0 z-50 flex h-dvh w-72 max-w-[85vw] flex-col justify-between overflow-y-auto overscroll-contain border-l border-slate-700/80 bg-slate-900 p-6 shadow-2xl sm:hidden"
             >
-              <NavLink
-                to="/"
-                className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
-              >
-                Home
-              </NavLink>
-              <NavLink
-                to="/features"
-                className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
-              >
-                Features
-              </NavLink>
-              <NavLink
-                to="/about"
-                className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
-              >
-                About
-              </NavLink>
-              <NavLink
-                to="/contact"
-                className="cursor-pointer select-none rounded-sm bg-slate-700 py-2 pl-2 hover:bg-slate-900 active:bg-slate-900"
-              >
-                Contact Us
-              </NavLink>
-            </div>
-          </motion.div>
+              <div className="space-y-6">
+                {/* Header with User Info or Auth */}
+                <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                  {isLogged ? (
+                    <div className="flex items-center gap-3">
+                      <LogoAvatar
+                        user={userForm.firstName + " " + userForm.lastName}
+                      />
+                      <div>
+                        <p className="text-sm font-semibold text-white">
+                          {userForm.firstName} {userForm.lastName}
+                        </p>
+                        <p className="truncate text-xs text-slate-400">
+                          {userForm.email}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                      Menu
+                    </span>
+                  )}
+                  <button
+                    onClick={() => setToggleMenu(false)}
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {isLogged && (
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setToggleMenu(false)}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-sky-600 py-2.5 text-xs font-semibold text-white shadow hover:bg-sky-500"
+                  >
+                    <span>Open Dashboard</span>
+                    <MdDashboardCustomize size="1.1rem" />
+                  </Link>
+                )}
+
+                {/* Nav Links */}
+                <nav className="flex flex-col gap-1.5">
+                  {navLinks.map((link) => (
+                    <NavLink
+                      key={link.to}
+                      to={link.to}
+                      onClick={() => setToggleMenu(false)}
+                      className={({ isActive }) =>
+                        `rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+                          isActive
+                            ? "bg-slate-800 text-amber-300 font-semibold"
+                            : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                        }`
+                      }
+                    >
+                      {link.label}
+                    </NavLink>
+                  ))}
+                </nav>
+              </div>
+
+              {/* Bottom Actions */}
+              <div className="border-t border-slate-800 pt-4">
+                {isLogged ? (
+                  <div className="flex items-center justify-between text-xs text-slate-400">
+                    <span>Log out</span>
+                    <LogoutButton />
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-between gap-3">
+                    <SignIn />
+                    <SignUp />
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </header>
   );
-
-  return navigation;
 };
 
 export default NavBar;

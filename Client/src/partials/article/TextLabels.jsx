@@ -18,7 +18,7 @@ export const TextLabels = ({
   return (
     <>
       {/* DesktopVersion */}
-      <div className="flex flex-col">
+      <div className="flex h-full flex-col justify-between">
         {displayShowMore && myTexts.length > 0 && (
           <div className="mb-3 flex items-center justify-between px-1 text-xs text-slate-400">
             <button
@@ -42,7 +42,8 @@ export const TextLabels = ({
             </button>
           </div>
         )}
-        <div className="max-h-[calc(100vh-280px)] space-y-2.5 overflow-y-auto pr-1 pb-16">
+
+        <div className="flex-1 min-h-0 space-y-2.5 overflow-y-auto pr-1">
           <AnimatePresence>
             {emptyText || myTexts.length === 0 ? (
               <motion.div
@@ -78,25 +79,28 @@ export const TextLabels = ({
             )}
           </AnimatePresence>
         </div>
-        {readMode ? (
-          <button
-            onClick={() => {
-              navigate(-1);
-            }}
-            className="absolute bottom-3 left-4 right-4 rounded-lg bg-red-600/90 py-2 text-xs font-semibold text-white shadow transition-all hover:bg-red-500"
-          >
-            ← Exit Reading Mode
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              navigate("readmode");
-            }}
-            className="absolute bottom-3 left-4 right-4 rounded-lg bg-sky-700 py-2 text-xs font-semibold text-white shadow transition-all hover:bg-sky-600"
-          >
-            📖 Read Mode
-          </button>
-        )}
+
+        <div className="mt-3 pt-2">
+          {readMode ? (
+            <button
+              onClick={() => {
+                navigate(-1);
+              }}
+              className="w-full rounded-xl bg-red-600/90 py-2.5 text-xs font-semibold text-white shadow transition-all hover:bg-red-500"
+            >
+              ← Exit Reading Mode
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                navigate("readmode");
+              }}
+              className="w-full rounded-xl bg-sky-600 py-2.5 text-xs font-semibold text-white shadow transition-all hover:bg-sky-500"
+            >
+              📖 Open Reader Mode
+            </button>
+          )}
+        </div>
       </div>
     </>
   );
