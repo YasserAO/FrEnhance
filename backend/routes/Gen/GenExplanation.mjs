@@ -22,7 +22,7 @@ router.post(
     const myMessage = ExplainWords(context, words);
     const Purchase = await coinsConsume(User.id);
     if (Purchase) {
-      const myRespone = await chatCompletion(myMessage, 0);
+      const myRespone = await chatCompletion(myMessage, 1, 0.2);
       if (!myRespone)
         return res.status(200).send({ status: 204, msg: "No response" });
       const resultJSON = textToJsonExplanation(myRespone);
@@ -30,10 +30,11 @@ router.post(
         .status(200)
         .send({ status: 200, msg: "success", content: resultJSON });
     } else {
-      return response.status(200).send({ msg: "Not Enough Credits" });
+      return res.status(200).send({ status: 402, msg: "Not Enough Credits" });
     }
   }
 );
+
 
 // router.post("/api/generate/correct", isLoggedIn, async (request, response) => {
 //   const { myinput } = request.body;

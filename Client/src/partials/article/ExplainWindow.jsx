@@ -11,129 +11,143 @@ export const ExplainWindow = ({
   setExplainMenuToggle,
 }) => {
   const { fetchCoins, config } = useContext(AuthContext);
-  const explainCost = config.explain;
+  const explainCost = config?.explain ?? 10;
   const [explained, setExplained] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [explanation, setExplanation] = useState("");
   const [examples, setExamples] = useState([]);
 
   const handleExplanation = async () => {
     setExplained(false);
+    setErrorMsg("");
     setLoading(true);
-    const fetchData = async () => {
-      try {
-        const data = await fetchExplain(selectedText, anchor);
-        return data.content;
-      } catch (err) {
-        console.error(err.message);
-        return null;
+    try {
+      const data = await fetchExplain(selectedText, anchor);
+      if (data && data.status === 200 && data.content) {
+        fetchCoins();
+        setExplanation(data.content.explanation || "");
+        setExamples(data.content.examples || []);
+        setExplained(true);
+      } else {
+        setErrorMsg(data?.msg || "Could not generate explanation");
       }
-    };
-
-    const myData = await fetchData();
-    if (myData == null) {
-      console.log("No Data");
-    } else {
-      fetchCoins();
-      setExplanation(myData.explanation);
-      setExamples(myData.examples);
-      setExplained(true);
+    } catch (err) {
+      console.error(err);
+      setErrorMsg("Failed to connect to explanation service");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="transpare fixed right-0 top-0 z-50 flex h-full w-full items-center justify-center rounded-md bg-slate-900 bg-opacity-30 backdrop-blur-sm sm:absolute"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm"
     >
-      <div className="relative w-full max-w-80 rounded-md bg-white px-4 pb-16 sm:max-w-[500px]">
+      <div className="relative w-full max-w-lg rounded-2xl border border-slate-700/80 bg-slate-800 p-6 shadow-2xl">
         <button
           onClick={() => {
             setExplainMenuToggle(false);
             setSelectedText("");
           }}
-          className="absolute right-0 top-0 hidden h-10 w-10 scale-50 opacity-50 sm:block"
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-slate-700 hover:text-white"
+          aria-label="Close"
         >
-          <span className="absolute block h-1 w-full rotate-45 bg-black"></span>
-          <span className="absolute block h-1 w-full -rotate-45 bg-black"></span>
+          ✕
         </button>
+
+        <h3 className="mb-3 text-lg font-bold text-white">
+          Explain French Word / Phrase
+        </h3>
+
+        <div className="mb-4 rounded-xl border border-slate-700 bg-slate-900/80 p-3">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            Selected:
+          </p>
+          <p className="mt-1 text-base font-medium text-amber-300">
+            "{selectedText}"
+          </p>
+        </div>
+
+        {errorMsg && (
+          <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-400">
+            {errorMsg}
+          </div>
+        )}
 
         {explained && (
           <motion.div
-            initial={{ opacity: 0, maxHeight: 0 }}
-            animate={{ opacity: 1, maxHeight: 500 }}
-            exit={{ opacity: 0, maxHeight: 0 }}
-            className=""
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-4"
           >
-            <div className="mt-10">
-              <h2 className="mb-2 text-center font-semibold">
-                Explanation of :
-                <span className="rounded-md bg-gray-200 px-1 py-1">
-                  {selectedText}
-                </span>
-              </h2>
-
-              <p className="text-md mx-auto w-fit rounded-md bg-slate-100 px-2 py-1">
+            <div>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Explanation:
+              </h4>
+              <p className="mt-1 rounded-xl border border-slate-700/60 bg-slate-900/50 p-3 text-sm leading-relaxed text-slate-200">
                 {explanation}
               </p>
             </div>
-            <div>
-              <h2 className="my-2 font-semibold">Examples :</h2>
-              <ul className="max-h-52 list-inside list-disc overflow-y-auto py-2">
-                {examples.map((element, index) => (
-                  <li
-                    className="text-md mx-auto mb-2 flex-grow rounded-md bg-slate-100 px-2 py-1 last:mb-0"
-                    key={index + 1}
-                  >
-                    {element}
-                  </li>
-                ))}
-              </ul>
-            </div>
+
+            {examples && examples.length > 0 && (
+              <div>
+                <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                  Examples:
+                </h4>
+                <ul className="max-h-48 space-y-2 overflow-y-auto pr-1">
+                  {examples.map((element, index) => (
+                    <li
+                      className="rounded-lg border border-slate-700/40 bg-slate-900/40 p-2.5 text-xs italic text-slate-300"
+                      key={index}
+                    >
+                      • {element}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </motion.div>
         )}
 
-        {!explained && (
-          <p className="text-md mx-auto mt-10 w-fit rounded-md bg-slate-100 px-2 py-1 font-semibold">
-            {selectedText}
-          </p>
-        )}
-        <div className="absolute bottom-2 right-1/2 flex translate-x-1/2 gap-2">
-          {loading ? (
-            <div className="h-10">
-              <SpinLoad />
-            </div>
-          ) : (
-            !explained && (
-              <button
-                onClick={() => {
-                  handleExplanation();
-                }}
-                className="flex h-10 items-center gap-2 rounded-sm bg-sky-500 px-4 font-semibold text-white"
-              >
-                <p>Explain</p>
-                <div className="flex items-center">
-                  <img
-                    className="block h-3 w-full"
-                    src="/diamondIcon.png"
-                    alt=""
-                  />
-                  <p className="w-full">{explainCost}</p>
-                </div>
-              </button>
-            )
-          )}
-          {!loading && (
+        <div className="mt-6 flex items-center justify-end gap-3">
+          <button
+            onClick={() => {
+              setExplainMenuToggle(false);
+              setSelectedText("");
+            }}
+            className="rounded-lg border border-slate-600 px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-700 hover:text-white"
+          >
+            {explained ? "Done" : "Cancel"}
+          </button>
+
+          {!explained && (
             <button
-              onClick={() => {
-                setExplainMenuToggle(false);
-                setSelectedText("");
-              }}
-              className="h-10 w-20 rounded-sm bg-red-500 font-semibold text-white active:scale-105 sm:hidden"
+              onClick={handleExplanation}
+              disabled={loading}
+              className="flex items-center gap-2 rounded-lg bg-sky-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all hover:bg-sky-500 disabled:opacity-50"
             >
-              Exit
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <SpinLoad />
+                  <span>Explaining...</span>
+                </div>
+              ) : (
+                <>
+                  <span>Explain</span>
+                  <div className="flex items-center gap-1 rounded bg-slate-900/60 px-1.5 py-0.5 text-xs text-amber-300">
+                    <img
+                      className="h-3 w-3"
+                      src="/diamondIcon.png"
+                      alt="coins"
+                    />
+                    <span>{explainCost}</span>
+                  </div>
+                </>
+              )}
             </button>
           )}
         </div>
@@ -141,3 +155,4 @@ export const ExplainWindow = ({
     </motion.div>
   );
 };
+
