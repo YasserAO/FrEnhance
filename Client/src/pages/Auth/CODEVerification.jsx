@@ -121,8 +121,8 @@ const Verify = () => {
     if (response.status === 200) {
       setReserror(false);
       setTimeout(() => {
-        window.location.href = "/";
-      }, 2000);
+        window.location.href = "/dashboard";
+      }, 1500);
     }
     setMessage(response.msg);
     setLoading(false);

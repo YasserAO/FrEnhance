@@ -9,64 +9,61 @@ export const TextLabelsMobile = ({ emptyText, readMode, myTexts }) => {
   const [textMenuToggle, setTextMenuToggle] = useState(false);
   const navigate = useNavigate();
   return (
-    <div className="select-none md:hidden">
-      <div className="mb-2 mt-5 flex flex-col justify-center gap-1">
-        <div className="mx-auto w-[90%] rounded-sm bg-slate-900 px-9 py-2">
-          <h1 className="text-center text-white">My recent Text</h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            key={textMenuToggle ? 0 : 1}
-            className="text-center text-sm font-semibold text-gray-500"
-          >
-            {textMenuToggle ? `Show  Less` : `Show More`}
-          </motion.p>
-        </div>
+    <div className="select-none px-4 md:hidden">
+      <div className="mb-3 mt-4 flex flex-col gap-2">
         <button
           onClick={() => {
             setMobileShowMore((prev) =>
-              prev == myTexts.length ? 0 : myTexts.length,
+              prev === myTexts.length ? 0 : myTexts.length,
             );
             setTextMenuToggle((prev) => !prev);
           }}
-          className={`mx-auto block rounded-sm bg-gray-900 px-10 py-1 text-white`}
+          className="flex w-full items-center justify-between rounded-xl bg-slate-900 px-4 py-2.5 text-white transition-all hover:bg-slate-950"
         >
-          <div
-            className={` ${mobileShowMore !== myTexts.length && `-scale-y-100`} transition-all duration-200`}
-          >
-            <FaAnglesUp></FaAnglesUp>
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-200">
+            Recent Texts ({myTexts.length})
+          </span>
+          <div className="flex items-center gap-1.5 text-xs text-sky-400">
+            <span>{textMenuToggle ? "Hide" : "Show"}</span>
+            <div
+              className={`${mobileShowMore !== myTexts.length && "-scale-y-100"} transition-transform duration-200`}
+            >
+              <FaAnglesUp size="0.75rem" />
+            </div>
           </div>
         </button>
       </div>
 
       <div
-        className={`min-h-0 overflow-hidden overflow-y-auto px-3 transition-all ${textMenuToggle ? `max-h-[300px]` : `max-h-0`} `}
+        className={`overflow-hidden transition-all duration-200 ${
+          textMenuToggle ? "max-h-[350px] overflow-y-auto pb-4" : "max-h-0"
+        }`}
       >
         <AnimatePresence>
-          {emptyText ? (
-            <p className="text-center text-base font-semibold text-gray-500">
-              Your list is Empty please Generate a text
+          {emptyText || myTexts.length === 0 ? (
+            <p className="rounded-lg border border-dashed border-slate-700 p-4 text-center text-xs text-slate-400">
+              Your list is empty. Generate a text to get started!
             </p>
           ) : (
-            myTexts
-              .map((element, index) => (
-                <motion.div
-                  onClick={() => {
-                    navigate("readmode/" + element.id);
-                  }}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  key={index}
-                  className={`mb-3 cursor-pointer select-none overflow-hidden rounded-sm bg-slate-400 px-1 py-1 transition-all duration-150`}
-                >
-                  <h2 className="font-semibold">
-                    {extract(element.title, 2)}...
-                  </h2>
-                  <p className="text-sm">{extract(element.text[0], 5)}...</p>
-                </motion.div>
-              ))
-              .filter((element, index) => index < mobileShowMore)
+            myTexts.map((element, index) => (
+              <motion.div
+                onClick={() => {
+                  navigate("readmode/" + element.id);
+                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                key={element.id || index}
+                className="mb-2 cursor-pointer select-none rounded-xl border border-slate-700/60 bg-slate-900/60 p-3 transition-colors hover:border-sky-500 hover:bg-slate-900"
+              >
+                <h2 className="text-xs font-semibold text-white">
+                  {extract(element.title, 6)}
+                </h2>
+                <p className="mt-0.5 text-[11px] text-slate-400 line-clamp-1">
+                  {extract(element.text?.[0] || "", 10)}
+                </p>
+              </motion.div>
+            ))
           )}
         </AnimatePresence>
       </div>

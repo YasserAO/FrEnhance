@@ -1,56 +1,66 @@
 const Features = () => {
   const content = {
-    header: "Features",
-    desc: "Explore powerful tools to generate, customize, and save French texts tailored to your needs. From simplicity to sophistication, frEnhance adapts to every user.",
+    header: "Powerful Learning Features",
+    desc: "Explore intelligent tools to generate, customize, and save French texts tailored to your learning goals. From beginner simplicity to advanced fluency, FrEnhance adapts to your journey.",
     features: [
       {
+        icon: "✨",
         title: "Theme-Based Text Generation",
         content:
-          "Provide a theme, title, or idea to instantly generate structured content with a title and paragraphs.",
+          "Provide any topic, title, or interest to instantly generate structured French stories with titles and formatted paragraphs.",
       },
       {
-        title: "Adjustable Difficulty Levels",
+        icon: "📊",
+        title: "CEFR Difficulty Levels",
         content:
-          "Customize text complexity, from beginner-friendly simplicity to advanced, detailed narratives.",
+          "Easily adjust text complexity from beginner (A1/A2) to intermediate (B1/B2) and advanced (C1/C2) vocabulary.",
       },
       {
-        title: "Word Explanation",
+        icon: "💡",
+        title: "Instant Word & Phrase Explanation",
         content:
-          "Select any word within the generated text to receive definitions and contextual examples, aiding in comprehension and learning.",
+          "Highlight any French word or sentence in real time to get French explanations and clear contextual usage examples.",
       },
       {
-        title: "Save and Read Later",
+        icon: "📖",
+        title: "Personal Library & Reader Mode",
         content:
-          "Securely save generated texts for future reference, with an optimized read mode for distraction-free review.",
+          "Save your generated articles to your account to practice reading in a clean, distraction-free environment.",
       },
     ],
   };
   return (
-    <>
-      {/* Intro */}
-      <div className="relative min-h-56 bg-mainBody py-10 lg:min-h-72 lg:py-20">
-        <h1 className="mb-5 text-center text-4xl font-bold text-white">
+    <div className="bg-slate-900 px-4 py-16 sm:px-6 lg:px-8">
+      {/* Header */}
+      <div className="mx-auto max-w-3xl text-center">
+        <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
           {content.header}
         </h1>
-        <p className="mx-auto max-w-72 text-center text-white md:max-w-[500px] lg:max-w-[800px]">
+        <p className="mt-4 text-base leading-relaxed text-slate-300">
           {content.desc}
         </p>
       </div>
 
-      {/* Features */}
-      <div className="grid grid-cols-1 gap-x-8 gap-y-8 bg-mainBody px-5 py-10 sm:grid-cols-2 md:px-[10%] lg:grid-cols-4">
+      {/* Feature Cards Grid */}
+      <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {content.features.map((feature, index) => (
           <div
-            className="min-h-36 rounded-lg bg-white px-5 py-3"
-            key={index + Math.random()}
+            key={index}
+            className="flex flex-col justify-start rounded-2xl border border-slate-700/60 bg-slate-800/80 p-6 shadow-xl backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-500/50 hover:shadow-sky-500/10"
           >
-            <h2 className="py-2 text-center font-semibold">{feature.title}</h2>
-            <p className="text-center">{feature.content}</p>
+            <div className="mb-4 text-3xl">{feature.icon}</div>
+            <h2 className="mb-2 text-base font-bold text-white">
+              {feature.title}
+            </h2>
+            <p className="text-xs leading-relaxed text-slate-300">
+              {feature.content}
+            </p>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
 export default Features;
+

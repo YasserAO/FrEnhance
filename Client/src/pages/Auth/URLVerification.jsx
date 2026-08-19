@@ -42,8 +42,8 @@ const URLVerification = () => {
         if (response.status == 200) {
           setColor(true);
           setTimeout(() => {
-            window.location.href = "/";
-          }, 2000);
+            window.location.href = "/dashboard";
+          }, 1500);
         }
         if (response.title) {
           setTitle(response.title);

@@ -12,8 +12,8 @@ router.get(
 router.get(
   "/api/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: `${process.env.LOCALHOST}/auth/login`,
-    successRedirect: process.env.LOCALHOST,
+    failureRedirect: `${process.env.LOCALHOST || ""}/auth/login`,
+    successRedirect: `${process.env.LOCALHOST || ""}/dashboard`,
   })
 );
 

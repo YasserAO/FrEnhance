@@ -26,8 +26,8 @@ export const Login = () => {
       setReserror(false);
       setMessage(data.msg || "Login Successful");
       setTimeout(() => {
-        window.location.href = "/";
-      }, 1500);
+        window.location.href = "/dashboard";
+      }, 1200);
     } else {
       setMessage(data?.msg || "Invalid username or password");
       setReserror(true);

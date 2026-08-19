@@ -1,86 +1,87 @@
 const About = () => {
   const content = {
     header: "The Story Behind FrenchEnhance",
-    desc: "FrenchEnhance was born from the idea of simplifying learning French through reading. The goal was to create a tool that generates customized French texts to improve reading skills while offering instant explanations for selected words or phrases without needing third-party translation tools.",
+    desc: "FrenchEnhance was created to make French language immersion accessible, engaging, and personalized. By blending generative AI with pedagogical reading tools, learners can read authentic French stories tailored to their exact proficiency level with instant contextual support.",
     blocks: [
       {
-        title: "Responsible AI Usage",
+        title: "Responsible AI Learning",
         content:
-          "While you can use the generated texts anywhere, keep in mind that the information provided is AI-generated. For specific individuals or subjects where precision is crucial, ensure accuracy by consulting additional trusted sources.",
+          "Our AI generates contextual stories designed for vocabulary acquisition, reading fluency, and cultural discovery. All texts are crafted with safe, educational, and family-friendly standards.",
       },
       {
         title: "About the Creator",
       },
       {
-        title: "Powered by Innovation",
+        title: "Powered by Groq",
       },
     ],
   };
+
   const aboutCreator = () => (
     <>
-      FrenchEnhance was developed by{" "}
+      Developed by{" "}
       <a
         href="https://github.com/YasserAO"
-        className="font-semibold text-gray-600"
+        className="font-semibold text-amber-300 transition-colors hover:underline"
         target="_blank"
+        rel="noopener noreferrer"
       >
         YasserAO
       </a>
-      , a web developer who initially created the project to support his own
-      journey of learning French. Seeing its potential to benefit others, he
-      chose to share the tool with anyone seeking to improve their command of
-      the French language.
+      , a full-stack engineer and French learner. Created to eliminate the friction of switching between reading apps and dictionary tools during French language study.
     </>
   );
-  const AboutGroq = () => (
+
+  const aboutGroq = () => (
     <>
-      This project leverages the{" "}
+      Powered by the ultra-fast{" "}
       <a
         href="https://groq.com/"
-        className="font-semibold text-orange-400"
+        className="font-semibold text-sky-400 transition-colors hover:underline"
         target="_blank"
+        rel="noopener noreferrer"
       >
-        Groq API
+        Groq LPU Engine
       </a>
-      , a cutting-edge AI text generation tool. Groq empowers developers to
-      build creative and user-friendly applications, ensuring a seamless
-      experience for all.
+      , providing near-instantaneous text generation, explanation parsing, and seamless learning interactions.
     </>
   );
 
   return (
-    <>
-      {/* Intro */}
-      <div className="relative min-h-56 bg-mainBody py-10 lg:min-h-72 lg:py-20">
-        <h1 className="mb-5 text-center text-4xl font-bold text-white">
+    <div className="bg-slate-900 px-4 py-16 sm:px-6 lg:px-8">
+      {/* Header */}
+      <div className="mx-auto max-w-3xl text-center">
+        <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
           {content.header}
         </h1>
-        <p className="mx-auto max-w-80 text-center text-white md:max-w-[500px] lg:max-w-[800px]">
+        <p className="mt-4 text-base leading-relaxed text-slate-300">
           {content.desc}
         </p>
       </div>
 
-      {/* Features */}
-      <div className="grid- grid grid-cols-1 gap-x-8 gap-y-8 bg-mainBody px-5 py-10 sm:grid-cols-2 md:px-[10%] lg:grid-cols-3">
+      {/* Cards Grid */}
+      <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {content.blocks.map((feature, index) => (
           <div
-            className={`${index == 2 && "sm:col-span-2 lg:col-span-1"} min-h-36 rounded-lg bg-white px-5 py-3`}
-            key={index + Math.random()}
+            className="flex flex-col justify-start rounded-2xl border border-slate-700/60 bg-slate-800/80 p-6 shadow-xl backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-500/50"
+            key={index}
           >
-            <h2 className="py-2 text-center font-semibold">{feature.title}</h2>
-            <p className="text-center">
-              {" "}
-              {index == 1
+            <h2 className="mb-3 text-base font-bold text-white">
+              {feature.title}
+            </h2>
+            <div className="text-xs leading-relaxed text-slate-300">
+              {index === 1
                 ? aboutCreator()
-                : index == 2
-                  ? AboutGroq()
-                  : feature.content}
-            </p>
+                : index === 2
+                ? aboutGroq()
+                : feature.content}
+            </div>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
 export default About;
+

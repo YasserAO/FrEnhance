@@ -1,45 +1,57 @@
 const Contact = () => {
   return (
-    <>
-      <div className="px-3 py-10 md:px-[10%]">
-        <div className="mb-5">
-          <h1 className="mb-5 text-center text-4xl font-bold text-white">
-            Reach Out to Us
-          </h1>
-          <p className="mx-auto max-w-80 text-center text-white md:max-w-[500px] lg:max-w-[800px]">
-            Have questions or feedback? We’re here to help. Reach out through
-            the following{" "}
-          </p>
-        </div>
-        <div className="mx-auto mb-10 flex w-fit flex-col gap-5 rounded bg-white px-3 py-5 md:px-20">
-          <p className="">
-            <span className="font-semibold">Email: </span>
-            <a
-              target="_blank"
-              href="mailto:contact@frenhance.com"
-              className="font-semibold text-sky-600"
-            >
-              contact@frenhance.com
-            </a>
-          </p>
-          <p>
-            <span className="font-semibold">GitHub: </span>
-            <a
-              target="_blank"
-              href="https://github.com/YasserAO"
-              className="font-semibold text-sky-600"
-            >
-              YasserAO
-            </a>
-          </p>
-        </div>
-        <p className="text-center text-white">
-          Our support team is ready to assist you and ensure a seamless
-          experience. Your input helps us improve and serve you better.
+    <div className="bg-slate-900 px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-2xl text-center">
+        <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          Get in Touch
+        </h1>
+        <p className="mt-4 text-base leading-relaxed text-slate-300">
+          Have questions, suggestions, or feedback on FrenchEnhance? We'd love to hear from you.
         </p>
       </div>
-    </>
+
+      <div className="mx-auto mt-10 max-w-md rounded-2xl border border-slate-700/60 bg-slate-800/90 p-8 shadow-2xl backdrop-blur-sm">
+        <div className="space-y-6">
+          <div className="flex items-center gap-4 rounded-xl border border-slate-700/50 bg-slate-900/60 p-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-sky-500/10 text-xl text-sky-400">
+              ✉️
+            </div>
+            <div>
+              <p className="text-xs font-medium text-slate-400">Email Support</p>
+              <a
+                href="mailto:contact@frenhance.com"
+                className="text-sm font-semibold text-sky-400 transition-colors hover:underline"
+              >
+                contact@frenhance.com
+              </a>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 rounded-xl border border-slate-700/50 bg-slate-900/60 p-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500/10 text-xl text-amber-300">
+              💻
+            </div>
+            <div>
+              <p className="text-xs font-medium text-slate-400">GitHub Repository</p>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/YasserAO"
+                className="text-sm font-semibold text-amber-300 transition-colors hover:underline"
+              >
+                github.com/YasserAO
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p className="mx-auto mt-8 max-w-md text-center text-xs text-slate-400">
+        Our team is committed to continuous improvements. Thank you for being part of the FrEnhance community!
+      </p>
+    </div>
   );
 };
 
 export default Contact;
+

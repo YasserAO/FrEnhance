@@ -2,96 +2,119 @@ import { Link } from "react-router-dom";
 
 export const Home = () => {
   const content = {
-    header: "French Enhance",
-    desc: "Simplify your French writing with FrenchEnhance, a practical and user-friendly tool. Bring your ideas to life with customized contentdesigned to meet your specific needs.",
+    header: "FrenchEnhance",
+    desc: "Simplify and master your French learning with FrenchEnhance. Generate customized, level-adaptive French stories and articles with instant phrase explanations and interactive reading tools.",
     blocks: [
       {
-        title: "What's French Enhance",
+        title: "What is FrenchEnhance?",
         content:
-          "Welcome to frEnhance, a reliable platform crafted to elevate how you approach French writing. Whether you’re working on a project, writing an article, or delving into the complexities of the French language, frEnhance adapts to your unique requirements. Our tool is built to make writing straightforward and efficient, empowering you to focus on your ideas while we handle the details.",
+          "Welcome to FrEnhance, a modern educational platform crafted to elevate how you read and learn French. Whether you are practicing for DELF/DALF certifications, improving reading comprehension, or exploring everyday conversational French, FrEnhance adapts to your unique learning pace. Focus on your language growth while our AI crafts tailored texts.",
       },
       {
         title: "Why Choose Us?",
         content: [
           {
-            title: "Simple and Powerful",
-            content: "Generate compelling and unique content effortlessl.",
+            title: "Simple & Powerful",
+            content: "Generate compelling, natural French texts across CEFR levels (A1 to C2) effortlessly.",
           },
           {
-            title: "Versatile Applications",
+            title: "Instant Explanations",
             content:
-              "Perfect for students, writers, professionals, and anyone needing quality content.",
+              "Select any French phrase or word to get instant contextual explanations and practical examples.",
           },
           {
-            title: "Save Time and Energy",
+            title: "Distraction-Free Reading",
             content:
-              "Focus on your ideas and goals while FrEnhance takes care of the text generation.",
+              "Save your generated stories to your personal dashboard and read them at any time in Reader Mode.",
           },
           {
-            title: "Innovative Features",
+            title: "Interactive Editing",
             content:
-              "Customize every aspect of your text, from tone to structure, ensuring results that align perfectly with your vision.",
+              "Refine, regenerate, or customize specific paragraphs to fit your exact study goals.",
           },
         ],
       },
     ],
     conclusion:
-      "FrEnhance is not just a tool , it’s your creative assistant, ready to help at any moment. Join thousands of users who rely on us for their French writing needs",
+      "FrEnhance is your dedicated French learning companion. Start reading, discovering new vocabulary, and mastering the French language today!",
   };
   return (
     <>
-      {/* Intro */}
-      <div className="relative flex min-h-[26rem] flex-col items-center justify-center gap-7 overflow-hidden bg-black bg-[url('/background.jpg')] bg-cover bg-center px-3 py-10 md:px-[10%] md:pt-12">
-        <div className="absolute left-0 top-0 h-full w-full bg-mainBody opacity-60"></div>
-        <div className="z-10">
-          <h1 className="roboto mb-3 text-center text-4xl font-bold tracking-wide text-white drop-shadow-2xl sm:mb-10 md:text-5xl">
+      {/* Hero Section */}
+      <div className="relative flex min-h-[30rem] flex-col items-center justify-center gap-6 overflow-hidden bg-slate-950 bg-[url('/background.jpg')] bg-cover bg-center px-4 py-16 text-center md:px-[10%]">
+        <div className="absolute inset-0 bg-slate-950/75 backdrop-blur-[2px]"></div>
+        <div className="relative z-10 max-w-3xl space-y-4">
+          <span className="inline-block rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-1 text-xs font-semibold uppercase tracking-wider text-amber-300">
+            AI-Powered French Learning Platform
+          </span>
+          <h1 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-lg sm:text-5xl md:text-6xl">
             {content.header}
           </h1>
-          <p className="text-center text-white lg:text-xl">{content.desc}</p>
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-200 sm:text-lg">
+            {content.desc}
+          </p>
         </div>
         <Link
           draggable={false}
-          to={"/dashboard"}
-          className="z-10 rounded-md bg-amber-300 px-2 py-2 font-semibold transition-all duration-100 active:scale-95"
+          to="/dashboard"
+          className="relative z-10 inline-flex items-center gap-2 rounded-xl bg-amber-400 px-6 py-3 font-bold text-slate-950 shadow-lg shadow-amber-400/20 transition-all duration-150 hover:bg-amber-300 hover:shadow-amber-400/30 active:scale-95"
         >
-          Create Now
+          <span>Get Started Free</span>
+          <span>→</span>
         </Link>
       </div>
-      <div className="bg-mainBody">
-        {/* Descpretion */}
+
+      <div className="bg-slate-900 py-12">
+        {/* Sections */}
         {content.blocks.map((element, index) => (
           <div
-            className="mx-auto px-3 py-10 md:px-[10%]"
-            key={index + Math.random()}
+            className="mx-auto max-w-6xl px-4 py-10 md:px-8"
+            key={index}
           >
-            <h1 className="mb-8 text-center text-2xl font-bold text-white">
+            <h2 className="mb-8 text-center text-2xl font-bold tracking-tight text-white sm:text-3xl">
               {element.title}
-            </h1>
+            </h2>
             {Array.isArray(element.content) ? (
-              <div className="grid grid-cols-1 gap-x-8 gap-y-8 px-5 sm:grid-cols-2 md:px-[10%] lg:grid-cols-4">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {element.content.map((card, index2) => (
                   <div
-                    key={index2 + Math.random()}
-                    className="min-h-36 rounded-lg bg-white px-5 py-3"
+                    key={index2}
+                    className="flex flex-col justify-start rounded-2xl border border-slate-700/60 bg-slate-800/80 p-6 shadow-xl backdrop-blur-sm transition-all duration-200 hover:-translate-y-1 hover:border-sky-500/50"
                   >
-                    <h2 className="mb-3 text-center font-semibold opacity-85 drop-shadow-lg">
+                    <h3 className="mb-2 text-base font-bold text-white">
                       {card.title}
-                    </h2>
-                    <p className="text-center">{card.content}</p>
+                    </h3>
+                    <p className="text-xs leading-relaxed text-slate-300">
+                      {card.content}
+                    </p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-center text-white opacity-80">
-                {element.content}
-              </p>
+              <div className="mx-auto max-w-3xl rounded-2xl border border-slate-700/60 bg-slate-800/60 p-6 text-center shadow-lg sm:p-8">
+                <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
+                  {element.content}
+                </p>
+              </div>
             )}
           </div>
         ))}
 
         {/* Conclusion */}
-        <div className="mx-auto max-w-[500px] px-3 py-20 text-center text-white">
-          <p>{content.conclusion}</p>
+        <div className="mx-auto max-w-2xl px-4 py-12 text-center">
+          <div className="rounded-2xl border border-amber-400/20 bg-amber-400/5 p-8">
+            <p className="text-sm leading-relaxed text-slate-200 sm:text-base">
+              {content.conclusion}
+            </p>
+            <div className="mt-6">
+              <Link
+                to="/dashboard"
+                className="inline-block rounded-lg bg-sky-600 px-5 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-sky-500"
+              >
+                Go to Dashboard →
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </>

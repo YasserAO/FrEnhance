@@ -8,15 +8,19 @@ const router = express.Router();
 router.get("/api/text", isLoggedIn, validResult, async (request, response) => {
   const { user } = request;
 
-  let myText;
-  const createText = TextModel.find({ access: { user: user.username } });
-
+  let myText = [];
   try {
-    myText = await createText;
+    myText = await TextModel.find({
+      $or: [
+        { "access.user": user.username },
+        { "access.user": user.email },
+        { access: { user: user.username } },
+      ],
+    }).sort({ _id: -1 });
   } catch (err) {
-    console.log(err);
+    console.error("Error finding texts:", err);
   }
-  if (myText.length == 0)
+  if (!myText || myText.length === 0)
     return response.status(200).send({ status: 204, msg: "No Text saved" });
   const textArray = myText.map((element) => ({
     title: element.title,
