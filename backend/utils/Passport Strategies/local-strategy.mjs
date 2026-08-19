@@ -31,7 +31,9 @@ passport.deserializeUser(async (id, done) => {
 passport.use(
   new Strategy(async (username, password, done) => {
     try {
-      const findUser = await UserModel.findOne({ username: username });
+      const findUser = await UserModel.findOne({
+        $or: [{ username: username }, { email: username }],
+      });
       if (!findUser) return done(null, false, { msg: "Invalid Credentials" });
       if (!comparePassword(password, findUser.password))
         return done(null, false, { msg: "Invalid Credentials" });

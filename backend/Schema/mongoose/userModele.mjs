@@ -70,6 +70,9 @@ const UserRegistration = new mongoose.Schema({
     quantity: {
       type: Number,
     },
+    dailyLimit: {
+      type: Number,
+    },
     lastReset: {
       type: Date,
     },

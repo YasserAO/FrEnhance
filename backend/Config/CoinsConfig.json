@@ -1,5 +1,5 @@
 {
-  "defaultValue": 500,
+  "defaultValue": 1000,
   "ResetInterval": 24,
   "GenerateText": {
     "basic": 20,
